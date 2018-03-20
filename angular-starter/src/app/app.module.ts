@@ -20,6 +20,8 @@ import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { DevModuleModule } from './+dev-module';
 
+import { CoursesComponent } from './angular-intro';
+
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -45,7 +47,9 @@ interface StoreType {
     AboutComponent,
     HomeComponent,
     NoContentComponent,
-    XLargeDirective
+    XLargeDirective,
+
+    CoursesComponent
   ],
   /**
    * Import Angular's modules.
