@@ -25,11 +25,14 @@
   </a>
 </nav>
 
-<app-header></app-header>
-
 <main>
   <router-outlet></router-outlet>
-  <hr><courses></courses><hr>
+  <div class="myContent">
+    <app-header></app-header>
+    <tools></tools>
+    <hr><courses></courses><hr>
+    <app-footer></app-footer>
+  </div>
 </main>
 
 <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
@@ -41,5 +44,4 @@
       <img [src]="tipe" width="25%">
     </a>
   </div>
-  <app-footer></app-footer>
 </footer>

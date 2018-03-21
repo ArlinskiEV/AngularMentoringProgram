@@ -26,6 +26,7 @@ import '../styles/headings.css';
 import { CoursesComponent } from './angular-intro';
 import { FooterComponent } from './footer';
 import { HeaderComponent } from './header';
+import { ToolbarModule } from './toolbar';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -67,6 +68,8 @@ interface StoreType {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     }),
+
+    ToolbarModule,
 
     /**
      * This section will import the `DevModuleModule` only in certain build types.
