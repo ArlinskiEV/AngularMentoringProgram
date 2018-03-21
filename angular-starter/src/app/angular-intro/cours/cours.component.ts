@@ -10,13 +10,13 @@ import { Course } from '../course';
   styleUrls: ['./cours.component.css']
 })
 export class CoursComponent {
-  @Input() public coursItem: Course = {
+  @Input() protected coursItem: Course = {
     id: 0,
     name: 'NoName',
     duration: { hours: -1, minuts: -1,  seconds: -1 },
     tags: ['error'],
+    isAccept: false,
   };
-  protected text = 'CourS TEXT';
   constructor() {
     console.log('cours-constructor');
   }

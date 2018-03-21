@@ -1,9 +1,12 @@
 <div>
-  <p>CourS component {{ text }}</p>
-  <hr>
-  <p>ID: {{coursItem.id}}</p>
-  <p>Name: {{coursItem.name}}</p>
-  <p>Duration: {{coursItem.duration.hours}}h {{coursItem.duration.minuts}}m {{coursItem.duration.seconds}}s</p>
+  <p>
+    <span>ID: {{coursItem.id}}</span>
+    <span>Name: {{coursItem.name}}</span>
+    <span>Duration: {{coursItem.duration.hours}}h {{coursItem.duration.minuts}}m {{coursItem.duration.seconds}}s</span>
+  </p>
+  <label><input type="checkbox"
+    [checked]="coursItem.isAccept"
+    (click)="accept">Accepted</label>
   <p class="tags">
     <span *ngFor="let tag of coursItem.tags">
       {{tag}}

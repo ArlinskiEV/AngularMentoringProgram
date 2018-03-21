@@ -1,9 +1,12 @@
 <div>
   <p>Courses component {{ text }}</p>
   <div class="box">
+    <p>Accepted count: {{count}}</p>
+    <hr>
+    <cours></cours>
     <cours *ngFor="let item of couresArr"
     [coursItem]="item"
+    (accept) = "toggle(item.id)"
     ></cours>
-    <!-- [coursItem]="courseItem" -->
   </div>
 </div>
