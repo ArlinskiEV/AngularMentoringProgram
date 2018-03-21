@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { COURSES } from '../mock-courses';
+
 @Component({
   selector: 'courses',
   templateUrl: './courses.component.html',
@@ -7,6 +9,7 @@ import { Component } from '@angular/core';
 })
 export class CoursesComponent {
   protected text = 'Courses TEXT';
+  protected couresArr = COURSES;
   constructor() {
     console.log('courses-constructor');
   }

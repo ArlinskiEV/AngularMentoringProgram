@@ -1,6 +1,9 @@
 <div>
   <p>Courses component {{ text }}</p>
   <div class="box">
-    <cours></cours>
+    <cours *ngFor="let item of couresArr"
+    [coursItem]="item"
+    ></cours>
+    <!-- [coursItem]="courseItem" -->
   </div>
 </div>
