@@ -20,13 +20,10 @@ import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { DevModuleModule } from './+dev-module';
 
+import { IntroModule } from './angular-intro';
+
 import '../styles/styles.scss';
 import '../styles/headings.css';
-
-import { CoursesComponent } from './angular-intro';
-import { FooterComponent } from './footer';
-import { HeaderComponent } from './header';
-import { ToolbarModule } from './toolbar';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -51,10 +48,6 @@ interface StoreType {
     HomeComponent,
     NoContentComponent,
     XLargeDirective,
-
-    CoursesComponent,
-    FooterComponent,
-    HeaderComponent,
   ],
   /**
    * Import Angular's modules.
@@ -69,7 +62,7 @@ interface StoreType {
       preloadingStrategy: PreloadAllModules
     }),
 
-    ToolbarModule,
+    IntroModule,
 
     /**
      * This section will import the `DevModuleModule` only in certain build types.

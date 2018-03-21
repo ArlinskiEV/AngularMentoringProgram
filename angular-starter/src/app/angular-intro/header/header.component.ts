@@ -45,7 +45,8 @@ export class HeaderComponent implements OnInit {
      */
     setTimeout(() => {
 
-      System.import('../../assets/mock-data/mock-data.json')
+      // System.import('../../assets/mock-data/mock-data.json')
+      System.import('../../../assets/mock-data/mock-data.json')
         .then((json) => {
           console.log('async mockData', json);
           this.localState = json;
