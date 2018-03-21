@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { HeaderComponent } from './header';
 import { ToolbarModule } from './toolbar';
-import { CoursesComponent } from './courses';
+import { CoursesModule } from './courses';
+import { CoursModule } from './cours';
 import { FooterComponent } from './footer';
 
 import { IntroComponent } from './angular-intro.component';
@@ -17,14 +18,16 @@ console.log('`INTRO` bundle loaded asynchronously');
      */
 
     HeaderComponent,
-    CoursesComponent,
     FooterComponent,
 
     IntroComponent,
   ],
   imports: [
     CommonModule,
+
     ToolbarModule,
+    CoursesModule,
+    CoursModule,
   ],
   exports: [
     IntroComponent
