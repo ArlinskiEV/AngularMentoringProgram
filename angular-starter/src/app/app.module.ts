@@ -20,10 +20,12 @@ import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { DevModuleModule } from './+dev-module';
 
-import { CoursesComponent } from './angular-intro';
-
 import '../styles/styles.scss';
 import '../styles/headings.css';
+
+import { CoursesComponent } from './angular-intro';
+import { FooterComponent } from './footer';
+import { HeaderComponent } from './header';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -49,7 +51,9 @@ interface StoreType {
     NoContentComponent,
     XLargeDirective,
 
-    CoursesComponent
+    CoursesComponent,
+    FooterComponent,
+    HeaderComponent,
   ],
   /**
    * Import Angular's modules.
