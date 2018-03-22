@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Course } from '../core';
 
 @Component({
