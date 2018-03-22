@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { CoursesComponent } from './courses.component';
-import { CoursModule } from '../cours';
+import { CourseModule } from '../course';
 
 console.log('`Courses` bundle loaded asynchronously');
 
@@ -15,7 +15,7 @@ console.log('`Courses` bundle loaded asynchronously');
   ],
   imports: [
     CommonModule,
-    CoursModule,
+    CourseModule,
   ],
   exports: [
     CoursesComponent,

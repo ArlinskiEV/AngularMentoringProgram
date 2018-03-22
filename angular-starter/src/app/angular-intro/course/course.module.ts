@@ -1,23 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {  CoursComponent  } from './cours.component';
+import {  CourseComponent  } from './course.component';
 
-console.log('`CourS` bundle loaded asynchronously');
+console.log('`CoursE` bundle loaded asynchronously');
 
 @NgModule({
   declarations: [
     /**
      * Components / Directives/ Pipes
      */
-    CoursComponent,
+    CourseComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
   ],
   exports: [
-    CoursComponent,
+    CourseComponent,
   ],
 })
-export class CoursModule {}
+export class CourseModule {}

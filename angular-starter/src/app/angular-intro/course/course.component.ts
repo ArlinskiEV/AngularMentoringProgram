@@ -7,12 +7,12 @@ import {
 import { Course } from '../core';
 
 @Component({
-  selector: 'cours',
-  templateUrl: './cours.component.html',
-  styleUrls: ['./cours.component.css']
+  selector: 'course',
+  templateUrl: './course.component.html',
+  styleUrls: ['./course.component.css']
 })
-export class CoursComponent {
-  @Input() protected coursItem: Course = {
+export class CourseComponent {
+  @Input() protected courseItem: Course = {
     id: 0,
     name: 'NoName',
     duration: { hours: -1, minuts: -1,  seconds: -1 },
@@ -23,13 +23,13 @@ export class CoursComponent {
   @Output('handler') protected handler = new  EventEmitter();
 
   constructor() {
-    console.log('cours-constructor');
+    console.log('course-constructor');
   }
 
   protected localAccept(id: number)  {
-    this.coursItem.isAccept = !this.coursItem.isAccept;
-    console.log(`cours-local method from id=${id}; this.coursItem=`);
-    console.log(this.coursItem);
+    this.courseItem.isAccept = !this.courseItem.isAccept;
+    console.log(`course-local method from id=${id}; this.courseItem=`);
+    console.log(this.courseItem);
     this.handler.emit({
       value: id,
     });

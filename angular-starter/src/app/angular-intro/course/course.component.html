@@ -1,0 +1,12 @@
+<div>
+  <p>ID: {{courseItem.id}} | Name: {{courseItem.name}}</p>
+  <p>Duration: {{courseItem.duration.hours}}h {{courseItem.duration.minuts}}m {{courseItem.duration.seconds}}s</p>
+  <label><input type="checkbox"
+    [checked]="courseItem.isAccept"
+    (click)="localAccept(courseItem.id)">Accepted</label>
+  <p class="tags">
+    <span *ngFor="let tag of courseItem.tags">
+      {{tag}}
+    </span>
+  </p>
+</div>

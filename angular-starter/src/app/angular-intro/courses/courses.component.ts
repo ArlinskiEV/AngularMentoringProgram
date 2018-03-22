@@ -25,9 +25,9 @@ export class CoursesComponent {
 
   public toggle(id: number) {
     console.log(`toggle by id=${id}`);
-    const cours = this.couresArr
+    const course = this.couresArr
       // .find((item) => item.id === id);
-      // cours.isAccept = !cours.isAccept;
+      // course.isAccept = !course.isAccept;
       .filter((item) => item.id <= id)
       .forEach((element) => {
         element.isAccept = true;

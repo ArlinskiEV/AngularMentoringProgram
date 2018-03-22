@@ -2,9 +2,9 @@
 <div class="box">
   <p>Accepted count: {{count}}</p>
   <hr>
-  <cours></cours>
-  <cours *ngFor = "let item of couresArr"
-  [coursItem] = "item"
+  <course></course>
+  <course *ngFor = "let item of couresArr"
+  [courseItem] = "item"
   (handler) = "this.toggle($event.value)"
-  ></cours>
+  ></course>
 </div>
