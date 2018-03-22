@@ -27,6 +27,7 @@ export class CoursComponent {
   }
 
   protected localAccept(id: number)  {
+    this.coursItem.isAccept = !this.coursItem.isAccept;
     console.log(`cours-local method from id=${id}; this.coursItem=`);
     console.log(this.coursItem);
     this.handler.emit({

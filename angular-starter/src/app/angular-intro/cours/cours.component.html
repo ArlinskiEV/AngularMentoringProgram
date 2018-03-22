@@ -1,9 +1,6 @@
 <div>
-  <p>
-    <span>ID: {{coursItem.id}}</span>
-    <span>Name: {{coursItem.name}}</span>
-    <span>Duration: {{coursItem.duration.hours}}h {{coursItem.duration.minuts}}m {{coursItem.duration.seconds}}s</span>
-  </p>
+  <p>ID: {{coursItem.id}} | Name: {{coursItem.name}}</p>
+  <p>Duration: {{coursItem.duration.hours}}h {{coursItem.duration.minuts}}m {{coursItem.duration.seconds}}s</p>
   <label><input type="checkbox"
     [checked]="coursItem.isAccept"
     (click)="localAccept(coursItem.id)">Accepted</label>
