@@ -1,8 +1,10 @@
 import {
   Component,
   Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
-import { Course } from '../course';
+import { Course } from '../core';
 
 @Component({
   selector: 'cours',
@@ -17,7 +19,18 @@ export class CoursComponent {
     tags: ['error'],
     isAccept: false,
   };
+
+  @Output('handler') protected handler = new  EventEmitter();
+
   constructor() {
     console.log('cours-constructor');
+  }
+
+  protected localAccept(id: number)  {
+    console.log(`cours-local method from id=${id}; this.coursItem=`);
+    console.log(this.coursItem);
+    this.handler.emit({
+      value: id,
+    });
   }
 }

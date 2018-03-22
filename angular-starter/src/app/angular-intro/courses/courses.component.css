@@ -7,3 +7,8 @@ p {
   border: 5px solid mediumslateblue;
   padding: 15px;
 }
+
+:host /deep/ cours:not(:last-child) div{
+  border-bottom: 3px solid rgb(41, 51, 189);
+  margin-bottom: 7px;
+}

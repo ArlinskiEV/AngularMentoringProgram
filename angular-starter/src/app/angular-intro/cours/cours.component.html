@@ -6,7 +6,7 @@
   </p>
   <label><input type="checkbox"
     [checked]="coursItem.isAccept"
-    (click)="accept">Accepted</label>
+    (click)="localAccept(coursItem.id)">Accepted</label>
   <p class="tags">
     <span *ngFor="let tag of coursItem.tags">
       {{tag}}

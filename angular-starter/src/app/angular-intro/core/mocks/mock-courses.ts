@@ -1,4 +1,4 @@
-import { Course } from './course';
+import { Course } from '../entities';
 
 export const COURSES: Course[] = [
   {
