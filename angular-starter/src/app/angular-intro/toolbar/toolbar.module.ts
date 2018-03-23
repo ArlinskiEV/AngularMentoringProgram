@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
+import { SearchComponent } from './search';
 import {  ToolbarComponent  } from './toolbar.component';
 
 console.log('`Tools` bundle loaded asynchronously');
@@ -11,6 +11,7 @@ console.log('`Tools` bundle loaded asynchronously');
      * Components / Directives/ Pipes
      */
     ToolbarComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,

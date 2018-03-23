@@ -11,6 +11,6 @@ import {
 
 export class ToolbarComponent  implements OnInit {
   public ngOnInit() {
-    console.log('hello `Detail` component');
+    console.log('hello `Toolbar` component');
   }
 }

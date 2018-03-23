@@ -1,4 +1,5 @@
 import { Course } from '../entities';
+import { MyDate } from '../entities/date';
 
 export const COURSES: Course[] = [
   {
@@ -7,6 +8,8 @@ export const COURSES: Course[] = [
     duration: { hours: 12, minuts: 20,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     isAccept: true,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 12,
@@ -14,6 +17,8 @@ export const COURSES: Course[] = [
     duration: { hours: 1, minuts: 30,  seconds: 25 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 13,
@@ -21,6 +26,8 @@ export const COURSES: Course[] = [
     duration: { hours: 2, minuts: 50,  seconds: 10 },
     tags: ['mock-course', 'tag1'],
     isAccept: true,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 14,
@@ -28,6 +35,8 @@ export const COURSES: Course[] = [
     duration: { hours: 5, minuts: 5,  seconds: 8 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 15,
@@ -35,6 +44,8 @@ export const COURSES: Course[] = [
     duration: { hours: 0, minuts: 0,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 16,
@@ -42,6 +53,8 @@ export const COURSES: Course[] = [
     duration: { hours: 0, minuts: 0,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 17,
@@ -49,6 +62,8 @@ export const COURSES: Course[] = [
     duration: { hours: 0, minuts: 0,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 18,
@@ -56,6 +71,8 @@ export const COURSES: Course[] = [
     duration: { hours: 0, minuts: 0,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 19,
@@ -63,6 +80,8 @@ export const COURSES: Course[] = [
     duration: { hours: 0, minuts: 0,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3'],
     isAccept: false,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
   {
     id: 20,
@@ -70,5 +89,7 @@ export const COURSES: Course[] = [
     duration: { hours: 0, minuts: 0,  seconds: 0 },
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: true,
+    text: 'Just course description, or any other text.',
+    date: new MyDate(0, '###', 9999),
   },
 ];

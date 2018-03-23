@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { HeaderComponent } from './header';
+import { HeaderModule } from './header';
 import { ToolbarModule } from './toolbar';
 import { CoursesModule } from './courses';
 import { CourseModule } from './course';
@@ -17,7 +17,7 @@ console.log('`INTRO` bundle loaded asynchronously');
      * Components / Directives/ Pipes
      */
 
-    HeaderComponent,
+    // HeaderComponent,
     FooterComponent,
 
     IntroComponent,
@@ -25,6 +25,7 @@ console.log('`INTRO` bundle loaded asynchronously');
   imports: [
     CommonModule,
 
+    HeaderModule,
     ToolbarModule,
     CoursesModule,
     CourseModule,

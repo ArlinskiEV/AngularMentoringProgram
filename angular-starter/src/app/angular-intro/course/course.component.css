@@ -4,5 +4,16 @@ p {
   font-size: 250%;
 }
 .tags {
-  border: 3px solid green;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: lawngreen;
+}
+.tags>span:not(:last-child)::after{
+  content: "|";
+}
+
+.controls {
+  display: flex;
+  justify-content: space-around;
 }

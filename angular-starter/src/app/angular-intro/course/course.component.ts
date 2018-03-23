@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Course } from '../core';
+import { MyDate } from '../core/entities/date';
 
 @Component({
   selector: 'course',
@@ -19,6 +20,8 @@ export class CourseComponent {
     duration: { hours: -1, minuts: -1,  seconds: -1 },
     tags: ['error'],
     isAccept: false,
+    text: 'error: it is an empty text',
+    date: new MyDate (-1, '$$$', 1111),
   };
 
   @Output('handler') protected handler = new  EventEmitter();
