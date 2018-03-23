@@ -4,24 +4,17 @@
   text-align: center;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .logo-box {
-	position: relative;
-  width: 100px; /* Произвольная ширина, которая требуется для блока */
-}
-.logo-box::before {
-	content: "";
-	display: block;
-	padding-top: 100%; /* С помощью этого padding мы задаем высоту равную ширине блока */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logo-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-size: cover; /* Растягиваем фон под размеры блока, если требуется */
-    border: 3px solid red;
-    background-color: rgba(255, 0, 0, 0.925);
+  max-width: 200px;
+}
+.logo-content img {
+  width: 100%;
 }
