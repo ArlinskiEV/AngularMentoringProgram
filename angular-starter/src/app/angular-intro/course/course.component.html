@@ -3,10 +3,10 @@
   <p>Date: {{courseItem.date}}</p>
   <div class="controls">
     <!--i want: checkbox ===  courseItem.isAccept + click => recalc counter -->
-    <label><input type = "checkbox" [(ngModel)]="courseItem.isAccept"
+    <label><input type = "checkbox" [(ngModel)] = "courseItem.isAccept"
     />Accepted</label>
     <button>edit</button>
-    <button>delete</button>
+    <button (click) = "del(courseItem.id)">delete</button>
   </div>
   <p class="tags">
     <span *ngFor="let tag of courseItem.tags"

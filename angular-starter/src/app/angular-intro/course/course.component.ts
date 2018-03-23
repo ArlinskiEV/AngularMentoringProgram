@@ -25,6 +25,7 @@ export class CourseComponent {
   };
 
   @Output('handler') protected handler = new  EventEmitter();
+  @Output('deletter') protected deletter = new EventEmitter();
 
   constructor() {
     console.log('course-constructor');
@@ -37,5 +38,10 @@ export class CourseComponent {
     this.handler.emit({
       value: id,
     });
+  }
+
+  protected del(id: number) {
+    console.log(`del from child, id:${id}`);
+    this.deletter.emit({value: id});
   }
 }

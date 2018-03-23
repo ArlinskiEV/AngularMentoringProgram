@@ -21,4 +21,12 @@ export class CoursesComponent {
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
   }
 
+  protected handler(id: number) {
+    console.log(`courses.handler id=${id}`);
+  }
+
+  protected deletter(id: number) {
+    console.log(`courses.deletter id=${id}`);
+  }
+
 }
