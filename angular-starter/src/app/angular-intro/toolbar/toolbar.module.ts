@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
+import { FormsModule } from '@angular/forms';
+
 import { SearchComponent } from './search';
 import {  ToolbarComponent  } from './toolbar.component';
 
@@ -15,6 +18,7 @@ console.log('`Tools` bundle loaded asynchronously');
   ],
   imports: [
     CommonModule,
+    FormsModule,
   ],
   exports: [
     ToolbarComponent,
