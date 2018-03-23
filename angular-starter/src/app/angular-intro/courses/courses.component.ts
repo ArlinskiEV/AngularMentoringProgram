@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { COURSES } from '../core/mocks';
 
@@ -7,12 +7,17 @@ import { COURSES } from '../core/mocks';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css']
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnInit{
   protected text = 'Courses TEXT';
-  protected couresArr = COURSES;
+  protected couresArr = [];
 
   constructor() {
     console.log('courses-constructor, Arr:');
+    console.log(this.couresArr);
+  }
+  public ngOnInit() {
+    console.log('OnInit');
+    this.couresArr = [...COURSES];
     console.log(this.couresArr);
   }
   get count() {
