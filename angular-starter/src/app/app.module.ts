@@ -20,7 +20,7 @@ import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { DevModuleModule } from './+dev-module';
 
-import { CoursesComponent } from './angular-intro';
+import { IntroModule } from './angular-intro';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -48,8 +48,6 @@ interface StoreType {
     HomeComponent,
     NoContentComponent,
     XLargeDirective,
-
-    CoursesComponent
   ],
   /**
    * Import Angular's modules.
@@ -63,6 +61,8 @@ interface StoreType {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     }),
+
+    IntroModule,
 
     /**
      * This section will import the `DevModuleModule` only in certain build types.

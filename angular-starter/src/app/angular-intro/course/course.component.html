@@ -1,0 +1,17 @@
+<div>
+  <p>{{courseItem.name}} | ID: {{courseItem.id}} | Duration: {{courseItem.duration.hours}}h {{courseItem.duration.minuts}}m {{courseItem.duration.seconds}}s</p>
+  <p>Date: {{courseItem.date}}</p>
+  <div class="controls">
+    <!--i want: checkbox ===  courseItem.isAccept + click => recalc counter -->
+    <label><input type = "checkbox" [(ngModel)]="courseItem.isAccept"
+    />Accepted</label>
+    <button>edit</button>
+    <button>delete</button>
+  </div>
+  <p class="tags">
+    <span *ngFor="let tag of courseItem.tags"
+    >{{tag}}</span
+    >
+  </p>
+  <p>{{courseItem.text}}</p>
+</div>
