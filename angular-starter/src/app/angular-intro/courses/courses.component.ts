@@ -17,7 +17,6 @@ export class CoursesComponent implements OnInit {
   }
   public ngOnInit() {
     console.log('OnInit');
-    // this.couresArr = [...COURSES];
     this.couresArr = this.courseServices.getList();
     console.log(this.couresArr);
   }
@@ -33,6 +32,7 @@ export class CoursesComponent implements OnInit {
 
   protected deletter(id: number) {
     console.log(`courses.deletter id=${id}`);
+    this.courseServices.removeItem(id);
   }
 
 }

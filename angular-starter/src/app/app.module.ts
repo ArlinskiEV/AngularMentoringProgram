@@ -21,6 +21,7 @@ import { XLargeDirective } from './home/x-large';
 import { DevModuleModule } from './+dev-module';
 
 import { IntroModule } from './angular-intro';
+import { CourseServices } from './angular-intro/core';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -28,7 +29,8 @@ import '../styles/headings.css';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  CourseServices,
 ];
 
 interface StoreType {
