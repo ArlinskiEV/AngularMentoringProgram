@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GetList } from '../core';
+import { CourseServices } from '../core';
 
 @Component({
   selector: 'courses',
@@ -11,14 +11,14 @@ export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
   protected couresArr = [];
 
-  constructor(private getList: GetList) {
+  constructor(private courseServices: CourseServices) {
     console.log('courses-constructor, Arr:');
     console.log(this.couresArr);
   }
   public ngOnInit() {
     console.log('OnInit');
     // this.couresArr = [...COURSES];
-    this.couresArr = this.getList.getData();
+    this.couresArr = this.courseServices.getList();
     console.log(this.couresArr);
   }
   get count() {

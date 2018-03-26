@@ -1,1 +1,1 @@
-export * from './getlist';
+export * from './course.services';

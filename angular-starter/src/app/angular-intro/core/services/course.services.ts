@@ -4,13 +4,13 @@ import { COURSES } from '../mocks';
 import { Course } from '../entities';
 
 @Injectable()
-export class GetList {
+export class CourseServices {
   protected couresArr: Course[] = [];
   constructor() {
     console.log('GetList constructor');
     this.couresArr = [...COURSES];
   }
-  public getData(): Course[] {
+  public getList(): Course[] {
     return this.couresArr;
   }
 }
