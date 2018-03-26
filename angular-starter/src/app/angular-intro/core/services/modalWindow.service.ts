@@ -14,6 +14,7 @@ export class ModalWindowServices {
   public show(message: string, callback: (message: string) => void, answerArr = ['Yes', 'No']) {
     console.log('### ModalWindowServices.show ###');
     this.message = message;
+    this.answerArr = answerArr;
     this.callback = callback;
     this.visible = true;
   }

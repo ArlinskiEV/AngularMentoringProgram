@@ -4,7 +4,7 @@
     <!-- <button (click) = "handler('Yes')">Yes</button>
     <button (click) = "handler('No')">No</button> -->
     <button *ngFor = "let item of answersArr"
-    (click) = "item.click"
+    (click) = "item.click(item.text)"
     >{{item.text}}</button>
   </div>
 </div>
