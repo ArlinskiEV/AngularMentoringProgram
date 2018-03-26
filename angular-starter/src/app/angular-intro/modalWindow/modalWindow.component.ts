@@ -1,8 +1,5 @@
 import {
   Component,
-  // Input,
-  // Output,
-  // EventEmitter,
 } from '@angular/core';
 
 import { ModalWindowServices } from '../core/services/modalWindow.service';
@@ -13,37 +10,13 @@ import { ModalWindowServices } from '../core/services/modalWindow.service';
   styleUrls: ['./modalWindow.component.css']
 })
 export class ModalWindowComponent {
-  // @Input() protected visible = false;
-  // @Input() protected message = 'You are shure?';
-  // @Output('confirm') protected confirm = new EventEmitter();
 
   constructor(private modalWindowServices: ModalWindowServices) {
     console.log('ModalWindowComponent constructor');
   }
 
-  // ------------------------------
-  // protected accept() {
-  //   console.log('modal accept');
-  //   this.confirm.emit({
-  //     value: true,
-  //   });
-  //   this.visible = false;
-  // }
-  // protected decline() {
-  //   console.log('modal decline');
-  //   this.confirm.emit({
-  //     value: false,
-  //   });
-  //   this.visible = false;
-  // }
-  // ------------------------------
-
   protected handler(result: string) {
     console.log(`modal ${result}`);
-    // this.confirm.emit({
-    //   value: result,
-    // });
-    // this.visible = false;
     this.modalWindowServices.answer(result);
   }
   get visible() {
@@ -51,5 +24,11 @@ export class ModalWindowComponent {
   }
   get message() {
     return this.modalWindowServices.message;
+  }
+  get answersArr() {
+    return this.modalWindowServices.answerArr
+      .map((item) => {
+        return {click: this.handler(item), text: item};
+      });
   }
 }
