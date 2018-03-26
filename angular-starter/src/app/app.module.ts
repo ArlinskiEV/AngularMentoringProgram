@@ -25,12 +25,14 @@ import { CourseServices } from './angular-intro/core';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
+import { ModalWindowServices } from './angular-intro/core/services/modalWindow.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   CourseServices,
+  ModalWindowServices,
 ];
 
 interface StoreType {

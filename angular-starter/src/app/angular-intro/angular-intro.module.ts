@@ -6,10 +6,8 @@ import { ToolbarModule } from './toolbar';
 import { CoursesModule } from './courses';
 import { CourseModule } from './course';
 import { FooterComponent } from './footer';
-
-// import { CourseServices } from './core/services';
-
 import { IntroComponent } from './angular-intro.component';
+import { ModalWindowModule } from './modalWindow';
 
 console.log('`INTRO` bundle loaded asynchronously');
 
@@ -31,6 +29,7 @@ console.log('`INTRO` bundle loaded asynchronously');
     ToolbarModule,
     CoursesModule,
     CourseModule,
+    ModalWindowModule,
   ],
   exports: [
     IntroComponent

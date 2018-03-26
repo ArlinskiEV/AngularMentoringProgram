@@ -7,6 +7,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Course } from '../core';
 import { MyDate } from '../core/entities/date';
+import { ModalWindowServices } from '../core/services/modalWindow.service';
 
 @Component({
   selector: 'course',
@@ -27,7 +28,7 @@ export class CourseComponent {
   @Output('handler') protected handler = new  EventEmitter();
   @Output('deletter') protected deletter = new EventEmitter();
 
-  constructor() {
+  constructor(private modalWindowService: ModalWindowServices) {
     console.log('course-constructor');
   }
 
@@ -42,6 +43,15 @@ export class CourseComponent {
 
   protected del(id: number) {
     console.log(`del from child, id:${id}`);
-    this.deletter.emit({value: id});
+
+    this.modalWindowService.show(`HEY! are you shure? id=${id}`,
+      (message: string) => {
+        if (message === 'Yes') {
+          this.deletter.emit({value: id});
+        } else {
+          console.log('modal was declined');
+        }
+      }
+    );
   }
 }

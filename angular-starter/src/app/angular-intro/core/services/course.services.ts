@@ -38,7 +38,7 @@ export class CourseServices {
   public removeItem(id: number): void {
     console.log('### CourseServices.removeItem ###');
     const currentID = this.couresArr.findIndex((item) => item.id === id);
-    if (currentID > 0) {
+    if (currentID >= 0) {
       this.couresArr.splice(currentID, 1);
     } else {
       console.log('### CourseServices.removeItem:ERROR: wrong ID###');
