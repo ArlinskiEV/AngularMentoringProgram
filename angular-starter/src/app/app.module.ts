@@ -22,10 +22,10 @@ import { DevModuleModule } from './+dev-module';
 
 import { IntroModule } from './angular-intro';
 import { CourseServices } from './angular-intro/core';
+import { ModalWindowServices } from './angular-intro/core/services/modalWindow.service';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import { ModalWindowServices } from './angular-intro/core/services/modalWindow.service';
 
 // Application wide providers
 const APP_PROVIDERS = [

@@ -1,10 +1,10 @@
-<div *ngIf="visible" class="view">
+<div *ngIf="visible">
   <div class="message">
-    <p>{{message}}</p>
-    <!-- <button (click) = "handler('Yes')">Yes</button>
-    <button (click) = "handler('No')">No</button> -->
-    <button *ngFor = "let item of answersArr"
-    (click) = "item.click(item.text)"
-    >{{item.text}}</button>
+    <h2>{{message}}</h2>
+    <div class="buttons">
+      <button *ngFor = "let item of answersArr"
+      (click) = "item.click()"
+      >{{item.text}}</button>
+    </div>
   </div>
 </div>

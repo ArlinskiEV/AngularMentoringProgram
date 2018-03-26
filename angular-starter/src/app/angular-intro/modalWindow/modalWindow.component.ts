@@ -28,7 +28,7 @@ export class ModalWindowComponent {
   get answersArr() {
     return this.modalWindowServices.answerArr
       .map((item) => {
-        return {click: (text) => this.handler(text), text: item};
+        return {click: () => this.handler(item), text: item};
       });
   }
 }
