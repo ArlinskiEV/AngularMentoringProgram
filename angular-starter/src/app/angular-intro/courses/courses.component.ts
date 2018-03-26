@@ -1,23 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
-import { COURSES } from '../core/mocks';
+import { GetList } from '../core';
 
 @Component({
   selector: 'courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css']
 })
-export class CoursesComponent implements OnInit{
+export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
   protected couresArr = [];
 
-  constructor() {
+  constructor(private getList: GetList) {
     console.log('courses-constructor, Arr:');
     console.log(this.couresArr);
   }
   public ngOnInit() {
     console.log('OnInit');
-    this.couresArr = [...COURSES];
+    // this.couresArr = [...COURSES];
+    this.couresArr = this.getList.getData();
     console.log(this.couresArr);
   }
   get count() {

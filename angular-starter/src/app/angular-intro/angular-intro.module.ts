@@ -7,6 +7,8 @@ import { CoursesModule } from './courses';
 import { CourseModule } from './course';
 import { FooterComponent } from './footer';
 
+import { GetList } from './core/services';
+
 import { IntroComponent } from './angular-intro.component';
 
 console.log('`INTRO` bundle loaded asynchronously');
@@ -32,6 +34,9 @@ console.log('`INTRO` bundle loaded asynchronously');
   ],
   exports: [
     IntroComponent
+  ],
+  providers: [
+    GetList
   ],
 })
 export class IntroModule {}
