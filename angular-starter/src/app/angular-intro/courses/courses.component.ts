@@ -35,4 +35,12 @@ export class CoursesComponent implements OnInit {
     this.courseServices.removeItem(id);
   }
 
+  protected deletter_promise(id: Promise<number>) {
+    id.then((result) => {
+      console.log(`courses.deletter id=${result}`);
+      this.courseServices.removeItem(result);
+    });
+    id.catch( (error) => { console.log(`courses.deletter ERROR: ${error}`); });
+  }
+
 }
