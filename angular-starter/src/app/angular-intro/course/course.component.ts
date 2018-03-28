@@ -48,10 +48,16 @@ export class CourseComponent {
     this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`,
       // callback
       (message: string) => {
-        if (message === 'Yes') {
-          this.deletter.emit({value: this.courseItem.id});
-        } else {
-          console.log('modal was declined');
+        switch (message) {
+          case 'Yes': {
+            this.deletter.emit({value: this.courseItem.id});
+            break;
+          }
+          case 'No': {
+            console.log('modal was declined');
+            break;
+          }
+          default: console.log(`unknown modal message:${message}`);
         }
       }
       // --------
