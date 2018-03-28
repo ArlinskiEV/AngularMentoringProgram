@@ -4,6 +4,7 @@ import { COURSES } from '../mocks';
 import { Course } from '../entities';
 
 // i think that it is all (or part??) logic for work with enity
+// in this case entity = list of course
 
 @Injectable()
 export class CourseServices {
@@ -36,7 +37,7 @@ export class CourseServices {
     };
   }
   public removeItem(id: number): void {
-    console.log('### CourseServices.removeItem ###');
+    console.log(`### CourseServices.removeItem id=${id}###`);
     const currentID = this.couresArr.findIndex((item) => item.id === id);
     if (currentID >= 0) {
       this.couresArr.splice(currentID, 1);

@@ -16,12 +16,12 @@ export class ModalWindowComponent {
   }
 
   protected handler(result: string) {
-    console.log(`modal ${result}`);
+    console.log(`modal: ${result}`);
     this.modalWindowServices.answer(result);
   }
   protected close() {
-    console.log(`modal was close without answer`);
-    this.modalWindowServices.answer('close');
+    console.log(`modalWindowComponent: modal was closed without answer`);
+    this.modalWindowServices.answer('Close');
   }
   get visible() {
     return this.modalWindowServices.visible;
