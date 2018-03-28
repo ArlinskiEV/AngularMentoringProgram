@@ -26,8 +26,15 @@ export class CoursesComponent implements OnInit {
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
   }
 
-  protected handler(id: number) {
-    console.log(`courses.handler id=${id}`);
+  protected handler(emit: any) {
+    console.log(`courses.handler emit.type=${emit.type}`);
+    switch (emit.type) {
+      case 'deletter': {
+        // or this.courseServices.removeItem(emit.value);
+        this.deletter(emit.value);
+        break;
+      }
+    }
   }
 
   protected deletter(id: number) {

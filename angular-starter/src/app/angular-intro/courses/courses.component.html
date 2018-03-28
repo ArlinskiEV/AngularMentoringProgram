@@ -5,7 +5,7 @@
   <course>null</course>
   <course *ngFor = "let item of couresArr"
   [courseItem] = "item"
-  (handler) = "toggle($event.value)"
-  (deletter) = "deletter($event.value)"
+  (handler) = "handler($event)"
   ></course>
+  <!-- (deletter) = "deletter($event.value)" -->
 </div>

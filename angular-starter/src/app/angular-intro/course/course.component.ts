@@ -26,7 +26,7 @@ export class CourseComponent {
   };
 
   @Output('handler') protected handler = new  EventEmitter();
-  @Output('deletter') protected deletter = new EventEmitter();
+  // @Output('deletter') protected deletter = new EventEmitter();
 
   constructor(private modalWindowService: ModalWindowServices) {
     console.log('course-constructor');
@@ -50,11 +50,15 @@ export class CourseComponent {
       (message: string) => {
         switch (message) {
           case 'Yes': {
-            this.deletter.emit({value: this.courseItem.id});
+            this.handler.emit({type: 'deletter', value: this.courseItem.id});
             break;
           }
           case 'No': {
             console.log('modal was declined');
+            break;
+          }
+          case 'Close': {
+            console.log('courseComponent: modal was closed without answer');
             break;
           }
           default: console.log(`unknown modal message:${message}`);
