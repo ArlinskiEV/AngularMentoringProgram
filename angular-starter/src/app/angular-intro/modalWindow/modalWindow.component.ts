@@ -16,7 +16,7 @@ export class ModalWindowComponent {
   }
 
   protected handler(result: string) {
-    console.log(`modal ${result}`);
+    console.log(`modal: ${result}`);
     this.modalWindowServices.answer(result);
   }
   get visible() {

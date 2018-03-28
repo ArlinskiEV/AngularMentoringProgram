@@ -41,17 +41,22 @@ export class CourseComponent {
     });
   }
 
-  protected del(id: number) {
-    console.log(`del from child, id:${id}`);
+  protected del() {
+    console.log(`del from child, id:${this.courseItem.id}`);
 
-    this.modalWindowService.show(`HEY! are you shure? id=${id}`,
+    // using modalWindow via modalWindowService
+    this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`,
+      // callback
       (message: string) => {
         if (message === 'Yes') {
-          this.deletter.emit({value: id});
+          this.deletter.emit({value: this.courseItem.id});
         } else {
           console.log('modal was declined');
         }
       }
+      // --------
     );
+    // ----------------
+
   }
 }
