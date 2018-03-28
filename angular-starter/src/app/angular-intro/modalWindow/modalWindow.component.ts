@@ -19,6 +19,10 @@ export class ModalWindowComponent {
     console.log(`modal: ${result}`);
     this.modalWindowServices.answer(result);
   }
+  protected close() {
+    console.log(`modal was close without answer`);
+    this.modalWindowServices.answer('close');
+  }
   get visible() {
     return this.modalWindowServices.visible;
   }

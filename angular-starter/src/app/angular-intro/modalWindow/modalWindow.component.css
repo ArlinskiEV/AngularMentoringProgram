@@ -23,3 +23,13 @@
   justify-content: space-around;
   align-items: center;
 }
+
+:host>div .message .close{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+:host>div .message .close:hover{
+  background-color: rgb(250, 118, 10);
+  border-radius: 50%;
+}
