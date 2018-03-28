@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+
 <div *ngIf="visible">
   <div class="message">
     <h2>{{message}}</h2>
@@ -6,5 +8,8 @@
       (click) = "item.click()"
       >{{item.text}}</button>
     </div>
+    <i class="close far fa-times-circle"
+    (click) = "close()"
+    ></i>
   </div>
 </div>
