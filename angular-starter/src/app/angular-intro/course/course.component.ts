@@ -14,6 +14,7 @@ import { ModalWindowServices } from '../core/services/modalWindow.service';
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
+
 export class CourseComponent {
   @Input() protected courseItem: Course = {
     id: 0,
@@ -26,47 +27,60 @@ export class CourseComponent {
   };
 
   @Output('handler') protected handler = new  EventEmitter();
-  // @Output('deletter') protected deletter = new EventEmitter();
 
   constructor(private modalWindowService: ModalWindowServices) {
     console.log('course-constructor');
-  }
-
-  protected localAccept(id: number)  {
-    this.courseItem.isAccept = !this.courseItem.isAccept;
-    console.log(`course-local method from id=${id}; this.courseItem=`);
-    console.log(this.courseItem);
-    this.handler.emit({
-      value: id,
-    });
   }
 
   protected del() {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService
-    this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`,
-      // callback
-      (message: string) => {
-        switch (message) {
-          case 'Yes': {
-            this.handler.emit({type: 'deletter', value: this.courseItem.id});
-            break;
-          }
-          case 'No': {
-            console.log('modal was declined');
-            break;
-          }
-          case 'Close': {
-            console.log('courseComponent: modal was closed without answer');
-            break;
-          }
-          default: console.log(`unknown modal message:${message}`);
-        }
-      }
-      // --------
-    );
+    // this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`,
+    //   // callback
+    //   (message: string) => {
+    //     switch (message) {
+    //       case 'Yes': { // only in this case need call parent
+    //         this.handler.emit({type: 'deletter', value: this.courseItem.id});
+    //         break;
+    //       }
+    //       case 'No': {
+    //         console.log('modal was declined');
+    //         break;
+    //       }
+    //       case 'Close': {
+    //         console.log('courseComponent: modal was closed without answer');
+    //         break;
+    //       }
+    //       default: console.log(`unknown modal message:${message}`);
+    //     }
+    //   }
+    //   // --------
+    // );
+    // });
     // ----------------
 
+    this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
+      .subscribe(
+        // callback ... o_O
+        (message: string) => {
+          switch (message) {
+            case 'Yes': { // only in this case need call parent
+              this.handler.emit({type: 'deletter', value: this.courseItem.id});
+              break;
+            }
+            case 'No': {
+              console.log('modal was declined');
+              break;
+            }
+            case 'Close': {
+              console.log('courseComponent: modal was closed without answer');
+              break;
+            }
+            default: console.log(`unknown modal message:${message}`);
+          }
+        }
+        // --------
+      );
   }
 }

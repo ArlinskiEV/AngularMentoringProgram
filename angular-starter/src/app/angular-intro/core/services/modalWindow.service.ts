@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ModalWindowServices {
   public visible = false;
   public message = 'Are you shure?';
   public answerArr = ['Yes', 'No'];
-  public result: Promise<string>;
+  public result: Observable<string>;
   protected callback: (message: string) => void;
   constructor() {
     console.log('### ModalWindowServices constructor ###');
@@ -13,16 +14,16 @@ export class ModalWindowServices {
 
   public show(
     message: string,
-    callback: (message: string) => void, // how replace callback/promise?
     answerArr = ['Yes', 'No']
-  )/*: Promise<string>*/ {
+  ): Observable<string> {
     console.log('### ModalWindowServices.show ###');
     this.message = message;
     this.answerArr = answerArr;
-    this.callback = callback; // what i must do after answer
-    // this.result = new Promise(() => {});
     this.visible = true;
-    return Promise.resolve(''); // ??
+    return Observable.create((observer) => {
+      observer.onNext('1');
+      observer.onCompleted();
+    });
   }
 
   public answer(message: string)/*: Promise<string>*/ {

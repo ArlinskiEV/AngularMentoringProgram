@@ -17,7 +17,6 @@ console.log('`INTRO` bundle loaded asynchronously');
      * Components / Directives/ Pipes
      */
 
-    // HeaderComponent,
     FooterComponent,
 
     IntroComponent,
@@ -34,8 +33,5 @@ console.log('`INTRO` bundle loaded asynchronously');
   exports: [
     IntroComponent
   ],
-  // providers: [
-  //   CourseServices,
-  // ],
 })
 export class IntroModule {}
