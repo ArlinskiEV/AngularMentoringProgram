@@ -36,39 +36,12 @@ export class CourseComponent {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService
-    // this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`,
-    //   // callback
-    //   (message: string) => {
-    //     switch (message) {
-    //       case 'Yes': { // only in this case need call parent
-    //         this.handler.emit({type: 'deletter', value: this.courseItem.id});
-    //         break;
-    //       }
-    //       case 'No': {
-    //         console.log('modal was declined');
-    //         break;
-    //       }
-    //       case 'Close': {
-    //         console.log('courseComponent: modal was closed without answer');
-    //         break;
-    //       }
-    //       default: console.log(`unknown modal message:${message}`);
-    //     }
-    //   }
-    //   // --------
-    // );
-    // });
-    // ----------------
-
-    // using modalWindow via modalWindowService
     const listener = this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
       .subscribe(
         // callback ... o_O
         (message: string) => {
-          console.warn('!!!!!!!!!!!!!!!!!!!');
           switch (message) {
             case 'Yes': { // only in this case need call parent
-              console.warn('!!!!!!!!!!!!!!YEAAAAAAH!!!!!');
               this.handler.emit({type: 'deletter', value: this.courseItem.id});
               break;
             }
@@ -84,16 +57,8 @@ export class CourseComponent {
           }
         },
         (error) => console.error(`error in course.component:${error}`),
-        () => {
-          console.log('---------------------------course, done');
-          // listener.unsubscribe();
-        }
-        // --------
+        // () => { console.log('---------------------------course, done'); }
       );
-    // console.log('---------------------------course, end, unsubsribe');
-    // listener.unsubscribe();
-    // console.log('---------------------------course, end, unsubsribe-done');
-    // ----------------
 
   }
 }

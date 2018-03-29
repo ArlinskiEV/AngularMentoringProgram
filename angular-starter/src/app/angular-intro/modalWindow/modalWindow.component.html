@@ -1,15 +1,15 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 
-<div *ngIf="data.visible">
+<div *ngIf="visible">
   <div class="message">
     <h2>{{data.message}}</h2>
     <div class="buttons">
       <button *ngFor = "let item of data.answerArr"
-      (click) = "item.click()"
-      >{{item.text}}</button>
+      (click) = "click(item)"
+      >{{item}}</button>
     </div>
     <i class="close far fa-times-circle"
-    (click) = "handler('Close')"
+    (click) = "click()"
     ></i>
   </div>
 </div>
