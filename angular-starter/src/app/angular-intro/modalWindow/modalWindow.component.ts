@@ -11,8 +11,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./modalWindow.component.css']
 })
 export class ModalWindowComponent implements OnInit {
-  protected source: Observable<string>;
-  protected doIt: Promise<string>;
   private click: (answer: string) => void;
   private visible = false;
   private data = {
@@ -25,25 +23,22 @@ export class ModalWindowComponent implements OnInit {
 
   public ngOnInit() {
     console.log('ModalWindowComponent ngOnInit');
-    this.source = new Observable((observer) => {
-      this.data = this.modalWindowServices.data;
-      this.visible = true;
+    this.modalWindowServices.listenMe(
 
-      this.doIt = new Promise((res, rej) => {
-        // ----------------------------------------- REALLY?????
-        this.click = (text) => res(text ? text : 'Close');
-        // -----------------------------------------------------
-      });
-      this.doIt
-        .then((result) => {
-          observer.next(result);
-        })
-        .then(() => {
-          this.visible = false;
-          observer.complete();
-        });
-    });
+      new Observable((observer) => {
+        this.data = this.modalWindowServices.data;
+        this.visible = true;
 
-    this.modalWindowServices.listenMe(this.source);
+        // --------- REALLY?????
+        new Promise((res, rej) => { this.click = (text) => res(text ? text : 'Close') })
+          .then((result: string) => {
+            observer.next(result);
+            this.visible = false;
+            observer.complete();
+          });
+
+      })
+
+    );
   }
 }
