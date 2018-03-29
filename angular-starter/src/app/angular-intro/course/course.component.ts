@@ -60,12 +60,15 @@ export class CourseComponent {
     // });
     // ----------------
 
+    // using modalWindow via modalWindowService
     const listener = this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
       .subscribe(
         // callback ... o_O
         (message: string) => {
+          console.warn('!!!!!!!!!!!!!!!!!!!');
           switch (message) {
             case 'Yes': { // only in this case need call parent
+              console.warn('!!!!!!!!!!!!!!YEAAAAAAH!!!!!');
               this.handler.emit({type: 'deletter', value: this.courseItem.id});
               break;
             }
@@ -82,13 +85,14 @@ export class CourseComponent {
         },
         (error) => console.error(`error in course.component:${error}`),
         () => {
-          console.log('course, done');
+          console.log('---------------------------course, done');
+          // listener.unsubscribe();
         }
         // --------
       );
-    console.log('course, end, unsubsribe');
-    listener.unsubscribe();
-    console.log('course, end, unsubsribe-done');
+    // console.log('---------------------------course, end, unsubsribe');
+    // listener.unsubscribe();
+    // console.log('---------------------------course, end, unsubsribe-done');
     // ----------------
 
   }
