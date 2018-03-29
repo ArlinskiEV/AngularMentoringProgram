@@ -16,7 +16,7 @@ export class CoursesComponent implements OnInit {
     console.log(this.couresArr);
   }
   public ngOnInit() {
-    console.log('OnInit');
+    console.log('courses.component OnInit');
     this.couresArr = this.courseServices.getList();
     console.log(this.couresArr);
   }

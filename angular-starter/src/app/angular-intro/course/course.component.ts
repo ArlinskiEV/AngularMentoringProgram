@@ -60,7 +60,7 @@ export class CourseComponent {
     // });
     // ----------------
 
-    this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
+    const listener = this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
       .subscribe(
         // callback ... o_O
         (message: string) => {
@@ -79,8 +79,17 @@ export class CourseComponent {
             }
             default: console.log(`unknown modal message:${message}`);
           }
+        },
+        (error) => console.error(`error in course.component:${error}`),
+        () => {
+          console.log('course, done');
         }
         // --------
       );
+    console.log('course, end, unsubsribe');
+    listener.unsubscribe();
+    console.log('course, end, unsubsribe-done');
+    // ----------------
+
   }
 }
