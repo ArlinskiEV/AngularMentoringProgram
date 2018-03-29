@@ -28,6 +28,7 @@ export class ModalWindowComponent implements OnInit {
     this.source = new Observable((observer) => {
       this.data = this.modalWindowServices.data;
       this.visible = true;
+
       this.doIt = new Promise((res, rej) => {
         // ----------------------------------------- REALLY?????
         this.click = (text) => res(text ? text : 'Close');
@@ -44,10 +45,5 @@ export class ModalWindowComponent implements OnInit {
     });
 
     this.modalWindowServices.listenMe(this.source);
-  }
-
-  protected handler(result: string) {
-    console.log(`modal: ${result}`);
-    this['bad']();
   }
 }
