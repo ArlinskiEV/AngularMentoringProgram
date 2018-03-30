@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import {  LoginFormComponent  } from './loginform.component';
+import {  UserInfoComponent  } from './userinfo.component';
 
-console.log('`loginform` bundle loaded asynchronously');
+console.log('`userinfo` bundle loaded asynchronously');
 
 @NgModule({
   declarations: [
     /**
      * Components / Directives/ Pipes
      */
-    LoginFormComponent,
+    UserInfoComponent,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    LoginFormComponent,
+    UserInfoComponent,
   ],
 })
-export class LoginFormModule {}
+export class UserInfoModule {}

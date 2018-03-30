@@ -5,8 +5,10 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
+// ---------------
 import { Course } from '../core';
 import { MyDate } from '../core/entities/date';
+// ---------------
 import { ModalWindowServices } from '../core';
 
 @Component({

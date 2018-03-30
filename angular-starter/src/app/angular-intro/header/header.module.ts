@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { HeaderComponent } from './header.component';
-import { LoginFormModule } from '../loginform';
+import { UserInfoModule } from '../userinfo';
 
 console.log('`Header` bundle loaded asynchronously');
 
@@ -15,7 +15,7 @@ console.log('`Header` bundle loaded asynchronously');
   ],
   imports: [
     CommonModule,
-    LoginFormModule,
+    UserInfoModule
   ],
   exports: [
     HeaderComponent,
