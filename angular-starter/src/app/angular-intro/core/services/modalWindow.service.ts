@@ -23,13 +23,7 @@ export class ModalWindowServices {
     this.data.message = message;
     this.data.answerArr = answerArr;
 
-    return new Observable((observer) => {
-      const listener = this.source.subscribe(
-        (x) => observer.next(x), // resend all from source in new Observable
-        (error) => { console.warn(`### ModalWindowServices.show.error: ${error} ###`); },
-        () => observer.complete(),
-      );
-    });
+    return this.source;
   }
 
   public listenMe(source: Observable<string>) {

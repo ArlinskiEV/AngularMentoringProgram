@@ -8,7 +8,7 @@ import { Course } from '../entities';
 
 @Injectable()
 export class CourseServices {
-  protected couresArr: Course[] = [];
+  private couresArr: Course[] = [];
   constructor() {
     console.log('### CourseServices constructor ###');
     this.couresArr = [...COURSES];
