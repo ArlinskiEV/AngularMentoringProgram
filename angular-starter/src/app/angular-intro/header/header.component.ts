@@ -1,8 +1,11 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  Input,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { AuthorizationService } from '../core';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +15,16 @@ import { ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   public localState: any;
+  @Input() protected owner: string;
+
   constructor(
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private authorizationService: AuthorizationService
   ) {}
+
+  get isAuth() {
+    return this.authorizationService.isAuthenticated();
+  }
 
   public ngOnInit() {
     this.route

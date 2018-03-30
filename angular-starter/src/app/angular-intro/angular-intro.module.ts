@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { HeaderModule } from './header';
+import { FooterModule } from './footer';
 import { ToolbarModule } from './toolbar';
 import { CoursesModule } from './courses';
 import { CourseModule } from './course';
-import { FooterComponent } from './footer';
-import { IntroComponent } from './angular-intro.component';
 import { ModalWindowModule } from './modalWindow';
+import { LoginPageModule } from './login-page';
+
+import { IntroComponent } from './angular-intro.component';
 
 console.log('`INTRO` bundle loaded asynchronously');
 
@@ -17,21 +19,22 @@ console.log('`INTRO` bundle loaded asynchronously');
      * Components / Directives/ Pipes
      */
 
-    FooterComponent,
-
     IntroComponent,
   ],
   imports: [
     CommonModule,
 
     HeaderModule,
+    FooterModule,
     ToolbarModule,
     CoursesModule,
     CourseModule,
     ModalWindowModule,
+    LoginPageModule,
+
   ],
   exports: [
-    IntroComponent
+    IntroComponent,
   ],
 })
 export class IntroModule {}

@@ -7,7 +7,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Course } from '../core';
 import { MyDate } from '../core/entities/date';
-import { ModalWindowServices } from '../core/services/modalWindow.service';
+import { ModalWindowServices } from '../core';
 
 @Component({
   selector: 'course',
