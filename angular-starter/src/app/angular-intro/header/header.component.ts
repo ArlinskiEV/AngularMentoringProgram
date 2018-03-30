@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
   Input,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,6 +12,7 @@ import { AuthorizationService } from '../core';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
 

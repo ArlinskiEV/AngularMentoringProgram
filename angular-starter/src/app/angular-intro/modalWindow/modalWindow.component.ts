@@ -1,5 +1,5 @@
 import {
-  Component, OnInit,
+  Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
 
 import { ModalWindowServices } from '../core/services/modalWindow.service';
@@ -8,7 +8,8 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'modalWindow',
   templateUrl: './modalWindow.component.html',
-  styleUrls: ['./modalWindow.component.css']
+  styleUrls: ['./modalWindow.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalWindowComponent implements OnInit {
   private click: (answer: string) => void;
@@ -17,7 +18,10 @@ export class ModalWindowComponent implements OnInit {
     message: 'NoMessage',
     answerArr: ['Yes', 'No'],
   };
-  constructor(private modalWindowServices: ModalWindowServices) {
+  constructor(
+    private modalWindowServices: ModalWindowServices,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
     console.log('ModalWindowComponent constructor');
   }
 
@@ -28,11 +32,12 @@ export class ModalWindowComponent implements OnInit {
       new Observable((observer) => {
         this.data = this.modalWindowServices.data;
         this.visible = true;
-
+        this.changeDetectorRef.markForCheck();
         // --------- REALLY?????
         this.click = (text) => {
           observer.next(text ? text : 'Close');
           this.visible = false;
+          this.changeDetectorRef.markForCheck();
           observer.complete();
         };
 

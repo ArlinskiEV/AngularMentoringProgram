@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../entities';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthorizationService {
@@ -7,6 +8,8 @@ export class AuthorizationService {
     id: 0,
     userName: 'NoName',
   };
+  private source: Observable<any>;
+
   constructor() {
     console.log('### AuthorizationService constructor ###');
   }

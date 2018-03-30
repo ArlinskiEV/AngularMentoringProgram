@@ -3,6 +3,7 @@ import {
   Component,
   OnInit,
   NgModule,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
   protected searchText: string;
