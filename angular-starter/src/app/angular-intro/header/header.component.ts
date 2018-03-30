@@ -3,6 +3,7 @@ import {
   OnInit,
   Input,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +13,6 @@ import { AuthorizationService } from '../core';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
 
@@ -21,8 +21,11 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public route: ActivatedRoute,
-    private authorizationService: AuthorizationService
-  ) {}
+    private authorizationService: AuthorizationService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+    console.log('HeaderComponent constructor');
+  }
 
   get isAuth() {
     return this.authorizationService.isAuthenticated();
@@ -39,6 +42,10 @@ export class HeaderComponent implements OnInit {
       });
 
     console.log('hello `Header` component');
+    // because auth-info must be actual
+    this.authorizationService.source.subscribe(
+      () => this.changeDetectorRef.markForCheck(),
+    );
     /**
      * static data that is bundled
      * var mockData = require('assets/mock-data/mock-data.json');

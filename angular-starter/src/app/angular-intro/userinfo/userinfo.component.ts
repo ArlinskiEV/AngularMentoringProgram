@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  // ChangeDetectorRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { AuthorizationService } from '../core';
 
@@ -16,13 +16,18 @@ import { AuthorizationService } from '../core';
 export class UserInfoComponent  implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
-    // private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     console.log('UserInfoComponent constructor');
   }
 
   public ngOnInit() {
     console.log('hello `userinfo` component');
+
+    // because info must be actual
+    this.authorizationService.source.subscribe(
+      () => this.changeDetectorRef.markForCheck(),
+    );
   }
   get login() {
     return this.authorizationService.isAuthenticated
@@ -31,6 +36,5 @@ export class UserInfoComponent  implements OnInit {
   }
   public click() {
     this.authorizationService.logout();
-    // this.changeDetectorRef.markForCheck();
   }
 }
