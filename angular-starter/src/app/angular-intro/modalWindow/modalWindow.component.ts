@@ -30,12 +30,11 @@ export class ModalWindowComponent implements OnInit {
         this.visible = true;
 
         // --------- REALLY?????
-        new Promise((res, rej) => { this.click = (text) => res(text ? text : 'Close'); })
-          .then((result: string) => {
-            observer.next(result);
-            this.visible = false;
-            observer.complete();
-          });
+        this.click = (text) => {
+          observer.next(text ? text : 'Close');
+          this.visible = false;
+          observer.complete();
+        };
 
       })
 
