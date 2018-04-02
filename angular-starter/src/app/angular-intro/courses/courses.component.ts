@@ -31,16 +31,11 @@ export class CoursesComponent implements OnInit {
     console.log(`courses.handler emit.type=${emit.type}`);
     switch (emit.type) {
       case 'deletter': {
-        // or this.courseServices.removeItem(emit.value);
-        this.deletter(emit.value);
+        console.log(`courses.deletter id=${emit.value}`);
+        this.courseServices.removeItem(emit.value);
         break;
       }
     }
-  }
-
-  protected deletter(id: number) {
-    console.log(`courses.deletter id=${id}`);
-    this.courseServices.removeItem(id);
   }
 
 }
