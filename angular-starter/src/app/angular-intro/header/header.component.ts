@@ -20,19 +20,19 @@ export class HeaderComponent implements OnInit {
   @Input() protected owner: string;
 
   constructor(
-    public route: ActivatedRoute,
-    private authorizationService: AuthorizationService,
-    private changeDetectorRef: ChangeDetectorRef,
+    public _route: ActivatedRoute,
+    private _authorizationService: AuthorizationService,
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     console.log('HeaderComponent constructor');
   }
 
   get isAuth() {
-    return this.authorizationService.isAuthenticated();
+    return this._authorizationService.isAuthenticated();
   }
 
   public ngOnInit() {
-    this.route
+    this._route
       .data
       .subscribe((data: any) => {
         /**
@@ -43,9 +43,10 @@ export class HeaderComponent implements OnInit {
 
     console.log('hello `Header` component');
     // because auth-info must be actual
-    this.authorizationService.source.subscribe(
-      () => this.changeDetectorRef.markForCheck(),
+    this._authorizationService.getUserInfo().subscribe(
+      () => this._changeDetectorRef.markForCheck(),
     );
+
     /**
      * static data that is bundled
      * var mockData = require('assets/mock-data/mock-data.json');

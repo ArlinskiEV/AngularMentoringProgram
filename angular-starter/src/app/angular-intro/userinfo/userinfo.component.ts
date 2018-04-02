@@ -14,9 +14,10 @@ import { AuthorizationService } from '../core';
 })
 
 export class UserInfoComponent  implements OnInit {
+  private login = 'NoName';
   constructor(
-    private authorizationService: AuthorizationService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private _authorizationService: AuthorizationService,
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     console.log('UserInfoComponent constructor');
   }
@@ -25,16 +26,19 @@ export class UserInfoComponent  implements OnInit {
     console.log('hello `userinfo` component');
 
     // because info must be actual
-    this.authorizationService.source.subscribe(
-      () => this.changeDetectorRef.markForCheck(),
+    this._authorizationService.getUserInfo().subscribe(
+      (payload) => {
+        console.log(`userInfo accept data, payload:${JSON.stringify(payload)}`);
+        this.login = payload.login
+            ? payload.login
+            : 'NoAuth';
+        this._changeDetectorRef.markForCheck();
+      },
     );
+
   }
-  get login() {
-    return this.authorizationService.isAuthenticated
-      ? this.authorizationService.getUserInfo().login
-      : 'NoAuth';
-  }
+
   public click() {
-    this.authorizationService.logout();
+    this._authorizationService.logout();
   }
 }
