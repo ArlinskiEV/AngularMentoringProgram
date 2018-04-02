@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../entities';
 import { Observable } from 'rxjs/Observable';
 
+import { NgZone } from '@angular/core';
+
 @Injectable()
 export class AuthorizationService {
   public source: Observable<any>;
@@ -11,11 +13,20 @@ export class AuthorizationService {
   };
   private action: () => void;
 
-  constructor() {
+  constructor(private _ngZone: NgZone) {
     console.log('### AuthorizationService constructor ###');
     this.source = new Observable((observer) => {
       this.action = () => { observer.next(''); };
     });
+
+    // ----------------------------------------------------------------
+    _ngZone.onStable.subscribe(() => console.log(`ngZone Stable. now=${Date.now()}`));
+    // get onUnstable: EventEmitter<any>
+    _ngZone.onUnstable.subscribe(() => console.log(`ngZone Unstable. now=${Date.now()}`));
+    // get onStable: EventEmitter<any>
+
+    // ----------------------------------------------------------------
+
   }
   public login(payload: any) {// how do it right??
     // Login (stores fake user info and token to local storage)
