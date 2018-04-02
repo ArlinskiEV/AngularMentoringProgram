@@ -48,8 +48,8 @@ const APP_PROVIDERS = [
   // ...toArray(INTRO_SERVICES),
   ModalWindowServices,
   AuthorizationService,
-  CourseServices,
   LoaderBlockServices,
+  CourseServices,
   // --------------------------------------------------------------------
 
 ];

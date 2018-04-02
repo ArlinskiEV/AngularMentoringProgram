@@ -10,6 +10,7 @@ export class ModalWindowServices {
     visible: false,
   };
   private source: Observable<string>;
+  // public source: BehaviorSubject<any>;
 
   constructor() {
     console.log('### ModalWindowServices constructor ###');

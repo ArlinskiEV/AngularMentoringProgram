@@ -32,7 +32,9 @@ export class CourseComponent {
 
   @Output('handler') protected handler = new  EventEmitter();
 
-  constructor(private _modalWindowService: ModalWindowServices) {
+  constructor(
+    private _modalWindowService: ModalWindowServices,
+  ) {
     console.log('course-constructor');
   }
 
@@ -40,7 +42,7 @@ export class CourseComponent {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService
-    const listener = this._modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
+    const listener = this._modalWindowService.show(`HEY! are you sure? id=${this.courseItem.id}`)
       .subscribe(
         // callback ... o_O
         (message: string) => {

@@ -1,6 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-import { CourseServices } from '../core/services';
+import {
+  CourseServices,
+  LoaderBlockServices,
+} from '../core/services';
 
 @Component({
   selector: 'courses',
@@ -12,7 +19,10 @@ export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
   protected couresArr = [];
 
-  constructor(private _courseServices: CourseServices) {
+  constructor(
+    private _loaderBlockServices: LoaderBlockServices,
+    private _courseServices: CourseServices,
+  ) {
     console.log('courses-constructor, Arr:');
     console.log(this.couresArr);
   }
@@ -31,8 +41,11 @@ export class CoursesComponent implements OnInit {
     console.log(`courses.handler emit.type=${emit.type}`);
     switch (emit.type) {
       case 'deletter': {
+        this._loaderBlockServices.Show();
         console.log(`courses.deletter id=${emit.value}`);
         this._courseServices.removeItem(emit.value);
+        // ...no service in service?
+        setTimeout( () => this._loaderBlockServices.Hide(), 3000);
         break;
       }
     }

@@ -12,12 +12,8 @@ import { Observable } from 'rxjs/Observable';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoaderBlockComponent implements OnInit {
-  private click: (answer: string) => void;
-  private visible: boolean;
-  private data = {
-    message: 'NoMessage',
-    answerArr: ['Yes', 'No'],
-  };
+  private visible = false;
+
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -27,7 +23,8 @@ export class LoaderBlockComponent implements OnInit {
 
   public ngOnInit() {
     console.log('LoaderBlockComponent ngOnInit');
-    this._loaderBlockServices.source.asObservable().subscribe(() => {
+    this._loaderBlockServices.source.asObservable().subscribe((payload) => {
+      this.visible = payload.show;
       this._changeDetectorRef.markForCheck();
     });
   }

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { COURSES } from '../mocks';
 import { Course } from '../entities';
 import { LoaderBlockServices } from '../services';
-import { delay } from 'q';
 
 // i think that it is all (or part??) logic for work with enity
 // in this case entity = list of course
@@ -52,7 +51,6 @@ export class CourseServices {
       console.log('### CourseServices.removeItem:ERROR: wrong ID###');
     }
 
-    // delay(10000);
-    // this._loaderBlockServices.Hide();
+    // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
   }
 }
