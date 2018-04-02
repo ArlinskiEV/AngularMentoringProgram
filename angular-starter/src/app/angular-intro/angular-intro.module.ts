@@ -8,6 +8,7 @@ import { CoursesModule } from './courses';
 import { CourseModule } from './course';
 import { ModalWindowModule } from './modalWindow';
 import { LoginPageModule } from './login-page';
+import { LoaderBlockModule } from './loaderBlock';
 
 import { IntroComponent } from './angular-intro.component';
 
@@ -31,6 +32,7 @@ console.log('`INTRO` bundle loaded asynchronously');
     CourseModule,
     ModalWindowModule,
     LoginPageModule,
+    LoaderBlockModule,
 
   ],
   exports: [

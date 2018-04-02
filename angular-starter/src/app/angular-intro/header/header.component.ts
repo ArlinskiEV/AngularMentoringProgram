@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthorizationService } from '../core';
+import { AuthorizationService } from '../core/services';
 
 @Component({
   selector: 'app-header',

@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { AuthorizationService } from '../core';
+import { AuthorizationService } from '../core/services';
 
 @Component({
   selector: 'userinfo',

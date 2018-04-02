@@ -17,11 +17,11 @@ export class FooterComponent implements OnInit {
 
   public localState: any;
   constructor(
-    public route: ActivatedRoute
+    public _route: ActivatedRoute
   ) {}
 
   public ngOnInit() {
-    this.route
+    this._route
       .data
       .subscribe((data: any) => {
         /**

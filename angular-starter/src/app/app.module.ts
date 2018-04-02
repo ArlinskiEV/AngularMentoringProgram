@@ -23,10 +23,13 @@ import { DevModuleModule } from './+dev-module';
 // --------------------------------------------------------------------
 import { IntroModule } from './angular-intro';
 
-// CourseServices,
-// ModalWindowServices,
-// AuthorizationService,
-import * as INTRO_SERVICES from './angular-intro/core/services';
+import {
+  CourseServices,
+  ModalWindowServices,
+  AuthorizationService,
+  LoaderBlockServices,
+} from './angular-intro/core/services';
+// import * as INTRO_SERVICES from './angular-intro/core/services';
 
 function toArray(obj) {
   return Object.keys(obj).map((k) => obj[k]);
@@ -42,7 +45,11 @@ const APP_PROVIDERS = [
   AppState,
 
   // --------------------------------------------------------------------
-  ...toArray(INTRO_SERVICES),
+  // ...toArray(INTRO_SERVICES),
+  ModalWindowServices,
+  AuthorizationService,
+  CourseServices,
+  LoaderBlockServices,
   // --------------------------------------------------------------------
 
 ];

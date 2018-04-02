@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { CourseServices } from '../core';
+import { CourseServices } from '../core/services';
 
 @Component({
   selector: 'courses',
@@ -12,13 +12,13 @@ export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
   protected couresArr = [];
 
-  constructor(private courseServices: CourseServices) {
+  constructor(private _courseServices: CourseServices) {
     console.log('courses-constructor, Arr:');
     console.log(this.couresArr);
   }
   public ngOnInit() {
     console.log('courses.component OnInit');
-    this.couresArr = this.courseServices.getList();
+    this.couresArr = this._courseServices.getList();
     console.log(this.couresArr);
   }
   get count() {
@@ -32,7 +32,7 @@ export class CoursesComponent implements OnInit {
     switch (emit.type) {
       case 'deletter': {
         console.log(`courses.deletter id=${emit.value}`);
-        this.courseServices.removeItem(emit.value);
+        this._courseServices.removeItem(emit.value);
         break;
       }
     }

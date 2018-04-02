@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 import { Course } from '../core';
 import { MyDate } from '../core/entities/date';
 // ---------------
-import { ModalWindowServices } from '../core';
+import { ModalWindowServices } from '../core/services';
 
 @Component({
   selector: 'course',
@@ -32,7 +32,7 @@ export class CourseComponent {
 
   @Output('handler') protected handler = new  EventEmitter();
 
-  constructor(private modalWindowService: ModalWindowServices) {
+  constructor(private _modalWindowService: ModalWindowServices) {
     console.log('course-constructor');
   }
 
@@ -40,7 +40,7 @@ export class CourseComponent {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService
-    const listener = this.modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
+    const listener = this._modalWindowService.show(`HEY! are you shure? id=${this.courseItem.id}`)
       .subscribe(
         // callback ... o_O
         (message: string) => {

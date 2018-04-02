@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { COURSES } from '../mocks';
 import { Course } from '../entities';
+import { LoaderBlockServices } from '../services';
+import { delay } from 'q';
 
 // i think that it is all (or part??) logic for work with enity
 // in this case entity = list of course
@@ -9,7 +11,9 @@ import { Course } from '../entities';
 @Injectable()
 export class CourseServices {
   private couresArr: Course[] = [];
-  constructor() {
+  constructor(
+    // private _loaderBlockServices: LoaderBlockServices
+  ) {
     console.log('### CourseServices constructor ###');
     this.couresArr = [...COURSES];
   }
@@ -38,11 +42,17 @@ export class CourseServices {
   }
   public removeItem(id: number): void {
     console.log(`### CourseServices.removeItem id=${id}###`);
+
+    // this._loaderBlockServices.Show();
+
     const currentID = this.couresArr.findIndex((item) => item.id === id);
     if (currentID >= 0) {
       this.couresArr.splice(currentID, 1);
     } else {
       console.log('### CourseServices.removeItem:ERROR: wrong ID###');
     }
+
+    // delay(10000);
+    // this._loaderBlockServices.Hide();
   }
 }
