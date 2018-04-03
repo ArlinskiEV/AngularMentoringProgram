@@ -11,10 +11,10 @@ import { StyleRule } from '../core/entities';
 @Directive({
   selector: '[appStylelight]',
 })
-export class StylelightDirective implements OnInit {
+export class StylelightDirective<T> implements OnInit {
   @Input() public payload: {
-    data: any, // current data, for compare
-    caseArr: [{data: any, setStyle: StyleRule[]}], // case array
+    data: T, // current data, for compare
+    caseArr: [{data: T, setStyle: StyleRule[]}], // case array
   };
   constructor(
     private _el: ElementRef,
