@@ -12,6 +12,7 @@
       {data: {start: currentDate, end: infinityDate}, setStyle: [{rule: 'border-color', value: 'blue'}]}
     ]
   }"
+  [ngClass]="{'topRate': courseItem.topRated}"
 >
   <p>{{courseItem.name}} | ID: {{courseItem.id}} | Duration: {{courseItem.duration.hours}}h {{courseItem.duration.minuts}}m {{courseItem.duration.seconds}}s <i *ngIf="courseItem.topRated" class="fas fa-star"></i></p>
   <p>Date: {{courseItem.date}}</p>
