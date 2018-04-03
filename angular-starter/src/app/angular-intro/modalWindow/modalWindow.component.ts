@@ -1,0 +1,48 @@
+import {
+  Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
+} from '@angular/core';
+
+import { ModalWindowServices } from '../core/services';
+import { Observable } from 'rxjs/Observable';
+
+@Component({
+  selector: 'modalWindow',
+  templateUrl: './modalWindow.component.html',
+  styleUrls: ['./modalWindow.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ModalWindowComponent implements OnInit {
+  private click: (answer: string) => void;
+  private visible = false;
+  private data = {
+    message: 'NoMessage',
+    answerArr: ['Yes', 'No'],
+  };
+  constructor(
+    private _modalWindowServices: ModalWindowServices,
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) {
+    console.log('ModalWindowComponent constructor');
+  }
+
+  public ngOnInit() {
+    console.log('ModalWindowComponent ngOnInit');
+    this._modalWindowServices.listenMe(
+
+      new Observable((observer) => {
+        this.data = this._modalWindowServices.data;
+        this.visible = true;
+        this._changeDetectorRef.markForCheck();
+        // --------- REALLY?????
+        this.click = (text) => {
+          observer.next(text ? text : 'Close');
+          this.visible = false;
+          this._changeDetectorRef.markForCheck();
+          observer.complete();
+        };
+
+      })
+
+    );
+  }
+}
