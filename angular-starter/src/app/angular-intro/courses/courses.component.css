@@ -8,7 +8,7 @@ p {
   padding: 15px;
 }
 
-:host /deep/ course:not(:last-child)>div{
+/* :host /deep/ course:not(:last-child)>div{
   border-bottom: 3px solid rgb(41, 51, 189);
   margin-bottom: 7px;
-}
+} */
