@@ -10,6 +10,7 @@ export const COURSES: Course[] = [
     isAccept: true,
     text: 'Just course description, or any other text.',
     date: +new Date(2020, 10, 25),
+    topRated: true,
   },
   {
     id: 12,
@@ -19,6 +20,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: +new Date(2018, 10, 25),
+    topRated: false,
   },
   {
     id: 13,
@@ -28,6 +30,7 @@ export const COURSES: Course[] = [
     isAccept: true,
     text: 'Just course description, or any other text.',
     date: +new Date(2017, 10, 25),
+    topRated: false,
   },
   {
     id: 14,
@@ -37,6 +40,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: +new Date(2018, 3, 3),
+    topRated: true,
   },
   {
     id: 15,
@@ -46,6 +50,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: +new Date(1999, 10, 25),
+    topRated: false,
   },
   {
     id: 16,
@@ -55,6 +60,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: +new Date(2018, 3, 2),
+    topRated: true,
   },
   {
     id: 17,
@@ -64,6 +70,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: +new Date(2018, 3, 4),
+    topRated: false,
   },
   {
     id: 18,
@@ -73,6 +80,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: Date.now(),
+    topRated: false,
   },
   {
     id: 19,
@@ -82,6 +90,7 @@ export const COURSES: Course[] = [
     isAccept: false,
     text: 'Just course description, or any other text.',
     date: +new Date(1999, 10, 25),
+    topRated: false,
   },
   {
     id: 20,
@@ -91,5 +100,6 @@ export const COURSES: Course[] = [
     isAccept: true,
     text: 'Just course description, or any other text.',
     date: +new Date(1999, 10, 25),
+    topRated: false,
   },
 ];

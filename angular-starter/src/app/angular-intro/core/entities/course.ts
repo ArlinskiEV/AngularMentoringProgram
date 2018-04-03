@@ -7,4 +7,5 @@ export class Course {
   public tags: string[];
   public isAccept: boolean;
   public text: string;
+  public topRated: boolean;
 }

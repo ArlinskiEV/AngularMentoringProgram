@@ -28,8 +28,8 @@ export class CoursesComponent implements OnInit {
   }
   public ngOnInit() {
     console.log('courses.component OnInit');
-    // this.coursesArr = this._courseServices.getList();
-    this.coursesArr = [];
+    this.coursesArr = this._courseServices.getList();
+    // this.coursesArr = [];
     console.log(this.coursesArr);
   }
   get count() {

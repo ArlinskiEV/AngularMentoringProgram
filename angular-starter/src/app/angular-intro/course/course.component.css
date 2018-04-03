@@ -4,6 +4,10 @@ p {
   font-size: 250%;
   margin: 5px 0px;
 }
+i {
+  color: gold;
+  font-size: 100%;
+}
 .tags {
   padding: 5px;
   display: flex;
