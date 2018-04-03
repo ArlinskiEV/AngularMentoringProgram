@@ -2,7 +2,7 @@
 <div class="box">
   <p>Accepted count: {{count}}</p>
   <hr>
-  <!-- <course>null</course> -->
+  <course>null</course>
   <course *ngFor = "let item of couresArr"
   [courseItem] = "item"
   (handler) = "handler($event)"

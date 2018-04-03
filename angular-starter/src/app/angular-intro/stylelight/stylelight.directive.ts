@@ -14,7 +14,7 @@ import { StyleRule } from '../core/entities';
 export class StylelightDirective<T> implements OnInit {
   @Input() public payload: {
     data: T, // current data, for compare
-    caseArr: [{data: T, setStyle: StyleRule[]}], // case array
+    caseArr: [{data: {start: T, end: T}, setStyle: StyleRule[]}], // case array
   };
   constructor(
     private _el: ElementRef,
@@ -24,7 +24,8 @@ export class StylelightDirective<T> implements OnInit {
   public ngOnInit() {
     // this.el.nativeElement.style.backgroundColor = 'yellow';
     const current = this.payload.caseArr
-      .find((item) => item.data <= this.payload.data);
+      .find((item) => (this.payload.data >= item.data.start)
+        && ( this.payload.data < item.data.end));
     if (current) {
       // renderer.setElementStyle(el.nativeElement, 'backgroundColor', 'yellow');
       current.setStyle.forEach( (item) => {

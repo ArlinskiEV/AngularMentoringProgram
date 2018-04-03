@@ -2,13 +2,14 @@
 <!-- createdDate >= currentDate - 14days - fresh course (use green border) -->
 <!-- If createdDate > currentDate - upcoming course (use blue border) -->
 <!-- Otherwise - no changes -->
+<!-- (14 * 86400000) // 24*60*60*1000 -->
 <div
   appStylelight
   [payload] = "{
     data: courseItem.date,
     caseArr: [
-      {data: currentDate, setStyle: [{rule: 'border-color', value: 'green'}]},
-      {data: infinity, setStyle: [{rule: 'border-color', value: 'blue'}]}
+      {data: {start: currentDate - (14 * 86400000), end: currentDate}, setStyle: [{rule: 'border-color', value: 'green'}]},
+      {data: {start: currentDate, end: infinityDate}, setStyle: [{rule: 'border-color', value: 'blue'}]}
     ]
   }"
 >

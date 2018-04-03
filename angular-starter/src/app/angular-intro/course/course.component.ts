@@ -20,11 +20,12 @@ import { ModalWindowServices } from '../core/services';
 
 export class CourseComponent {
   public currentDate = Date.now();
+  public infinityDate = Infinity;
   @Input() protected courseItem: Course = {
     id: 0,
     name: 'NoName',
     duration: { hours: -1, minuts: -1,  seconds: -1 },
-    date: new Date(),
+    date: +new Date(0, 0),
     tags: ['error'],
     isAccept: false,
     text: 'error: it is an empty text',
