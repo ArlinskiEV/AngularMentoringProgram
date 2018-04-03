@@ -1,22 +1,14 @@
-<!-- If createdDate < currentDate && createdDate >= currentDate - 14days - fresh course (use green border) -->
+<!-- If createdDate < currentDate && -->
+<!-- createdDate >= currentDate - 14days - fresh course (use green border) -->
 <!-- If createdDate > currentDate - upcoming course (use blue border) -->
 <!-- Otherwise - no changes -->
-<!-- <div appColorlight
-  [payload] = "{
-    data: courseItem.date,
-    caseArr: [
-      {data: '1', color: 'green'},
-      {data: '2', color: 'blue'},
-    ],
-  }"> -->
-
 <div
-  appColorlight
+  appStylelight
   [payload] = "{
     data: courseItem.date,
     caseArr: [
-      {data: '1', color: 'green'},
-      {data: '2', color: 'blue'}
+      {data: currentDate, setStyle: [{rule: 'border-color', value: 'green'}]},
+      {data: infinity, setStyle: [{rule: 'border-color', value: 'blue'}]}
     ]
   }"
 >

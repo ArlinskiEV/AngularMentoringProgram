@@ -7,8 +7,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 // ---------------
-import { Course } from '../core';
-import { MyDate } from '../core/entities/date';
+import { Course } from '../core/entities';
 // ---------------
 import { ModalWindowServices } from '../core/services';
 
@@ -20,14 +19,15 @@ import { ModalWindowServices } from '../core/services';
 })
 
 export class CourseComponent {
+  public currentDate = Date.now();
   @Input() protected courseItem: Course = {
     id: 0,
     name: 'NoName',
     duration: { hours: -1, minuts: -1,  seconds: -1 },
+    date: new Date(),
     tags: ['error'],
     isAccept: false,
     text: 'error: it is an empty text',
-    date: new MyDate (-1, '$$$', 1111),
   };
 
   @Output('handler') protected handler = new  EventEmitter();

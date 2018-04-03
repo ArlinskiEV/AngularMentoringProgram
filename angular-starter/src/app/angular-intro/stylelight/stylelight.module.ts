@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ColorlightDirective } from './colorlight.directive';
+import { StylelightDirective } from './stylelight.directive';
 
-console.log('`ColorLight` bundle loaded asynchronously');
+console.log('`StyleLight` bundle loaded asynchronously');
 
 @NgModule({
   declarations: [
     /**
      * Components / Directives/ Pipes
      */
-    ColorlightDirective,
+    StylelightDirective,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    ColorlightDirective,
+    StylelightDirective,
   ],
 })
-export class ColorlightModule {}
+export class StylelightModule {}

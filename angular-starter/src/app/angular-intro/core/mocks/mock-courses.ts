@@ -9,7 +9,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     isAccept: true,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(2020, 10, 25),
   },
   {
     id: 12,
@@ -18,7 +18,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(2018, 10, 25),
   },
   {
     id: 13,
@@ -27,7 +27,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1'],
     isAccept: true,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(2017, 10, 25),
   },
   {
     id: 14,
@@ -36,7 +36,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(2018, 4, 3),
   },
   {
     id: 15,
@@ -45,7 +45,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(1999, 10, 25),
   },
   {
     id: 16,
@@ -54,7 +54,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(2018, 4, 2),
   },
   {
     id: 17,
@@ -63,7 +63,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(2018, 4, 4),
   },
   {
     id: 18,
@@ -72,7 +72,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(1999, 10, 25),
   },
   {
     id: 19,
@@ -81,7 +81,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(1999, 10, 25),
   },
   {
     id: 20,
@@ -90,6 +90,6 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: true,
     text: 'Just course description, or any other text.',
-    date: new MyDate(0, '###', 9999),
+    date: new Date(1999, 10, 25),
   },
 ];
