@@ -17,23 +17,24 @@ import {
 })
 export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
-  protected couresArr = [];
+  protected coursesArr = [];
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
     private _courseServices: CourseServices,
   ) {
     console.log('courses-constructor, Arr:');
-    console.log(this.couresArr);
+    console.log(this.coursesArr);
   }
   public ngOnInit() {
     console.log('courses.component OnInit');
-    this.couresArr = this._courseServices.getList();
-    console.log(this.couresArr);
+    // this.coursesArr = this._courseServices.getList();
+    this.coursesArr = [];
+    console.log(this.coursesArr);
   }
   get count() {
     console.log('recalculate count');
-    return this.couresArr
+    return this.coursesArr
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
   }
 

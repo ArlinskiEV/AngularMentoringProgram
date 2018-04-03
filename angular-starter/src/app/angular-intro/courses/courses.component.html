@@ -3,8 +3,15 @@
   <p>Accepted count: {{count}}</p>
   <hr>
   <course>null</course>
-  <course *ngFor = "let item of couresArr"
-  [courseItem] = "item"
-  (handler) = "handler($event)"
-  ></course>
+  <div *ngIf = "coursesArr.length !== 0">
+    <course *ngFor = "let item of coursesArr"
+    [courseItem] = "item"
+    (handler) = "handler($event)"
+    ></course>
+  </div>
+  <div *ngIf = "coursesArr.length === 0">
+    <div class="message">
+      <p>Sorry, no Course in array</p>
+    </div>
+  </div>
 </div>
