@@ -1,0 +1,10 @@
+<p>Courses component {{ text }}</p>
+<div class="box">
+  <p>Accepted count: {{count}}</p>
+  <hr>
+  <course>null</course>
+  <course *ngFor = "let item of couresArr"
+  [courseItem] = "item"
+  (handler) = "handler($event)"
+  ></course>
+</div>
