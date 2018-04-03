@@ -2,14 +2,14 @@
 
 <div *ngIf="visible">
   <div class="message">
-    <h2>{{message}}</h2>
+    <h2>{{data.message}}</h2>
     <div class="buttons">
-      <button *ngFor = "let item of answersArr"
-      (click) = "item.click()"
-      >{{item.text}}</button>
+      <button *ngFor = "let item of data.answerArr"
+      (click) = "click(item)"
+      >{{item}}</button>
     </div>
     <i class="close far fa-times-circle"
-    (click) = "close()"
+    (click) = "click()"
     ></i>
   </div>
 </div>

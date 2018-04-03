@@ -7,9 +7,8 @@
       <h1>Angular</h1>
     </div>
   </div>
-  <div>
-    <p>courses</p>
-    <p>which element is it?</p>
+  <div *ngIf="owner!='login-page'">
+    <p>breadcrumbs</p>
   </div>
-  <login></login>
+  <userinfo *ngIf="isAuth"></userinfo>
 </div>

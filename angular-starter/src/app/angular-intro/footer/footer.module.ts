@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import {  LoginFormComponent  } from './loginform.component';
+import { FooterComponent } from './footer.component';
 
-console.log('`loginform` bundle loaded asynchronously');
+console.log('`Footer` bundle loaded asynchronously');
 
 @NgModule({
   declarations: [
     /**
      * Components / Directives/ Pipes
      */
-    LoginFormComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    LoginFormComponent,
+    FooterComponent,
   ],
 })
-export class LoginFormModule {}
+export class FooterModule {}

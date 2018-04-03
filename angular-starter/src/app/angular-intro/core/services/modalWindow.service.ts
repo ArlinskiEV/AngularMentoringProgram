@@ -1,27 +1,32 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ModalWindowServices {
-  public visible = false;
-  public message = 'Are you shure?';
-  public answerArr = ['Yes', 'No'];
-  protected callback: (message: string) => void;
+
+  public data = {
+    message: 'Are you shure?',
+    answerArr: ['Yes', 'No'],
+  };
+  private source: Observable<string>;
 
   constructor() {
     console.log('### ModalWindowServices constructor ###');
   }
 
-  public show(message: string, callback: (message: string) => void, answerArr = ['Yes', 'No']) {
+  public show(
+    message: string,
+    answerArr = ['Yes', 'No']
+  ): Observable<string> {
     console.log('### ModalWindowServices.show ###');
-    this.message = message;
-    this.answerArr = answerArr;
-    this.callback = callback;
-    this.visible = true;
+
+    this.data.message = message;
+    this.data.answerArr = answerArr;
+
+    return this.source;
   }
 
-  public answer(message: string) {
-    console.log(`### ModalWindowServices.answer:message: ${message} ###`);
-    this.callback(message);
-    this.visible = false;
+  public listenMe(source: Observable<string>) {
+    this.source = source;
   }
 }

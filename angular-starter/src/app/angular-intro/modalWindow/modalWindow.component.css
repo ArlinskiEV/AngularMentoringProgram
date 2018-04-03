@@ -26,10 +26,15 @@
 
 :host>div .message .close{
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
+  font-size: 1.3em;
 }
 :host>div .message .close:hover{
-  background-color: rgb(250, 118, 10);
+  background-color: rgb(250, 78, 10);
   border-radius: 50%;
+  -webkit-box-shadow: 0px 0px 5px 3px rgba(250, 78, 10, 1);
+  -moz-box-shadow: 0px 0px 5px 3px rgba(250, 78, 10, 1);
+  box-shadow: 0px 0px 5px 3px rgba(250, 78, 10, 1);
+
 }

@@ -20,9 +20,18 @@ import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { DevModuleModule } from './+dev-module';
 
+// --------------------------------------------------------------------
 import { IntroModule } from './angular-intro';
-import { CourseServices } from './angular-intro/core';
-import { ModalWindowServices } from './angular-intro/core/services/modalWindow.service';
+
+// CourseServices,
+// ModalWindowServices,
+// AuthorizationService,
+import * as INTRO_SERVICES from './angular-intro/core/services';
+
+function toArray(obj) {
+  return Object.keys(obj).map((k) => obj[k]);
+}
+// --------------------------------------------------------------------
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -31,8 +40,11 @@ import '../styles/headings.css';
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-  CourseServices,
-  ModalWindowServices,
+
+  // --------------------------------------------------------------------
+  ...toArray(INTRO_SERVICES),
+  // --------------------------------------------------------------------
+
 ];
 
 interface StoreType {
@@ -66,7 +78,9 @@ interface StoreType {
       preloadingStrategy: PreloadAllModules
     }),
 
+    // --------------------------------------------------------------------
     IntroModule,
+    // --------------------------------------------------------------------
 
     /**
      * This section will import the `DevModuleModule` only in certain build types.

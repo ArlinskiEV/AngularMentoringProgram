@@ -1,38 +1,43 @@
 import {
-  Component,
+  Component, OnInit,
 } from '@angular/core';
 
 import { ModalWindowServices } from '../core/services/modalWindow.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'modalWindow',
   templateUrl: './modalWindow.component.html',
   styleUrls: ['./modalWindow.component.css']
 })
-export class ModalWindowComponent {
-
+export class ModalWindowComponent implements OnInit {
+  private click: (answer: string) => void;
+  private visible = false;
+  private data = {
+    message: 'NoMessage',
+    answerArr: ['Yes', 'No'],
+  };
   constructor(private modalWindowServices: ModalWindowServices) {
     console.log('ModalWindowComponent constructor');
   }
 
-  protected handler(result: string) {
-    console.log(`modal ${result}`);
-    this.modalWindowServices.answer(result);
-  }
-  protected close() {
-    console.log(`modal was close without answer`);
-    this.modalWindowServices.answer('close');
-  }
-  get visible() {
-    return this.modalWindowServices.visible;
-  }
-  get message() {
-    return this.modalWindowServices.message;
-  }
-  get answersArr() {
-    return this.modalWindowServices.answerArr
-      .map((item) => {
-        return {click: () => this.handler(item), text: item};
-      });
+  public ngOnInit() {
+    console.log('ModalWindowComponent ngOnInit');
+    this.modalWindowServices.listenMe(
+
+      new Observable((observer) => {
+        this.data = this.modalWindowServices.data;
+        this.visible = true;
+
+        // --------- REALLY?????
+        this.click = (text) => {
+          observer.next(text ? text : 'Close');
+          this.visible = false;
+          observer.complete();
+        };
+
+      })
+
+    );
   }
 }
