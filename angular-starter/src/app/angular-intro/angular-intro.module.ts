@@ -12,7 +12,7 @@ import { LoaderBlockModule } from './loaderBlock';
 
 import { IntroComponent } from './angular-intro.component';
 import { StylelightModule } from './stylelight';
-import { DurationPipeModule } from './durationPipe';
+import { DurationPipeModule } from './core/pipes';
 
 console.log('`INTRO` bundle loaded asynchronously');
 

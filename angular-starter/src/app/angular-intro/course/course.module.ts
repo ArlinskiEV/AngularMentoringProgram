@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CourseComponent } from './course.component';
 import { StylelightModule } from '../stylelight';
-import { DurationPipeModule } from '../durationPipe';
+import { DurationPipeModule } from '../core/pipes';
 
 console.log('`CoursE` bundle loaded asynchronously');
 
@@ -18,7 +18,7 @@ console.log('`CoursE` bundle loaded asynchronously');
     CommonModule,
     FormsModule,
     StylelightModule,
-    DurationPipeModule
+    DurationPipeModule,
   ],
   exports: [
     CourseComponent,
