@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../entities';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 
 import { NgZone } from '@angular/core';
 

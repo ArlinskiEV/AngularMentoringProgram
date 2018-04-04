@@ -28,6 +28,7 @@ import {
   ModalWindowServices,
   AuthorizationService,
   LoaderBlockServices,
+  SearchService,
 } from './angular-intro/core/services';
 // import * as INTRO_SERVICES from './angular-intro/core/services';
 
@@ -51,6 +52,7 @@ const APP_PROVIDERS = [
   AuthorizationService,
   LoaderBlockServices,
   CourseServices,
+  SearchService,
   // --------------------------------------------------------------------
   FilterPipe,
   // --------------------------------------------------------------------

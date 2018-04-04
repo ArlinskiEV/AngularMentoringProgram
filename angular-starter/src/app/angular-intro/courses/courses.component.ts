@@ -7,6 +7,7 @@ import {
 import {
   CourseServices,
   LoaderBlockServices,
+  SearchService,
 } from '../core/services';
 import { FilterPipe, Course } from '../core';
 
@@ -24,6 +25,7 @@ export class CoursesComponent implements OnInit {
     private _loaderBlockServices: LoaderBlockServices,
     private _courseServices: CourseServices,
     private _filter: FilterPipe<Course>,
+    private _searchService: SearchService,
   ) {
     console.log('courses-constructor, Arr:');
     console.log(this.coursesArr);
@@ -32,15 +34,11 @@ export class CoursesComponent implements OnInit {
     console.log('courses.component OnInit');
     this.coursesArr = this._courseServices.getList();
 
-    if (true) { // filter trigger
-      this.coursesArr = this._filter.transform(
-        this.coursesArr,
-        {
-          field: 'name',
-          compareWith: 'n', // only with 'n' in name
-        }
-      );
-    }
+    // observable from service
+    this._searchService.getSearchData().subscribe((item) => {
+      this.coursesArr = this._filter.transform(this.coursesArr, item);
+    });
+
     console.log(this.coursesArr);
   }
   get count() {
