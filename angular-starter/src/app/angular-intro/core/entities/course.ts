@@ -1,10 +1,10 @@
-export class Course {
-  public id: number;
-  public name: string;
-  public duration: number; // +new Date()
-  public createdDate: number; // + new Date()
-  public tags: string[];
-  public isAccept: boolean;
-  public text: string;
-  public topRated: boolean;
+export interface Course {
+  id: number;
+  name: string;
+  duration: number; // +new Date()
+  createdDate: number; // + new Date()
+  tags: string[];
+  isAccept: boolean;
+  text: string;
+  topRated: boolean;
 }

@@ -8,10 +8,10 @@ import {
   pure: true,
 })
 export class DurationPipe implements PipeTransform {
-  public transform(time: number): string {
+  public transform(value: number): string {
     // hh h mm min. (ex: 1h 15min)
     let result = '';
-    const temp = new Date(time);
+    const temp = new Date(value);
     if (temp.getHours()) {
       result += temp.getHours() + 'h ';
     }

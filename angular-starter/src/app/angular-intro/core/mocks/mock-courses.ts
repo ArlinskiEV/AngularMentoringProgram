@@ -60,7 +60,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    createdDate: +new Date(2018, 3, 2),
+    createdDate: Date.now() - 24 * 60 * 60 * 1000,
     topRated: true,
   },
   {
@@ -70,7 +70,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    createdDate: +new Date(2018, 3, 4),
+    createdDate: Date.now() + 24 * 60 * 60 * 1000,
     topRated: false,
   },
   {

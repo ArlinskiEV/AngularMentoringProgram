@@ -1,4 +1,4 @@
-export class StyleRule {
-  public rule: string;
-  public value: string; // StyleRule
+export interface StyleRule {
+  rule: string;
+  value: string; // StyleRule
 }
