@@ -24,7 +24,22 @@
     <button (click) = "del()">delete</button>
   </div>
   <p class="tags">
-    <span *ngFor="let tag of courseItem.tags"
+    <span
+    *ngFor="let tag of courseItem.tags as tags; index as i"
+    appStylelight
+    [payload] = "{
+      data: i,
+      caseArr: [
+        {data: 0, setStyle: [{rule: 'background-color', value: 'red'}]},
+        {data: (tags.length - 1) / 2,
+          setStyle: [
+            {rule: 'background-color', value: 'black'},
+            {rule: 'color', value: 'red'}
+          ]
+        },
+        {data: tags.length - 1, setStyle: [{rule: 'background-color', value: 'red'}]}
+      ]
+    }"
     >{{tag}}</span
     >
   </p>
