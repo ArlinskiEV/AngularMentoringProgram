@@ -12,7 +12,7 @@ export class SearchService {
   public getSearchData() {
     return this.source.asObservable();
   }
-  public setSearchData(data: any) {
+  public setSearchData(data) {
     this.source.next(data);
   }
 }

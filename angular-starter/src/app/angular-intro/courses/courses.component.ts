@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import {
@@ -26,6 +27,7 @@ export class CoursesComponent implements OnInit {
     private _courseServices: CourseServices,
     private _filter: FilterPipe<Course>,
     private _searchService: SearchService,
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     console.log('courses-constructor, Arr:');
     console.log(this.coursesArr);
@@ -36,7 +38,8 @@ export class CoursesComponent implements OnInit {
 
     // observable from service
     this._searchService.getSearchData().subscribe((item) => {
-      this.coursesArr = this._filter.transform(this.coursesArr, item);
+      this.coursesArr = this._filter.transform(this._courseServices.getList(), item);
+      this._changeDetectorRef.markForCheck();
     });
 
     console.log(this.coursesArr);

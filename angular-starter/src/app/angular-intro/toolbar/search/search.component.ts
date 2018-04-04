@@ -6,6 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SearchService } from '../../core';
 
 @Component({
   selector: 'search',
@@ -16,11 +17,17 @@ import { FormsModule } from '@angular/forms';
 export class SearchComponent {
   protected searchText: string;
 
-  constructor() {
+  constructor(
+    private _searchService: SearchService
+  ) {
     this.searchText = '';
   }
 
   public find() {
     console.log(`search:'${this.searchText}'`);
+    this._searchService.setSearchData(this.searchText
+      ? {field: 'name', compareWith: this.searchText}
+      : null
+    );
   }
 }
