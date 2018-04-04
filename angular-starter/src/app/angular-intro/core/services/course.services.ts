@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { COURSES } from '../mocks';
 import { Course } from '../entities';
-import { LoaderBlockServices } from '../services';
+import { COURSES } from '../mocks';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+
+// import { LoaderBlockServices } from '../services';
 
 // i think that it is all (or part??) logic for work with enity
 // in this case entity = list of course
@@ -10,15 +13,18 @@ import { LoaderBlockServices } from '../services';
 @Injectable()
 export class CourseServices {
   private couresArr: Course[] = [];
+  private sourceList: BehaviorSubject<Course[]>;
   constructor(
     // private _loaderBlockServices: LoaderBlockServices
   ) {
     console.log('### CourseServices constructor ###');
-    this.couresArr = [...COURSES];
+    // this.couresArr = [...COURSES];
+    this.sourceList = new BehaviorSubject([...COURSES]);
   }
-  public getList(): Course[] {
+  public getList(): Observable<Course[]> {
     console.log('### CourseServices.getList ###');
-    return this.couresArr;
+    // return this.couresArr;
+    return this.sourceList.asObservable();
   }
   public createCourse(): number {
     console.log('### CourseServices.createCourse ###');

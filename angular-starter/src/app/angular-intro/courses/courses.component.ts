@@ -22,6 +22,9 @@ export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
   protected coursesArr: Course[] = [];
 
+  private fullCoursesArr: Course[] = [];
+  private filterData = null;
+
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
     private _courseServices: CourseServices,
@@ -30,15 +33,26 @@ export class CoursesComponent implements OnInit {
     private _changeDetectorRef: ChangeDetectorRef,
   ) {
     console.log('courses-constructor, Arr:');
-    console.log(this.coursesArr);
+    console.log(this.fullCoursesArr);
   }
   public ngOnInit() {
     console.log('courses.component OnInit');
-    this.coursesArr = this._courseServices.getList();
-
+    const listener = this._courseServices.getList().subscribe(
+      (data) => {
+        this.fullCoursesArr = data;
+        this.coursesArr = this._filter.transform(this.fullCoursesArr, this.filterData);
+        this._changeDetectorRef.markForCheck();
+      },
+      null,
+      () => listener.unsubscribe() // WHAT??
+    );
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // double code??
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // observable from service
     this._searchService.getSearchData().subscribe((item) => {
-      this.coursesArr = this._filter.transform(this._courseServices.getList(), item);
+      this.filterData = item;
+      this.coursesArr = this._filter.transform(this.fullCoursesArr, item);
       this._changeDetectorRef.markForCheck();
     });
 

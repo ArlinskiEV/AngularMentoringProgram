@@ -12,7 +12,6 @@ export class FilterPipe<T> implements PipeTransform {
     value: T[],
     payload: {field: string, compareWith: string, exact?: boolean} | null
   ): T[] {
-    console.warn('work');
     return (!payload)
       ? [...value]
       : [...value]
