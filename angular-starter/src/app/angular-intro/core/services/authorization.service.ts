@@ -19,11 +19,11 @@ export class AuthorizationService {
     console.log('### AuthorizationService constructor ###');
     this.mySource = new BehaviorSubject({login: ''});
 
-    // ----------------------------------------------------------------
-    _ngZone.onStable.subscribe(() => console.log(`ngZone Stable. now=${Date.now()}`));
-    // get onUnstable: EventEmitter<any>
-    _ngZone.onUnstable.subscribe(() => console.log(`ngZone UnStable. now=${Date.now()}`));
-    // get onStable: EventEmitter<any>
+    // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
+    let start = 0;
+    _ngZone.onUnstable.subscribe(() => start = Date.now());
+    _ngZone.onStable.subscribe(() =>
+      console.log(`ngZone Stable. unstable time=${Date.now() - start}`));
     // ----------------------------------------------------------------
 
   }

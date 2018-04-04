@@ -24,8 +24,8 @@ export class CourseComponent {
   @Input() protected courseItem: Course = {
     id: 0,
     name: 'NoName',
-    duration: { hours: -1, minuts: -1,  seconds: -1 },
-    date: +new Date(0, 0),
+    duration: +new Date(),
+    date: +new Date(),
     tags: ['error'],
     isAccept: false,
     text: 'error: it is an empty text',

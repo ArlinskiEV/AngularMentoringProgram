@@ -11,6 +11,8 @@ import { LoginPageModule } from './login-page';
 import { LoaderBlockModule } from './loaderBlock';
 
 import { IntroComponent } from './angular-intro.component';
+import { StylelightModule } from './stylelight';
+import { DurationPipeModule } from './durationPipe';
 
 console.log('`INTRO` bundle loaded asynchronously');
 
@@ -33,6 +35,11 @@ console.log('`INTRO` bundle loaded asynchronously');
     ModalWindowModule,
     LoginPageModule,
     LoaderBlockModule,
+
+    DurationPipeModule,
+
+    // what? i foget about this, but it was worked
+    StylelightModule, // need import only for itself?
 
   ],
   exports: [
