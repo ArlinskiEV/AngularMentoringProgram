@@ -8,6 +8,7 @@ import {
   CourseServices,
   LoaderBlockServices,
 } from '../core/services';
+import { FilterPipe, Course } from '../core';
 
 @Component({
   selector: 'courses',
@@ -17,11 +18,12 @@ import {
 })
 export class CoursesComponent implements OnInit {
   protected text = 'Courses TEXT';
-  protected coursesArr = [];
+  protected coursesArr: Course[] = [];
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
     private _courseServices: CourseServices,
+    private _filter: FilterPipe<Course>,
   ) {
     console.log('courses-constructor, Arr:');
     console.log(this.coursesArr);
@@ -29,7 +31,16 @@ export class CoursesComponent implements OnInit {
   public ngOnInit() {
     console.log('courses.component OnInit');
     this.coursesArr = this._courseServices.getList();
-    // this.coursesArr = [];
+
+    if (true) { // filter trigger
+      this.coursesArr = this._filter.transform(
+        this.coursesArr,
+        {
+          field: 'name',
+          compareWith: 'n', // only with 'n' in name
+        }
+      );
+    }
     console.log(this.coursesArr);
   }
   get count() {

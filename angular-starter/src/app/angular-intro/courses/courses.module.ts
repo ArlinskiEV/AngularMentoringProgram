@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { CoursesComponent } from './courses.component';
 import { CourseModule } from '../course';
-import { OrderByPipeModule } from '../core/pipes';
+import {
+  OrderByPipeModule,
+  FilterPipeModule,
+} from '../core/pipes';
 
 console.log('`Courses` bundle loaded asynchronously');
 
@@ -18,6 +21,7 @@ console.log('`Courses` bundle loaded asynchronously');
     CommonModule,
     CourseModule,
     OrderByPipeModule,
+    FilterPipeModule,
   ],
   exports: [
     CoursesComponent,

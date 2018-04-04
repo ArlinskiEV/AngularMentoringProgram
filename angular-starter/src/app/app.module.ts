@@ -38,6 +38,7 @@ function toArray(obj) {
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
+import { FilterPipe } from './angular-intro/core';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -50,6 +51,8 @@ const APP_PROVIDERS = [
   AuthorizationService,
   LoaderBlockServices,
   CourseServices,
+  // --------------------------------------------------------------------
+  FilterPipe,
   // --------------------------------------------------------------------
 
 ];

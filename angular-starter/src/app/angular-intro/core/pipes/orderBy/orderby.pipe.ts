@@ -13,7 +13,7 @@ export class OrderByPipe<T> implements PipeTransform {
       throw new Error('wrong order');
     }
     const isDesc: boolean = order === 'desc';
-    return value
+    return [...value]
       .sort((a: any, b: any) => field
         ? isDesc ? b[field] - a[field] : a[field] - b[field]
         : isDesc ? b - a : a - b
