@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { DurationPipe } from './duration.pipe';
+import { OrderByPipe } from './orderby.pipe';
 
 @NgModule({
   declarations: [
-    DurationPipe,
+    OrderByPipe,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    DurationPipe,
+    OrderByPipe,
   ],
 })
-export class DurationPipeModule {}
+export class OrderByPipeModule {}
