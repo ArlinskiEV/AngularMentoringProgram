@@ -56,17 +56,17 @@ export const COURSES: Course[] = [
   {
     id: 16,
     name: 'RubberMan',
-    duration: +new Date(0, 0, 0, 0, 0, 0),
+    duration: +new Date(0, 0, 0, 0, 80, 0),
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    createdDate: Date.now() - 24 * 60 * 60 * 1000,
+    createdDate: Date.now() - 2 * 24 * 60 * 60 * 1000,
     topRated: true,
   },
   {
     id: 17,
     name: 'Dynama',
-    duration: +new Date(0, 0, 0, 0, 0, 0),
+    duration: +new Date(0, 0, 0, 0, 50, 0),
     tags: ['mock-course', 'tag1', 'tag2'],
     isAccept: false,
     text: 'Just course description, or any other text.',
@@ -76,7 +76,7 @@ export const COURSES: Course[] = [
   {
     id: 18,
     name: 'Dr IQ',
-    duration: +new Date(0, 0, 0, 0, 0, 0),
+    duration: +new Date(0, 0, 0, 0, 30, 0),
     tags: ['mock-course', 'tag1', 'tag2', 'tag3', 'tag4'],
     isAccept: false,
     text: 'Just course description, or any other text.',
@@ -90,7 +90,7 @@ export const COURSES: Course[] = [
     tags: ['mock-course', 'tag1', 'tag2', 'tag3'],
     isAccept: false,
     text: 'Just course description, or any other text.',
-    createdDate: +new Date(1999, 10, 25),
+    createdDate: Date.now() - 15 * 24 * 60 * 60 * 1000,
     topRated: false,
   },
   {
