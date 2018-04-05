@@ -7,7 +7,7 @@ import { FilterRule } from '../entities';
 export class SearchService {
   // private source = new BehaviorSubject(null);
   private source: BehaviorSubject<FilterRule[]> = new BehaviorSubject([{
-    field: 'createdDate',
+    field: 'date',
     compareWith: null,
     interval: {
       start: + Date.now() - 14 * 24 * 60 * 60 * 1000,

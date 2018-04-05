@@ -23,8 +23,15 @@ export class CourseServices {
     this.sourceList = new BehaviorSubject(this.coursesArr);
     // ------------------------------------------------
     // task 6: 3) map
-    const represent = map( (data: any) => {
-        return [].concat(...data);
+    const represent = map<any[], Course[]>( (data: any) => {
+        return [].concat(...data.map((item) => {
+          const obj = {
+            ...item,
+            date: item.createdDate,
+          };
+          delete obj.createdDate;
+          return obj;
+        }));
       });
 
     const response = represent(

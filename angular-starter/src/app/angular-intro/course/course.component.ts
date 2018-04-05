@@ -25,7 +25,7 @@ export class CourseComponent {
     id: 0,
     name: 'NoName',
     duration: +new Date(),
-    createdDate: +new Date(),
+    date: +new Date(),
     tags: ['error'],
     isAccept: false,
     text: 'error: it is an empty text',

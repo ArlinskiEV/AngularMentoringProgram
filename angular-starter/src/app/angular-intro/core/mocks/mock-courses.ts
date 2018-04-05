@@ -2,7 +2,8 @@ import { Course } from '../entities';
 import { MyDate } from '../entities/date';
 
 // new Date(year, month, date, hours, minutes, seconds, ms)
-export const COURSES: Course[] = [
+// export const COURSES: Course[] = [
+export const COURSES: any[] = [
   {
     id: 11,
     name: 'Mr. Nice',
