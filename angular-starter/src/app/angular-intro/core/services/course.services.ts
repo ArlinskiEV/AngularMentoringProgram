@@ -12,24 +12,24 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CourseServices {
-  private couresArr: Course[] = [];
+  private coursesArr: Course[] = [];
   private sourceList: BehaviorSubject<Course[]>;
   constructor(
     // private _loaderBlockServices: LoaderBlockServices
   ) {
-    this.couresArr = [...COURSES];
-    this.sourceList = new BehaviorSubject([...COURSES]);
+    this.coursesArr = [...COURSES];
+    this.sourceList = new BehaviorSubject(this.coursesArr);
   }
   public getList(): Observable<Course[]> {
     console.log('### CourseServices.getList ###');
     return this.sourceList.asObservable();
   }
   public createCourse(newCourse: Course): void {
-    this.couresArr.push(newCourse);
-    this.sourceList.next([...this.couresArr]);
+    this.coursesArr.push(newCourse);
+    this.sourceList.next([...this.coursesArr]);
   }
   public getItemById(id: number): Course {
-    return this.couresArr.find((item) => item.id === id);
+    return this.coursesArr.find((item) => item.id === id);
   }
 
   // obj: {id: updateCourseId[, updateField: newValue,] }
@@ -39,15 +39,15 @@ export class CourseServices {
       ...current,
       ...obj,
     };
-    this.sourceList.next([...this.couresArr]);
+    this.sourceList.next([...this.coursesArr]);
   }
 
   public removeItem(id: number): void {
     // this._loaderBlockServices.Show();
-    const currentID = this.couresArr.findIndex((item) => item.id === id);
+    const currentID = this.coursesArr.findIndex((item) => item.id === id);
     if (currentID >= 0) {
-      this.couresArr.splice(currentID, 1);
-      this.sourceList.next(this.couresArr);
+      this.coursesArr.splice(currentID, 1);
+      this.sourceList.next(this.coursesArr);
     } else {
       console.warn('### CourseServices.removeItem:ERROR: wrong ID###');
     }
