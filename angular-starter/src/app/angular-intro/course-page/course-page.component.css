@@ -1,6 +1,13 @@
 :host /deep/>div{
-  color: palevioletred;
-  border: 3px solid rgb(43, 178, 219);
+  color: rgb(192, 2, 43);
+  border: 3px solid rgb(61, 43, 219);
   margin: 15px;
   padding: 15px;
+}
+
+.content {
+  background-color: rgb(44, 206, 206);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

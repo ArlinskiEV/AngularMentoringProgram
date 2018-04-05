@@ -17,4 +17,10 @@ export class CoursePageComponent {
   public click() {
     console.warn('it was click');
   }
+  public save() {
+    this.click();
+  }
+  public cancel() {
+    this.click();
+  }
 }
