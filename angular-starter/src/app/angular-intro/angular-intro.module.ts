@@ -13,6 +13,7 @@ import { LoaderBlockModule } from './loaderBlock';
 import { IntroComponent } from './angular-intro.component';
 import { StylelightModule } from './stylelight';
 import { DurationPipeModule } from './core/pipes';
+import { CoursePageModule } from './course-page';
 
 console.log('`INTRO` bundle loaded asynchronously');
 
@@ -34,6 +35,7 @@ console.log('`INTRO` bundle loaded asynchronously');
     CourseModule,
     ModalWindowModule,
     LoginPageModule,
+    CoursePageModule,
     LoaderBlockModule,
 
     DurationPipeModule,
