@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+// import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { User, SharedUserInfo } from '../entities';
 
@@ -8,15 +10,17 @@ import { NgZone } from '@angular/core';
 
 @Injectable()
 export class AuthorizationService {
-  public mySource: BehaviorSubject<SharedUserInfo>;
-  // object = {login: 'myLogin'}
+  // public mySource: BehaviorSubject<SharedUserInfo>;
+  public mySource: ReplaySubject<SharedUserInfo>;
   private user: User = {
     id: 0,
     userName: 'NoName(serv)',
   };
 
   constructor(private _ngZone: NgZone) {
-    this.mySource = new BehaviorSubject({login: ''});
+    // this.mySource = new BehaviorSubject({login: ''});
+    this.mySource = new ReplaySubject(1);
+    this.mySource.next({login: ''});
     // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
     _ngZone.onUnstable.subscribe(() => start = Date.now());
