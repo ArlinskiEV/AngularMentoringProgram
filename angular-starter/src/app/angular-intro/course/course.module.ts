@@ -5,13 +5,8 @@ import { CourseComponent } from './course.component';
 import { StylelightModule } from '../stylelight';
 import { DurationPipeModule } from '../core/pipes';
 
-console.log('`CoursE` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     CourseComponent,
   ],
   imports: [

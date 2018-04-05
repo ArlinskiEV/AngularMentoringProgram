@@ -21,12 +21,9 @@ export class ModalWindowComponent implements OnInit {
   constructor(
     private _modalWindowServices: ModalWindowServices,
     private _changeDetectorRef: ChangeDetectorRef,
-  ) {
-    console.log('ModalWindowComponent constructor');
-  }
+  ) {}
 
   public ngOnInit() {
-    console.log('ModalWindowComponent ngOnInit');
     this._modalWindowServices.listenMe(
 
       new Observable((observer) => {

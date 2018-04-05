@@ -20,7 +20,6 @@ export class ModalWindowServices {
     message: string,
     answerArr = ['Yes', 'No']
   ): Observable<string> {
-    console.log('### ModalWindowServices.show ###');
 
     this.data.message = message;
     this.data.answerArr = answerArr;

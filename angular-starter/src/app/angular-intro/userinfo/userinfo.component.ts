@@ -18,17 +18,12 @@ export class UserInfoComponent  implements OnInit {
   constructor(
     private _authorizationService: AuthorizationService,
     private _changeDetectorRef: ChangeDetectorRef,
-  ) {
-    console.log('UserInfoComponent constructor');
-  }
+  ) {}
 
   public ngOnInit() {
-    console.log('hello `userinfo` component');
-
     // because info must be actual
     this._authorizationService.getUserInfo().subscribe(
       (payload) => {
-        console.log(`userInfo accept data, payload:${JSON.stringify(payload)}`);
         this.login = payload.login
             ? payload.login
             : 'NoAuth';

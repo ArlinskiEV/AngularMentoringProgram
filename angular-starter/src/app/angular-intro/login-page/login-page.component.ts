@@ -15,13 +15,11 @@ export class LoginPageComponent {
   protected login: string;
   protected password: string;
   constructor(private _authorizationService: AuthorizationService) {
-    console.log('login-page-constructor');
     this.login = '';
     this.password = '';
   }
 
   public click() {
-    // console.log(`name:${this.login}, pass:${this.password}`);
     this._authorizationService.login({login: this.login, password: this.password});
   }
 }

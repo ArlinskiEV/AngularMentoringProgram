@@ -3,13 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { LoaderBlockComponent } from './loaderBlock.component';
 
-console.log('`LoaderBlock` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     LoaderBlockComponent,
   ],
   imports: [

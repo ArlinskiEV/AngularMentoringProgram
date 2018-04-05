@@ -17,7 +17,6 @@ export class CourseServices {
   constructor(
     // private _loaderBlockServices: LoaderBlockServices
   ) {
-    console.log('### CourseServices constructor ###');
     // this.couresArr = [...COURSES];
     this.sourceList = new BehaviorSubject([...COURSES]);
   }
@@ -27,18 +26,15 @@ export class CourseServices {
     return this.sourceList.asObservable();
   }
   public createCourse(): number {
-    console.log('### CourseServices.createCourse ###');
     return this.couresArr
       .reduce((prev, item) => item.id > prev ? item.id : prev, 0)
       + 1;
   }
   public getItemById(id: number): Course {
-    console.log('### CourseServices.getItemById ###');
     return this.couresArr.find((item) => item.id === id);
   }
   // obj: {id: updateCourseId[, updateField: newValue,] }
   public updateItem(obj): void {
-    console.log('### CourseServices.updateItem ###');
     let current = this.getItemById(obj.id);
     current = {
       ...current,
@@ -46,7 +42,6 @@ export class CourseServices {
     };
   }
   public removeItem(id: number): void {
-    console.log(`### CourseServices.removeItem id=${id}###`);
 
     // this._loaderBlockServices.Show();
 
@@ -54,7 +49,7 @@ export class CourseServices {
     if (currentID >= 0) {
       this.couresArr.splice(currentID, 1);
     } else {
-      console.log('### CourseServices.removeItem:ERROR: wrong ID###');
+      console.warn('### CourseServices.removeItem:ERROR: wrong ID###');
     }
 
     // settimeout(() =>this._loaderBlockServices.Hide(), 1000);

@@ -17,12 +17,9 @@ export class LoaderBlockComponent implements OnInit {
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
     private _changeDetectorRef: ChangeDetectorRef,
-  ) {
-    console.log('LoaderBlockComponent constructor');
-  }
+  ) {}
 
   public ngOnInit() {
-    console.log('LoaderBlockComponent ngOnInit');
     this._loaderBlockServices.source.asObservable().subscribe((payload) => {
       this.visible = payload.show;
       this._changeDetectorRef.markForCheck();

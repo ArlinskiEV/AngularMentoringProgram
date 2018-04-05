@@ -8,13 +8,8 @@ import {
   FilterPipeModule,
 } from '../core/pipes';
 
-console.log('`Courses` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     CoursesComponent,
   ],
   imports: [

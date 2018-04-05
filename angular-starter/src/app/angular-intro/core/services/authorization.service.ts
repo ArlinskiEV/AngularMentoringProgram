@@ -16,7 +16,6 @@ export class AuthorizationService {
   };
 
   constructor(private _ngZone: NgZone) {
-    console.log('### AuthorizationService constructor ###');
     this.mySource = new BehaviorSubject({login: ''});
 
     // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING

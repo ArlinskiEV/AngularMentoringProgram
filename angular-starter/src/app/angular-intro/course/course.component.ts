@@ -34,11 +34,7 @@ export class CourseComponent {
 
   @Output('handler') protected handler = new  EventEmitter();
 
-  constructor(
-    private _modalWindowService: ModalWindowServices,
-  ) {
-    console.log('course-constructor');
-  }
+  constructor(private _modalWindowService: ModalWindowServices, ) {}
 
   protected del() {
     console.log(`del from child, id:${this.courseItem.id}`);
@@ -61,11 +57,10 @@ export class CourseComponent {
               console.log('courseComponent: modal was closed without answer');
               break;
             }
-            default: console.log(`unknown modal message:${message}`);
+            default: console.warn(`unknown modal message:${message}`);
           }
         },
         (error) => console.error(`error in course.component:${error}`),
-        // () => { console.log('---------------------------course, done'); }
       );
 
   }

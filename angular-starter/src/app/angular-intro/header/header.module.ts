@@ -4,13 +4,8 @@ import { NgModule } from '@angular/core';
 import { HeaderComponent } from './header.component';
 import { UserInfoModule } from '../userinfo';
 
-console.log('`Header` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     HeaderComponent,
   ],
   imports: [

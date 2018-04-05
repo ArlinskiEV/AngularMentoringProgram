@@ -36,7 +36,6 @@ export class CoursesComponent implements OnInit {
     console.log(this.fullCoursesArr);
   }
   public ngOnInit() {
-    console.log('courses.component OnInit');
     const listener = this._courseServices.getList().subscribe(
       (data) => {
         this.fullCoursesArr = data;
@@ -59,7 +58,6 @@ export class CoursesComponent implements OnInit {
     console.log(this.coursesArr);
   }
   get count() {
-    console.log('recalculate count');
     return this.coursesArr
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
   }
@@ -69,10 +67,9 @@ export class CoursesComponent implements OnInit {
     switch (emit.type) {
       case 'deletter': {
         this._loaderBlockServices.Show();
-        console.log(`courses.deletter id=${emit.value}`);
         this._courseServices.removeItem(emit.value);
         // ...no service in service?
-        setTimeout( () => this._loaderBlockServices.Hide(), 3000);
+        setTimeout( () => this._loaderBlockServices.Hide(), 1500);
         break;
       }
     }

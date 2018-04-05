@@ -23,9 +23,7 @@ export class HeaderComponent implements OnInit {
     public _route: ActivatedRoute,
     private _authorizationService: AuthorizationService,
     private _changeDetectorRef: ChangeDetectorRef,
-  ) {
-    console.log('HeaderComponent constructor');
-  }
+  ) {}
 
   get isAuth() {
     return this._authorizationService.isAuthenticated();

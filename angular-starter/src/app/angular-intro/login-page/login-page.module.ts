@@ -7,13 +7,8 @@ import { LoginPageComponent } from './login-page.component';
 import { HeaderModule } from '../header';
 import { FooterModule } from '../footer';
 
-console.log('`login-page` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     LoginPageComponent,
   ],
   imports: [
