@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 export class ModalWindowServices {
 
   public data = {
-    message: 'Are you shure?',
+    message: 'Are you sure?',
     answerArr: ['Yes', 'No'],
     visible: false,
   };

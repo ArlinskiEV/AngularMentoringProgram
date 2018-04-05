@@ -26,8 +26,8 @@ export class SearchComponent {
   public find() {
     console.log(`search:'${this.searchText}'`);
     this._searchService.setSearchData(this.searchText
-      ? {field: 'name', compareWith: this.searchText}
-      : null
+      ? [{field: 'name', compareWith: this.searchText}]
+      : []
     );
   }
 }

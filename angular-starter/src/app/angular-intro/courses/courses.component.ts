@@ -23,7 +23,7 @@ export class CoursesComponent implements OnInit {
   protected coursesArr: Course[] = [];
 
   private fullCoursesArr: Course[] = [];
-  private filterData = null;
+  private filterData = [];
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
