@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Course } from '../entities';
 import { COURSES } from '../mocks';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 // import { LoaderBlockServices } from '../services';
 
@@ -17,8 +19,27 @@ export class CourseServices {
   constructor(
     // private _loaderBlockServices: LoaderBlockServices
   ) {
-    this.coursesArr = [...COURSES];
+    this.coursesArr = [];
     this.sourceList = new BehaviorSubject(this.coursesArr);
+    // ------------------------------------------------
+    // task 6: 3) map
+    const represent = map( (data: any) => {
+        return [].concat(...data);
+      });
+
+    const response = represent(
+        new Observable<any>( (observer) => {
+        // call server
+        // recive data
+        observer.next([...COURSES]);
+        // timer?
+        })
+    )
+      .subscribe((data) => {
+          this.sourceList.next(data);
+      })
+    ;
+    // ------------------------------------------------
   }
   public getList(): Observable<Course[]> {
     console.log('### CourseServices.getList ###');

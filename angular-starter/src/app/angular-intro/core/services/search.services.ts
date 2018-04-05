@@ -22,3 +22,5 @@ export class SearchService {
     this.source.next(data);
   }
 }
+
+console.error('click "find" with empty field');

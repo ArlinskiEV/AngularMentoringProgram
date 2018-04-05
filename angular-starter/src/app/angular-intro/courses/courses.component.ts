@@ -45,9 +45,7 @@ export class CoursesComponent implements OnInit {
       null,
       () => listener.unsubscribe() // WHAT??
     );
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // double code??
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     // observable from service
     this._searchService.getSearchData().subscribe((item) => {
       this.filterData = item;
