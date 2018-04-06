@@ -14,13 +14,11 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CourseServices {
-  private coursesArr: Course[] = [];
   private sourceList: BehaviorSubject<Course[]>;
   constructor(
     // private _loaderBlockServices: LoaderBlockServices
   ) {
-    this.coursesArr = [];
-    this.sourceList = new BehaviorSubject(this.coursesArr);
+    this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
     // task 6: 3) map
     const represent = map<any[], Course[]>( (data: any) => {
@@ -38,7 +36,6 @@ export class CourseServices {
       new Observable<any>( (observer) => {
       // call server
       // recive data
-      this.coursesArr = [...COURSES];
       observer.next([...COURSES]);
       // timer?
       })
@@ -54,29 +51,30 @@ export class CourseServices {
     return this.sourceList.asObservable();
   }
   public createCourse(newCourse: Course): void {
-    this.coursesArr.push(newCourse);
-    this.sourceList.next([...this.coursesArr]);
+    this.sourceList.next([...this.sourceList.value, newCourse]);
   }
   public getItemById(id: number): Course {
-    return this.coursesArr.find((item) => item.id === id);
+    return this.sourceList.value.find((item) => item.id === id);
   }
 
   // obj: {id: updateCourseId[, updateField: newValue,] }
   public updateItem(obj): void {
-    let current = this.getItemById(obj.id);
-    current = {
-      ...current,
-      ...obj,
+    const arr = this.sourceList.value;
+    const i = arr.findIndex((item) => item.id === obj.id);
+    arr[i] = {
+      ...arr[i],
+      ...obj
     };
-    this.sourceList.next([...this.coursesArr]);
+    this.sourceList.next([...arr]);
   }
 
   public removeItem(id: number): void {
     // this._loaderBlockServices.Show();
-    const currentID = this.coursesArr.findIndex((item) => item.id === id);
+    const currentID = this.sourceList.value.findIndex((item) => item.id === id);
     if (currentID >= 0) {
-      this.coursesArr.splice(currentID, 1);
-      this.sourceList.next(this.coursesArr);
+      const arr = this.sourceList.value;
+      arr.splice(currentID, 1);
+      this.sourceList.next([...arr]);
     } else {
       console.warn(`### CourseServices.removeItem:ERROR: wrong ID=${id}###`);
     }

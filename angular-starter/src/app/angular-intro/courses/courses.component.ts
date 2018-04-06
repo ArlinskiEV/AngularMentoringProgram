@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -11,6 +12,7 @@ import {
   SearchService,
 } from '../core/services';
 import { FilterPipe, Course } from '../core';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'courses',
@@ -18,12 +20,14 @@ import { FilterPipe, Course } from '../core';
   styleUrls: ['./courses.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   protected text = 'Courses TEXT';
   protected coursesArr: Course[] = [];
 
   private fullCoursesArr: Course[] = [];
   private filterData = [];
+
+  private listener: Subscription;
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
@@ -36,14 +40,12 @@ export class CoursesComponent implements OnInit {
     console.log(this.fullCoursesArr);
   }
   public ngOnInit() {
-    const listener = this._courseServices.getList().subscribe(
+    this.listener = this._courseServices.getList().subscribe(
       (data) => {
         this.fullCoursesArr = data;
         this.coursesArr = this._filter.transform(this.fullCoursesArr, this.filterData);
         this._changeDetectorRef.markForCheck();
-      },
-      null,
-      () => listener.unsubscribe() // WHAT??
+      }
     );
 
     // observable from service
@@ -55,6 +57,11 @@ export class CoursesComponent implements OnInit {
 
     console.log(this.coursesArr);
   }
+
+  public ngOnDestroy() {
+    this.listener.unsubscribe();
+  }
+
   get count() {
     return this.coursesArr
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
