@@ -11,7 +11,9 @@ import {
   LoaderBlockServices,
   SearchService,
 } from '../core/services';
-import { FilterPipe, Course } from '../core';
+import { FilterPipe } from '../core/pipes';
+import { Course, FilterRule } from '../core/entities';
+
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -23,11 +25,9 @@ import { Subscription } from 'rxjs/Subscription';
 export class CoursesComponent implements OnInit, OnDestroy {
   protected text = 'Courses TEXT';
   protected coursesArr: Course[] = [];
-
   private fullCoursesArr: Course[] = [];
-  private filterData = [];
-
-  private listeners: Subscription[];
+  private filterData: FilterRule[] = [];
+  private listeners: Subscription[] = [];
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
