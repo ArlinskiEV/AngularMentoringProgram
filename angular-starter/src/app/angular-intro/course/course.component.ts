@@ -34,34 +34,41 @@ export class CourseComponent {
 
   @Output('handler') protected handler = new  EventEmitter();
 
-  constructor(private _modalWindowService: ModalWindowServices, ) {}
+  constructor(
+    private _modalWindowService: ModalWindowServices,
+  ) {}
 
   protected del() {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService
-    const listener = this._modalWindowService.show(`HEY! are you sure? id=${this.courseItem.id}`)
-      .subscribe(
-        // callback ... o_O
-        (message: string) => {
-          switch (message) {
-            case 'Yes': { // only in this case need call parent
-              this.handler.emit({type: 'deletter', value: this.courseItem.id});
-              break;
-            }
-            case 'No': {
-              console.log('modal was declined');
-              break;
-            }
-            case 'Close': {
-              console.log('courseComponent: modal was closed without answer');
-              break;
-            }
-            default: console.warn(`unknown modal message:${message}`);
+    const listener = this._modalWindowService
+    .show({
+      message: `HEY! are you sure? id=${this.courseItem.id}`,
+      answerArr: ['Yes', 'No']
+    })
+    .subscribe(
+      // callback ... o_O
+      (message: string) => {
+        switch (message) {
+          case 'Yes': { // only in this case need call parent
+            this.handler.emit({type: 'deletter', value: this.courseItem.id});
+            break;
           }
-        },
-        (error) => console.error(`error in course.component:${error}`),
-      );
+          case 'No': {
+            console.log('modal was declined');
+            break;
+          }
+          case 'Close': {
+            console.log('courseComponent: modal was closed without answer');
+            break;
+          }
+          default: console.warn(`unknown modal message:${message}`);
+        }
+        listener.unsubscribe();
+      },
+      (error) => console.error(`error in course.component:${error}`),
+    );
 
   }
 }

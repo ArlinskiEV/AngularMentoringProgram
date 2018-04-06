@@ -24,27 +24,28 @@ export class CourseServices {
     // ------------------------------------------------
     // task 6: 3) map
     const represent = map<any[], Course[]>( (data: any) => {
-        return [].concat(...data.map((item) => {
-          const obj = {
-            ...item,
-            date: item.createdDate,
-          };
-          delete obj.createdDate;
-          return obj;
-        }));
-      });
+      return [].concat(...data.map((item) => {
+        const obj = {
+          ...item,
+          date: item.createdDate,
+        };
+        delete obj.createdDate;
+        return obj;
+      }));
+    });
 
     const response = represent(
-        new Observable<any>( (observer) => {
-        // call server
-        // recive data
-        observer.next([...COURSES]);
-        // timer?
-        })
-    )
-      .subscribe((data) => {
-          this.sourceList.next(data);
+      new Observable<any>( (observer) => {
+      // call server
+      // recive data
+      this.coursesArr = [...COURSES];
+      observer.next([...COURSES]);
+      // timer?
       })
+    )
+    .subscribe((data) => {
+      this.sourceList.next(data);
+    })
     ;
     // ------------------------------------------------
   }
@@ -77,7 +78,7 @@ export class CourseServices {
       this.coursesArr.splice(currentID, 1);
       this.sourceList.next(this.coursesArr);
     } else {
-      console.warn('### CourseServices.removeItem:ERROR: wrong ID###');
+      console.warn(`### CourseServices.removeItem:ERROR: wrong ID=${id}###`);
     }
     // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
   }
