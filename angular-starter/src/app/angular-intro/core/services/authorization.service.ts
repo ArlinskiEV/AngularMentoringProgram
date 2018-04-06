@@ -7,6 +7,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { User, SharedUserInfo } from '../entities';
 
 import { NgZone } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class AuthorizationService {
@@ -23,9 +24,13 @@ export class AuthorizationService {
     this.mySource.next({login: ''});
     // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
-    _ngZone.onUnstable.subscribe(() => start = Date.now());
-    _ngZone.onStable.subscribe(() =>
-      console.log(`ngZone Stable. unstable time=${Date.now() - start}`));
+    const stable: Subscription = _ngZone.onUnstable.subscribe(() => start = Date.now(), null,
+      () => stable.unsubscribe()
+    );
+    const unstable: Subscription = _ngZone.onStable.subscribe(() =>
+      console.log(`ngZone Stable. unstable time=${Date.now() - start}`), null,
+      () => unstable.unsubscribe()
+    );
     // ----------------------------------------------------------------
   }
 

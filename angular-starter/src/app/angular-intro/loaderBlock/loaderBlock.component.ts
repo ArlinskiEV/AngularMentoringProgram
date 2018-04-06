@@ -1,9 +1,14 @@
 import {
-  Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { LoaderBlockServices } from '../core/services';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'loaderBlock',
@@ -11,8 +16,9 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./loaderBlock.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoaderBlockComponent implements OnInit {
+export class LoaderBlockComponent implements OnInit, OnDestroy {
   private visible = false;
+  private listener: Subscription;
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
@@ -20,9 +26,12 @@ export class LoaderBlockComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this._loaderBlockServices.source.asObservable().subscribe((payload) => {
+    this.listener = this._loaderBlockServices.source.asObservable().subscribe((payload) => {
       this.visible = payload.show;
       this._changeDetectorRef.markForCheck();
     });
+  }
+  public ngOnDestroy() {
+    this.listener.unsubscribe();
   }
 }

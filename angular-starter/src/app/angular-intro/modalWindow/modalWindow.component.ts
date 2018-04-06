@@ -24,6 +24,7 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
   private data: Observable<ModalRule>;
   private message: string;
   private answerArr: string[];
+
   constructor(
     private _modalWindowServices: ModalWindowServices,
     private _changeDetectorRef: ChangeDetectorRef,

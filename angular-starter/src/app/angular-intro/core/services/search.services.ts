@@ -5,7 +5,6 @@ import { FilterRule } from '../entities';
 
 @Injectable()
 export class SearchService {
-  // private source = new BehaviorSubject(null);
   private source: BehaviorSubject<FilterRule[]> = new BehaviorSubject([{
     field: 'date',
     compareWith: null,

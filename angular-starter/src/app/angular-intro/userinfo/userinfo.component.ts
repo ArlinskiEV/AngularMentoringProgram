@@ -1,10 +1,12 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
 import { AuthorizationService } from '../core/services';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'userinfo',
@@ -13,8 +15,9 @@ import { AuthorizationService } from '../core/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class UserInfoComponent  implements OnInit {
+export class UserInfoComponent  implements OnInit, OnDestroy {
   private login = 'NoName';
+  private listener: Subscription;
   constructor(
     private _authorizationService: AuthorizationService,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -22,7 +25,7 @@ export class UserInfoComponent  implements OnInit {
 
   public ngOnInit() {
     // because info must be actual
-    this._authorizationService.getUserInfo().subscribe(
+    this.listener = this._authorizationService.getUserInfo().subscribe(
       (payload) => {
         this.login = payload.login
             ? payload.login
@@ -31,6 +34,10 @@ export class UserInfoComponent  implements OnInit {
       },
     );
 
+  }
+
+  public ngOnDestroy() {
+    this.listener.unsubscribe();
   }
 
   public click() {

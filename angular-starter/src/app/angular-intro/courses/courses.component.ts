@@ -27,7 +27,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   private fullCoursesArr: Course[] = [];
   private filterData = [];
 
-  private listener: Subscription;
+  private listeners: Subscription[];
 
   constructor(
     private _loaderBlockServices: LoaderBlockServices,
@@ -40,26 +40,26 @@ export class CoursesComponent implements OnInit, OnDestroy {
     console.log(this.fullCoursesArr);
   }
   public ngOnInit() {
-    this.listener = this._courseServices.getList().subscribe(
+    this.listeners.push(this._courseServices.getList().subscribe(
       (data) => {
         this.fullCoursesArr = data;
         this.coursesArr = this._filter.transform(this.fullCoursesArr, this.filterData);
         this._changeDetectorRef.markForCheck();
       }
-    );
+    ));
 
     // observable from service
-    this._searchService.getSearchData().subscribe((item) => {
+    this.listeners.push(this._searchService.getSearchData().subscribe((item) => {
       this.filterData = item;
       this.coursesArr = this._filter.transform(this.fullCoursesArr, item);
       this._changeDetectorRef.markForCheck();
-    });
+    }));
 
     console.log(this.coursesArr);
   }
 
   public ngOnDestroy() {
-    this.listener.unsubscribe();
+    this.listeners.forEach((item) => item.unsubscribe());
   }
 
   get count() {
