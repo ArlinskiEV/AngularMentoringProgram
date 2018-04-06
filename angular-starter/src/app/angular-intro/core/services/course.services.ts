@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Course } from '../entities';
+import { Course, CourseFromServer } from '../entities';
 import { COURSES } from '../mocks';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -21,7 +21,7 @@ export class CourseServices {
     this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
     // task 6: 3) map
-    const represent = map<any[], Course[]>( (data: any) => {
+    const represent = map<CourseFromServer[], Course[]>( (data: any) => {
       return [].concat(...data.map((item) => {
         const obj = {
           ...item,

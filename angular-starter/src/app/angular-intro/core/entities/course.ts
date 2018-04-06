@@ -8,3 +8,19 @@ export interface Course {
   text: string;
   topRated: boolean;
 }
+
+interface Author {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+export interface CourseFromServer {
+  id: number;
+  name: string;
+  description: string;
+  isTopRated: false;
+  date: string; // Date
+  authors: Author[];
+  length: number;
+}
