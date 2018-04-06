@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-// import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+// import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-
-import { User, SharedUserInfo } from '../entities';
+import { User, SharedUserInfo, UserFromServer } from '../entities';
 
 import { NgZone } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -15,16 +14,17 @@ import {
   HttpEvent,
   HttpHeaders,
   HttpParams,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 
 import { HttpParamsOptions } from '@angular/common/http/src/params';
 
 @Injectable()
 export class AuthorizationService {
-  // public mySource: BehaviorSubject<SharedUserInfo>;
-  public mySource: ReplaySubject<SharedUserInfo>;
+  public mySource: BehaviorSubject<SharedUserInfo>;
+  // public mySource: ReplaySubject<SharedUserInfo>;
   private user: User | null = null;
+  private token: string;
 
   private baseUrl = 'http://localhost:3004';
 
@@ -32,9 +32,9 @@ export class AuthorizationService {
     private _ngZone: NgZone,
     private http: HttpClient,
   ) {
-    // this.mySource = new BehaviorSubject({login: ''});
-    this.mySource = new ReplaySubject(1);
-    this.mySource.next({login: ''});
+    this.mySource = new BehaviorSubject(null);
+    // this.mySource = new ReplaySubject(1);
+    // this.mySource.next({login: ''});
     // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
     const stable: Subscription = _ngZone.onUnstable.subscribe(() => start = Date.now(), null,
@@ -50,15 +50,6 @@ export class AuthorizationService {
   public login(payload: {login: string, password: any}): void {// how do it right??
     // Login (stores fake user info and token to local storage)
 
-    // ----------------------------------------------------------------
-    // verify
-    console.log(`name:${payload.login}, pass:${payload.password}`);
-    this.user = {
-      id: Math.trunc(1 + Math.random() * 10),
-      userName: payload.login,
-      token: 'fakeToken',
-    };
-    // ----------------------------------------------------------------
     // const path = '/auth/login';
     // req.body.login (.toUpperCase) ===
     // req.body.password ===
@@ -72,11 +63,10 @@ export class AuthorizationService {
     const req = new HttpRequest(
       method,
       url,
-      payload,
+      payload, // --------- !!!!!!!!!
       {
         headers,
         reportProgress: false,
-        // params: new HttpParams(options),
         params: new HttpParams(),
         responseType: 'json',
         withCredentials: false
@@ -87,26 +77,70 @@ export class AuthorizationService {
       .subscribe(
         (data: HttpResponse<any>) => {
           if (data.type) {
-            this.user.token = data.body.token;
+            this.token = data.body.token;
+          }
+        },
+        (error) => console.error(`ERROR: ${error.error}`),
+        () => {
+          listener.unsubscribe();
+          this.getInfo();
+        }
+      );
+    // ----------------------------------------------------------------
+    // this.mySource.next({login: this.user.userName});
+  }
+  public logout(): void {
+    // Logout (wipes fake user info and token from local storage)
+    this.token = null;
+    this.user = null;
+    this.mySource.next({login: '', name: {first: 'noName', last: 'noName'}});
+  }
+  public isAuthenticated(): boolean {
+    // IsAuthenticated (boolean)
+    return !!this.user;
+    // or this.token ? case: recive token without info
+  }
+  public getUserInfo(): Observable<SharedUserInfo> {
+    return this.mySource.asObservable();
+  }
+
+  private getInfo() {
+    const url = `${this.baseUrl}/auth/userinfo`;
+    const method = 'POST';
+    // ----------------- !!!!!!!!!!!!!!!!!!!!
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', this.token);
+
+    const req = new HttpRequest(
+      method,
+      url,
+      {payload: 'I_WANT_INFO'},
+      {
+        headers,
+        reportProgress: false,
+        params: new HttpParams(),
+        responseType: 'json',
+        withCredentials: false
+      }
+    );
+    // ----------------------------------------
+    const listener = this.http.request(req)
+      .subscribe(
+        (data: HttpResponse<any>) => {
+          if (data.type) {
+            const obj: any = {
+              ...data.body,
+              token: data.body.fakeToken
+            };
+            delete obj.fakeToken;
+            this.user = obj;
+            this.mySource.next({login: this.user.login, name: this.user.name});
           }
         },
         (error) => console.error(`ERROR: ${error.error}`),
         () => listener.unsubscribe()
       );
-    // ----------------------------------------------------------------
-    this.mySource.next({login: this.user.userName});
-  }
-  public logout(): void {
-    // Logout (wipes fake user info and token from local storage)
-    this.user = null;
-    this.mySource.next({login: ''});
-  }
-  public isAuthenticated(): boolean {
-    // IsAuthenticated (boolean)
-    return !!this.user;
-  }
-  public getUserInfo(): Observable<SharedUserInfo> {
-    return this.mySource.asObservable();
+    // ----------------------------------------
   }
 
 }

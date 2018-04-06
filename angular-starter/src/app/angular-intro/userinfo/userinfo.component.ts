@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
+import { SharedUserInfo } from '../core';
 
 @Component({
   selector: 'userinfo',
@@ -16,7 +17,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class UserInfoComponent  implements OnInit, OnDestroy {
-  private login = 'NoName';
+  private user: SharedUserInfo;
   private listener: Subscription;
   constructor(
     private _authorizationService: AuthorizationService,
@@ -27,9 +28,7 @@ export class UserInfoComponent  implements OnInit, OnDestroy {
     // because info must be actual
     this.listener = this._authorizationService.getUserInfo().subscribe(
       (payload) => {
-        this.login = payload.login
-            ? payload.login
-            : 'NoAuth';
+        this.user = payload;
         this._changeDetectorRef.markForCheck();
       },
     );
