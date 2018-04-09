@@ -14,15 +14,14 @@ import { NgZone } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import {
-  HttpClient,
-  HttpRequest,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-} from '@angular/common/http';
-
-import { HttpParamsOptions } from '@angular/common/http/src/params';
+  Http,
+  Response,
+  Request,
+  RequestOptions,
+  Headers,
+  URLSearchParams,
+  RequestMethod
+} from '@angular/http';
 
 @Injectable()
 export class AuthorizationService {
@@ -35,7 +34,7 @@ export class AuthorizationService {
 
   constructor(
     private _ngZone: NgZone,
-    private http: HttpClient,
+    private http: Http,
   ) {
     console.log('### AuthorizationService constructor ###');
     this.mySource = new BehaviorSubject(null);
@@ -60,31 +59,21 @@ export class AuthorizationService {
     // req.body.login (.toUpperCase) ===
     // req.body.password ===
 
-    const url = `${this.baseUrl}/auth/login`;
-    const method = 'POST';
-    const headers = new HttpHeaders();
-    const options = {
-      fromObject: payload,
-    };
-    const req = new HttpRequest(
-      method,
-      url,
-      payload, // --------- !!!!!!!!!
-      {
-        headers,
-        reportProgress: false,
-        params: new HttpParams(),
-        responseType: 'json',
-        withCredentials: false
-      }
-    );
+    const headers = new Headers();
+    const requestOptions = new RequestOptions();
+    headers.set('My-Header', 'myValue');
+    requestOptions.url = `${this.baseUrl}/auth/login`;
+    requestOptions.method = RequestMethod.Post;
+    requestOptions.headers = headers;
+    requestOptions.body = payload;
+    const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const listener = this.http.request(req)
+    const listener = this.http.request(request)
+      .map((res: Response) => res.json())
       .subscribe(
-        (data: HttpResponse<any>) => {
-          if (data.type) {
-            this.token = data.body.token;
-          }
+        (data: any) => {
+          // console.warn(data);
+          this.token = data.token;
         },
         (error) => console.error(`ERROR: ${error.error}`),
         () => {
@@ -92,9 +81,8 @@ export class AuthorizationService {
           this.getInfo();
         }
       );
-    // ----------------------------------------------------------------
-    // this.mySource.next({login: this.user.userName});
   }
+
   public logout(): void {
     // Logout (wipes fake user info and token from local storage)
     this.token = null;
@@ -111,42 +99,34 @@ export class AuthorizationService {
   }
 
   private getInfo() {
-    const url = `${this.baseUrl}/auth/userinfo`;
-    const method = 'POST';
-    // ----------------- !!!!!!!!!!!!!!!!!!!!
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', this.token);
+    const headers = new Headers();
+    const requestOptions = new RequestOptions();
 
-    const req = new HttpRequest(
-      method,
-      url,
-      {payload: 'I_WANT_INFO'},
-      {
-        headers,
-        reportProgress: false,
-        params: new HttpParams(),
-        responseType: 'json',
-        withCredentials: false
+    headers.set('Authorization', this.token);
+    requestOptions.url = `${this.baseUrl}/auth/userinfo`;
+    requestOptions.method = RequestMethod.Post;
+    requestOptions.headers = headers;
+
+    const request = new Request(requestOptions);
+    // ----------------------------------------------------------------
+    const listener = this.http.request(request)
+    .map((res: Response) => res.json())
+    .map((data) => {console.warn(data); return data; })
+    .subscribe(
+      (data: any) => {
+        const obj: any = {
+          ...data,
+          token: data.fakeToken
+        };
+        delete obj.fakeToken;
+        this.user = obj;
+        this.mySource.next({login: this.user.login, name: this.user.name});
+      },
+      (error) => console.error(`ERROR: ${error.error}`),
+      () => {
+        listener.unsubscribe();
       }
     );
-    // ----------------------------------------
-    const listener = this.http.request(req)
-      .subscribe(
-        (data: HttpResponse<any>) => {
-          if (data.type) {
-            const obj: any = {
-              ...data.body,
-              token: data.body.fakeToken
-            };
-            delete obj.fakeToken;
-            this.user = obj;
-            this.mySource.next({login: this.user.login, name: this.user.name});
-          }
-        },
-        (error) => console.error(`ERROR: ${error.error}`),
-        () => listener.unsubscribe()
-      );
-    // ----------------------------------------
   }
 
 }

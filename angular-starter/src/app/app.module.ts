@@ -40,6 +40,7 @@ function toArray(obj) {
 import '../styles/styles.scss';
 import '../styles/headings.css';
 import { FilterPipe } from './angular-intro/core';
+import { HttpModule } from '@angular/http';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -81,6 +82,9 @@ interface StoreType {
    * Import Angular's modules.
    */
   imports: [
+    // --------------------------------------------------------------------
+    HttpModule,
+    // --------------------------------------------------------------------
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
