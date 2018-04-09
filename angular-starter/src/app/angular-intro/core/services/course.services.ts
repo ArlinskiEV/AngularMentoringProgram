@@ -29,6 +29,7 @@ import {
 export class CourseServices {
   private sourceList: BehaviorSubject<Course[]>;
   private baseUrl = BASE_URL;
+  private end = 0;
   constructor(
     // private _loaderBlockServices: LoaderBlockServices,
     private http: Http,
@@ -40,9 +41,14 @@ export class CourseServices {
     const listener: Subscription = new Observable<any>( (observer) => {
       // call server
       // recive data
-      observer.next([...COURSES]);
-      // observer.next(this.server());
-      this.server();
+      // observer.next([...COURSES]);
+      // observer.next(this.server(0, 3));
+      const listener2 = this.server(0, 3).subscribe(
+        (data) => observer.next(data),
+        null,
+        () => listener2.unsubscribe()
+      );
+
     }) // transform server-map -> client-map
       .map((data: any) => {
         return [].concat(...data.map((item) => {
@@ -98,20 +104,32 @@ export class CourseServices {
     // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
   }
 
-  private server(): void {
-    // const url = `${this.baseUrl}/courses`;
+  public loadMoreItem(count: number) {
+    const listener = this.server(this.end, count)
+      .subscribe((data: Course[]) => {
+        // this.sourceList.next(data);
+        this.end += count;
+        this.sourceList.next([
+          ...this.sourceList.value,
+          ...data
+        ]);
+      },
+        null,
+        () => listener.unsubscribe()
+      );
+  }
+
+  private server(start: number, count: number): Observable<Course[]> {
     const headers = new Headers();
     const requestOptions = new RequestOptions();
     const urlParams: URLSearchParams = new URLSearchParams();
 
-    const pageNumber = 2;
-    const count = 3; // count courses on page
-    const start = (pageNumber - 1) * count; // from 0
+    // const pageNumber = 2;
+    // const pageNumber = 1;
+    // const count = 3; // count courses on page
+    // const start = (pageNumber - 1) * count; // from 0
     urlParams.set('start', '' + start);
     urlParams.set('count', '' + count);
-
-    // urlParams.set('sort', '');
-    // urlParams.set('query', '');
     headers.set('My-Header', 'myValue');
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Get;
@@ -119,7 +137,7 @@ export class CourseServices {
     requestOptions.search = urlParams;
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const listener = this.http.request(request)
+    return this.http.request(request)
       .map((res: Response) => res.json())
       // ------------------------------------------------
       // transform
@@ -141,14 +159,8 @@ export class CourseServices {
           return obj;
         });
       })
+      ;
       // ------------------------------------------------
-      .subscribe((data: Course[]) => {
-        // debugger;
-        console.log(data);
-        this.sourceList.next(data);
-      },
-        null,
-        () => listener.unsubscribe());
   }
 
 }

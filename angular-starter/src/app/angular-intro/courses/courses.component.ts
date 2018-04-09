@@ -81,4 +81,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected loadMore() {
+    this._courseServices.loadMoreItem(3);
+  }
+
 }
