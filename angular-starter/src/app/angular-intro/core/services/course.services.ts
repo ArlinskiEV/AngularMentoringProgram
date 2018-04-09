@@ -94,14 +94,53 @@ export class CourseServices {
 
   public removeItem(id: number): void {
     // this._loaderBlockServices.Show();
-    const currentID = this.sourceList.value.findIndex((item) => item.id === id);
-    if (currentID >= 0) {
-      const arr = this.sourceList.value;
-      arr.splice(currentID, 1);
-      this.sourceList.next([...arr]);
-    } else {
-      console.warn(`### CourseServices.removeItem:ERROR: wrong ID=${id}###`);
-    }
+
+    // const currentID = this.sourceList.value.findIndex((item) => item.id === id);
+    // if (currentID >= 0) {
+    //   const arr = this.sourceList.value;
+    //   arr.splice(currentID, 1);
+    //   this.sourceList.next([...arr]);
+    // } else {
+    //   console.warn(`### CourseServices.removeItem:ERROR: wrong ID=${id}###`);
+    // }
+
+    const headers = new Headers();
+    const requestOptions = new RequestOptions();
+    const urlParams: URLSearchParams = new URLSearchParams();
+
+    urlParams.set('id', '' + id);
+    headers.set('My-Header', 'myValue');
+
+    requestOptions.url = `${this.baseUrl}/courses`;
+    requestOptions.method = RequestMethod.Delete;
+    requestOptions.headers = headers;
+    requestOptions.search = urlParams;
+
+    const request = new Request(requestOptions);
+    // ----------------------------------------------------------------
+    const listener = this.http.request(request)
+      .map((res: Response) => res.json())
+      // ------------------------------------------------
+      .subscribe(
+        (data) => {
+          // confirm delete
+          console.warn(`accept:${data}`);
+        },
+        null,
+        () => {
+          listener.unsubscribe();
+          this.end = 0;
+          // recall server
+          const listener2 = this.server({start: this.end, count: 3})
+            .subscribe(
+              (data) => this.sourceList.next(data),
+              null,
+              () => listener2.unsubscribe()
+            )
+          ;
+        }
+      )
+    ;
     // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
   }
 
