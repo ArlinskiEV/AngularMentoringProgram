@@ -1,34 +1,50 @@
 import { Injectable } from '@angular/core';
-
-import { Course, CourseFromServer } from '../entities';
-import { COURSES } from '../mocks';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { Observable } from 'rxjs/Observable';
-
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 
-// import { LoaderBlockServices } from '../services';
+import {
+  Course,
+  CourseFromServer,
+  UpdateCourseItem,
+  BASE_URL
+} from '../entities';
 
-// i think that it is all (or part??) logic for work with enity
-// in this case entity = list of course
+import { COURSES } from '../mocks';
+
+import {
+  HttpClient,
+  HttpRequest,
+  HttpEvent,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
+
+import { HttpParamsOptions } from '@angular/common/http/src/params';
+import { URLSearchParams } from 'url';
+
+// import { LoaderBlockServices } from '../services';
 
 @Injectable()
 export class CourseServices {
   private sourceList: BehaviorSubject<Course[]>;
+  private baseUrl = BASE_URL;
   constructor(
-    // private _loaderBlockServices: LoaderBlockServices
+    // private _loaderBlockServices: LoaderBlockServices,
+    private http: HttpClient,
   ) {
+    console.log('### CourseService constructor ###');
     this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
-    // task 6: 3) map
-
     const listener: Subscription = new Observable<any>( (observer) => {
       // call server
       // recive data
       observer.next([...COURSES]);
-    })
+      // observer.next(this.server());
+
+    }) // transform server-map -> client-map
       .map((data: any) => {
         return [].concat(...data.map((item) => {
           const obj = {
@@ -39,26 +55,28 @@ export class CourseServices {
           return obj;
         }));
       })
-
+      // transfer data
       .subscribe((data) => {
         this.sourceList.next(data);
       }, null, () => listener.unsubscribe())
     ;
     // ------------------------------------------------
   }
+
   public getList(): Observable<Course[]> {
     console.log('### CourseServices.getList ###');
     return this.sourceList.asObservable();
   }
+
   public createCourse(newCourse: Course): void {
     this.sourceList.next([...this.sourceList.value, newCourse]);
   }
+
   public getItemById(id: number): Course {
     return this.sourceList.value.find((item) => item.id === id);
   }
 
-  // obj: {id: updateCourseId[, updateField: newValue,] }
-  public updateItem(obj): void {
+  public updateItem(obj: UpdateCourseItem): void {
     const arr = this.sourceList.value;
     const i = arr.findIndex((item) => item.id === obj.id);
     arr[i] = {
@@ -80,4 +98,10 @@ export class CourseServices {
     }
     // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
   }
+
+  private server(): void {
+    const url = `${this.baseUrl}/courses`;
+    const method = 'GET';
+  }
+
 }

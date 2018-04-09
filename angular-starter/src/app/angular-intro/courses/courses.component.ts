@@ -40,22 +40,23 @@ export class CoursesComponent implements OnInit, OnDestroy {
     console.log(this.fullCoursesArr);
   }
   public ngOnInit() {
-    this.listeners.push(this._courseServices.getList().subscribe(
-      (data) => {
+    // observable from CourseServices
+    this.listeners.push(this._courseServices.getList()
+      .subscribe((data) => {
         this.fullCoursesArr = data;
         this.coursesArr = this._filter.transform(this.fullCoursesArr, this.filterData);
         this._changeDetectorRef.markForCheck();
-      }
-    ));
+      })
+    );
 
-    // observable from service
-    this.listeners.push(this._searchService.getSearchData().subscribe((item) => {
-      this.filterData = item;
-      this.coursesArr = this._filter.transform(this.fullCoursesArr, item);
-      this._changeDetectorRef.markForCheck();
-    }));
-
-    console.log(this.coursesArr);
+    // observable from SearchService
+    this.listeners.push(this._searchService.getSearchData()
+      .subscribe((item) => {
+        this.filterData = item;
+        this.coursesArr = this._filter.transform(this.fullCoursesArr, item);
+        this._changeDetectorRef.markForCheck();
+      })
+    );
   }
 
   public ngOnDestroy() {

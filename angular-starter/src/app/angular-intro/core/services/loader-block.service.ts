@@ -8,6 +8,7 @@ export class LoaderBlockServices {
   private show = false;
 
   constructor() {
+    console.log('### LoaderBlockService constructor ###');
     this.source = new BehaviorSubject({show: false});
   }
 

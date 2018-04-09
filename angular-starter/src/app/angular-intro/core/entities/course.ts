@@ -9,6 +9,17 @@ export interface Course {
   topRated: boolean;
 }
 
+export interface UpdateCourseItem {
+  id: number;
+  name?: string;
+  duration?: number; // +new Date()
+  date?: number; // + new Date()
+  tags?: string[];
+  isAccept?: boolean;
+  text?: string;
+  topRated?: boolean;
+}
+
 interface Author {
   id: number;
   firstName: string;

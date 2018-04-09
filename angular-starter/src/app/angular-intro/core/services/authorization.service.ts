@@ -3,7 +3,12 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 // import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { User, SharedUserInfo, UserFromServer } from '../entities';
+import {
+  User,
+  SharedUserInfo,
+  UserFromServer,
+  BASE_URL
+} from '../entities';
 
 import { NgZone } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,12 +31,13 @@ export class AuthorizationService {
   private user: User | null = null;
   private token: string;
 
-  private baseUrl = 'http://localhost:3004';
+  private baseUrl = BASE_URL;
 
   constructor(
     private _ngZone: NgZone,
     private http: HttpClient,
   ) {
+    console.log('### AuthorizationService constructor ###');
     this.mySource = new BehaviorSubject(null);
     // this.mySource = new ReplaySubject(1);
     // this.mySource.next({login: ''});
