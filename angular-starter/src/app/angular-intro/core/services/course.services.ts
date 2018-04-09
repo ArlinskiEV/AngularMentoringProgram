@@ -8,7 +8,8 @@ import {
   Course,
   CourseFromServer,
   UpdateCourseItem,
-  BASE_URL
+  BASE_URL,
+  ServerQuery,
 } from '../entities';
 
 import { COURSES } from '../mocks';
@@ -43,7 +44,7 @@ export class CourseServices {
       // recive data
       // observer.next([...COURSES]);
       // observer.next(this.server(0, 3));
-      const listener2 = this.server(0, 3).subscribe(
+      const listener2 = this.server({start: 0, count: 3}).subscribe(
         (data) => observer.next(data),
         null,
         () => listener2.unsubscribe()
@@ -104,8 +105,8 @@ export class CourseServices {
     // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
   }
 
-  public loadMoreItem(count: number) {
-    const listener = this.server(this.end, count)
+  public loadMoreItem(count: number): void {
+    const listener = this.server({start: this.end, count})
       .subscribe((data: Course[]) => {
         // this.sourceList.next(data);
         this.end += count;
@@ -116,10 +117,26 @@ export class CourseServices {
       },
         null,
         () => listener.unsubscribe()
-      );
+      )
+    ;
   }
 
-  private server(start: number, count: number): Observable<Course[]> {
+  public search(query: string) {
+    console.log(query);
+    const listener = this.server({start: 0, count: 10, query})
+      .subscribe(
+        (data: Course[]) => {
+          this.sourceList.next(data);
+        },
+        null,
+        () => {
+          listener.unsubscribe();
+        }
+      )
+    ;
+  }
+
+  private server(params: ServerQuery): Observable<Course[]> {
     const headers = new Headers();
     const requestOptions = new RequestOptions();
     const urlParams: URLSearchParams = new URLSearchParams();
@@ -128,8 +145,14 @@ export class CourseServices {
     // const pageNumber = 1;
     // const count = 3; // count courses on page
     // const start = (pageNumber - 1) * count; // from 0
-    urlParams.set('start', '' + start);
-    urlParams.set('count', '' + count);
+    urlParams.set('start', '' + params.start);
+    urlParams.set('count', '' + params.count);
+    if (params.sort) {
+      urlParams.set('sort', '' + params.sort);
+    }
+    if (params.query) {
+      urlParams.set('query', '' + params.query);
+    }
     headers.set('My-Header', 'myValue');
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Get;
