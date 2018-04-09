@@ -5,7 +5,9 @@ import { COURSES } from '../mocks';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+
+import 'rxjs/add/operator/map';
+import { Subscription } from 'rxjs/Subscription';
 
 // import { LoaderBlockServices } from '../services';
 
@@ -21,28 +23,26 @@ export class CourseServices {
     this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
     // task 6: 3) map
-    const represent = map<CourseFromServer[], Course[]>( (data: any) => {
-      return [].concat(...data.map((item) => {
-        const obj = {
-          ...item,
-          date: item.createdDate,
-        };
-        delete obj.createdDate;
-        return obj;
-      }));
-    });
 
-    const response = represent(
-      new Observable<any>( (observer) => {
+    const listener: Subscription = new Observable<any>( (observer) => {
       // call server
       // recive data
       observer.next([...COURSES]);
-      // timer?
-      })
-    )
-    .subscribe((data) => {
-      this.sourceList.next(data);
     })
+      .map((data: any) => {
+        return [].concat(...data.map((item) => {
+          const obj = {
+            ...item,
+            date: item.createdDate,
+          };
+          delete obj.createdDate;
+          return obj;
+        }));
+      })
+
+      .subscribe((data) => {
+        this.sourceList.next(data);
+      }, null, () => listener.unsubscribe())
     ;
     // ------------------------------------------------
   }
