@@ -14,16 +14,14 @@ import {
 import { COURSES } from '../mocks';
 
 import {
-  HttpClient,
-  HttpRequest,
-  HttpEvent,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-} from '@angular/common/http';
-
-import { HttpParamsOptions } from '@angular/common/http/src/params';
-import { URLSearchParams } from 'url';
+  Http,
+  Response,
+  Request,
+  RequestOptions,
+  Headers,
+  URLSearchParams,
+  RequestMethod
+} from '@angular/http';
 
 // import { LoaderBlockServices } from '../services';
 
@@ -33,17 +31,18 @@ export class CourseServices {
   private baseUrl = BASE_URL;
   constructor(
     // private _loaderBlockServices: LoaderBlockServices,
-    private http: HttpClient,
+    private http: Http,
   ) {
     console.log('### CourseService constructor ###');
     this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
+    // observable for fake-server (without http)
     const listener: Subscription = new Observable<any>( (observer) => {
       // call server
       // recive data
       observer.next([...COURSES]);
       // observer.next(this.server());
-
+      this.server();
     }) // transform server-map -> client-map
       .map((data: any) => {
         return [].concat(...data.map((item) => {
@@ -100,8 +99,56 @@ export class CourseServices {
   }
 
   private server(): void {
-    const url = `${this.baseUrl}/courses`;
-    const method = 'GET';
+    // const url = `${this.baseUrl}/courses`;
+    const headers = new Headers();
+    const requestOptions = new RequestOptions();
+    const urlParams: URLSearchParams = new URLSearchParams();
+
+    const pageNumber = 2;
+    const count = 3; // count courses on page
+    const start = (pageNumber - 1) * count; // from 0
+    urlParams.set('start', '' + start);
+    urlParams.set('count', '' + count);
+
+    // urlParams.set('sort', '');
+    // urlParams.set('query', '');
+    headers.set('My-Header', 'myValue');
+    requestOptions.url = `${this.baseUrl}/courses`;
+    requestOptions.method = RequestMethod.Get;
+    requestOptions.headers = headers;
+    requestOptions.search = urlParams;
+    const request = new Request(requestOptions);
+    // ----------------------------------------------------------------
+    const listener = this.http.request(request)
+      .map((res: Response) => res.json())
+      // ------------------------------------------------
+      // transform
+      .map((data: CourseFromServer[]) => {
+        return data.map((item) => {
+          const obj = {
+            ...item,
+            duration: 0,
+            date: +new Date(item.date),
+            tags: [],
+            isAccept: false,
+            text: item.description,
+            topRated: item.isTopRated,
+          };
+          delete obj.description;
+          delete obj.isTopRated;
+          delete obj.authors;
+          delete obj.length;
+          return obj;
+        });
+      })
+      // ------------------------------------------------
+      .subscribe((data: Course[]) => {
+        // debugger;
+        console.log(data);
+        this.sourceList.next(data);
+      },
+        null,
+        () => listener.unsubscribe());
   }
 
 }
