@@ -12,10 +12,10 @@ export class DurationPipe implements PipeTransform {
     // hh h mm min. (ex: 1h 15min)
     let result = '';
     const temp = new Date(value);
-    if (temp.getHours()) {
-      result += temp.getHours() + 'h ';
+    if (temp.getUTCHours()) {
+      result += temp.getUTCHours() + 'h ';
     }
-    result += temp.getMinutes() + 'min';
+    result += temp.getUTCMinutes() + 'min';
     return result;
   }
 }
