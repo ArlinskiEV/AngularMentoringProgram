@@ -12,7 +12,7 @@ import {
   ServerQuery,
 } from '../entities';
 
-import { COURSES } from '../mocks';
+// import { COURSES } from '../mocks';
 
 import {
   Http,
@@ -38,29 +38,8 @@ export class CourseServices {
     console.log('### CourseService constructor ###');
     this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
-    // observable for fake-server (without http)
-    const listener: Subscription = new Observable<any>( (observer) => {
-      // call server
-      // recive data
-      // observer.next([...COURSES]);
-      // observer.next(this.server(0, 3));
-      const listener2 = this.server({start: 0, count: 3}).subscribe(
-        (data) => observer.next(data),
-        null,
-        () => listener2.unsubscribe()
-      );
-
-    }) // transform server-map -> client-map
-      .map((data: any) => {
-        return [].concat(...data.map((item) => {
-          const obj = {
-            ...item,
-            date: item.createdDate,
-          };
-          delete obj.createdDate;
-          return obj;
-        }));
-      })
+    // observable for server (with http)
+    const listener: Subscription = this.server({start: 0, count: 3})
       // transfer data
       .subscribe((data) => {
         this.sourceList.next(data);
@@ -207,7 +186,7 @@ export class CourseServices {
         return data.map((item) => {
           const obj = {
             ...item,
-            duration: 0,
+            duration: + new Date(item.length * 60000),
             date: +new Date(item.date),
             tags: [],
             isAccept: false,
