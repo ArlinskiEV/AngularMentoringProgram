@@ -13,12 +13,24 @@ import {
   RequestMethod
 } from '@angular/http';
 
+console.log('### AuthorizedHttpService loaded ###');
+
 @Injectable()
 export class AuthorizedHttpService extends Http {
   private headers: Array<{ name: string, value: string | string[]}> = [];
+  // constructor(
+  //   protected _backend: ConnectionBackend,
+  //   protected _defaultOptions: RequestOptions,
+  // ) {
+  //   super(_backend, _defaultOptions);
+  //   console.log('### AuthorizedHttpService constructor ###');
+  // }
 
   public setHeaders(arr: Array<{ name: string, value: string | string[]}>) {
     this.headers = [...arr];
+  }
+  public clearHeaders() {
+    this.headers = [];
   }
 
   public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {

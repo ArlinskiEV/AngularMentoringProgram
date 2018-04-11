@@ -17,9 +17,9 @@ console.log('`INTRO` bundle loaded asynchronously');
 import {
   CourseServices,
   ModalWindowServices,
-  AuthorizationService,
   LoaderBlockServices,
   SearchService,
+  AuthorizationService,
   AuthorizedHttpService,
 } from './core/services';
 
@@ -64,14 +64,15 @@ export class IntroModule {
       ngModule: IntroModule,
       providers: [
         // --------------------------------------------------------------------
-        AuthorizedHttpService,
+        // AuthorizedHttpService,
+        {provide: 'ext-http', useClass: AuthorizedHttpService},
+        AuthorizationService,
 
         ModalWindowServices,
         LoaderBlockServices,
 
         CourseServices,
 
-        AuthorizationService,
         SearchService,
         // --------------------------------------------------------------------
         FilterPipe,

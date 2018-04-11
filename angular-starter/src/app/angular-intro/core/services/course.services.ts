@@ -33,7 +33,7 @@ export class CourseServices {
   private end = 0;
   constructor(
     // private _loaderBlockServices: LoaderBlockServices,
-    private http: Http,
+    private _http: Http,
   ) {
     console.log('### CourseService constructor ###');
     this.sourceList = new BehaviorSubject([]);
@@ -97,7 +97,7 @@ export class CourseServices {
 
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const listener = this.http.request(request)
+    const listener = this._http.request(request)
       .map((res: Response) => res.json())
       // ------------------------------------------------
       .subscribe(
@@ -177,7 +177,7 @@ export class CourseServices {
     requestOptions.search = urlParams;
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    return this.http.request(request)
+    return this._http.request(request)
       .map((res: Response) => res.json())
       // ------------------------------------------------
       // transform
