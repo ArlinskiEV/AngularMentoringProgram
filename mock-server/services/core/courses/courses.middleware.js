@@ -6,6 +6,7 @@ const filterArr = {};
 module.exports = (server) => {
 
 	router.get('/courses', (req, res, next) => {
+    console.log(`Auth:${req.header('Authorization')}`)
 		let url_parts = url.parse(req.originalUrl, true),
 			query = url_parts.query,
 			from = query.start,
@@ -20,11 +21,13 @@ module.exports = (server) => {
 		}
     courses = courses.filter( item => !filterArr[item.id])
       .slice(from, to);
-		console.log(`filter=${JSON.stringify(filterArr)}`);
+    console.log(`filter=${Object.keys(filterArr)}`);
+    console.log(`time:${new Date()}`);
 		res.json(courses);
   });
   
   router.delete('/courses', (req, res, next) => {
+    console.log(`Auth:${req.header('Authorization')}`)
     let url_parts = url.parse(req.originalUrl, true),
 			query = url_parts.query,
       id = query.id;

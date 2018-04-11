@@ -23,7 +23,7 @@ import {
   RequestMethod
 } from '@angular/http';
 
-// import { AuthorizedHttpService } from '../services';
+import { AuthorizedHttpService } from '../services';
 
 @Injectable()
 export class AuthorizationService {
@@ -37,7 +37,7 @@ export class AuthorizationService {
   constructor(
     private _ngZone: NgZone,
     private _http: Http,
-    // @Inject('ext-http') private _http: AuthorizedHttpService,
+    @Inject('Ahttp') private _Ahttp: AuthorizedHttpService,
   ) {
     console.log('### AuthorizationService constructor ###');
     this.mySource = new BehaviorSubject(null);
@@ -73,9 +73,9 @@ export class AuthorizationService {
         (data: any) => {
           // console.warn(data);
           this.token = data.token;
-          // this._http.setHeaders([
-          //   {name: 'Authorization', value: this.token}
-          // ]);
+          this._Ahttp.setHeaders([
+            {name: 'Authorization', value: this.token}
+          ]);
         },
         (error) => console.error(`ERROR: ${error.error}`),
         () => {
@@ -89,7 +89,7 @@ export class AuthorizationService {
     // Logout (wipes fake user info and token from local storage)
     this.user = null;
     this.token = null;
-    // this._http.clearHeaders();
+    this._Ahttp.clearHeaders();
     this.mySource.next({login: '', name: {first: 'noName', last: 'noName'}});
   }
   public isAuthenticated(): boolean {
@@ -102,14 +102,14 @@ export class AuthorizationService {
   }
 
   private getInfo() {
-    const headers = new Headers();
+    // const headers = new Headers();
     const requestOptions = new RequestOptions();
 
-    headers.set('Authorization', this.token);
+    // headers.set('Authorization', this.token);
 
     requestOptions.url = `${this.baseUrl}/auth/userinfo`;
     requestOptions.method = RequestMethod.Post;
-    requestOptions.headers = headers;
+    // requestOptions.headers = headers;
 
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------

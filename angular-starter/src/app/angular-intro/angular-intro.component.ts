@@ -2,9 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Inject,
 } from '@angular/core';
-import { LoaderBlockServices } from './core';
 
 @Component({
   selector: 'intro',
@@ -14,9 +12,6 @@ import { LoaderBlockServices } from './core';
 })
 
 export class IntroComponent  implements OnInit {
-  constructor(
-    @Inject('load-spinner') private _loaderBlockServices: LoaderBlockServices,
-  ) {}
   public ngOnInit() {
     console.log('hello `INTRO` component');
   }

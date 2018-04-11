@@ -20,7 +20,7 @@ import {
   LoaderBlockServices,
   SearchService,
   AuthorizationService,
-  // AuthorizedHttpService,
+  AuthorizedHttpService,
 } from './core/services';
 
 // function toArray(obj) {
@@ -30,6 +30,13 @@ import {
 import { FilterPipe } from './core';
 
 import { HttpModule } from '@angular/http';
+
+// --------------------------------------------------------------------
+import { RequestOptions, Http, XHRBackend } from '@angular/http';
+function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+  return new AuthorizedHttpService(xhrBackend, requestOptions);
+}
+// --------------------------------------------------------------------
 
 @NgModule({
   declarations: [
@@ -58,19 +65,21 @@ import { HttpModule } from '@angular/http';
     IntroComponent,
   ],
 })
+
 export class IntroModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: IntroModule,
       providers: [
         // --------------------------------------------------------------------
-        // AuthorizedHttpService,
         // {provide: 'ext-http', useClass: AuthorizedHttpService},
+        { provide: Http, useFactory: AuthorizedHttpFactory, deps: [XHRBackend, RequestOptions]},
+        { provide: 'Ahttp', useExisting: Http},
+        // --------------------------------------------------------------------
         AuthorizationService,
 
         ModalWindowServices,
 
-        // {provide: LoaderBlockServices, useClass: LoaderBlockServices},
         {provide: 'load-spinner', useClass: LoaderBlockServices},
         CourseServices,
 

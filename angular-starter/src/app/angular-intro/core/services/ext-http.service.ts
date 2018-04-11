@@ -1,30 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
-import { ConnectionBackend, RequestOptionsArgs } from '@angular/http/src/interfaces';
 
 import {
   Http,
   Response,
   Request,
   RequestOptions,
+  RequestOptionsArgs,
   Headers,
   URLSearchParams,
-  RequestMethod
+  RequestMethod,
+  ConnectionBackend
 } from '@angular/http';
 
 console.log('### AuthorizedHttpService loaded ###');
 
 @Injectable()
 export class AuthorizedHttpService extends Http {
-  private headers: Array<{ name: string, value: string | string[]}> = [];
-  // constructor(
-  //   protected _backend: ConnectionBackend,
-  //   protected _defaultOptions: RequestOptions,
-  // ) {
-  //   super(_backend, _defaultOptions);
-  //   console.log('### AuthorizedHttpService constructor ###');
-  // }
+  private headers: Array<{name: string, value: string | string[]}> = [];
 
   public setHeaders(arr: Array<{ name: string, value: string | string[]}>) {
     this.headers = [...arr];

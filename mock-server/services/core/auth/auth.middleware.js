@@ -5,6 +5,7 @@ const url = require('url');
 module.exports = (server) => {
 
 	router.post('/auth/login', (req, res, next) => {
+    console.log(`Auth:${req.header('Authorization')}`)
 		let users = server.db.getState().users,
 			matchedUser = users.find((user) => {
 				console.log(user);
@@ -21,6 +22,7 @@ module.exports = (server) => {
 	});
 		
 	router.post('/auth/userinfo', (req, res, next) => {
+    console.log(`Auth:${req.header('Authorization')}`)
 		let users = server.db.getState().users,
 			matchedUser = users.find((user) => {
 				console.log(user);
