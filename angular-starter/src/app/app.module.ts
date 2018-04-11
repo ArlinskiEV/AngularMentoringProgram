@@ -23,15 +23,6 @@ import { DevModuleModule } from './+dev-module';
 // --------------------------------------------------------------------
 import { IntroModule } from './angular-intro';
 
-import {
-  CourseServices,
-  ModalWindowServices,
-  AuthorizationService,
-  LoaderBlockServices,
-  SearchService,
-} from './angular-intro/core/services';
-// import * as INTRO_SERVICES from './angular-intro/core/services';
-
 function toArray(obj) {
   return Object.keys(obj).map((k) => obj[k]);
 }
@@ -39,25 +30,12 @@ function toArray(obj) {
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import { FilterPipe } from './angular-intro/core';
 import { HttpModule } from '@angular/http';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
-
-  // --------------------------------------------------------------------
-  // ...toArray(INTRO_SERVICES),
-  ModalWindowServices,
-  AuthorizationService,
-  LoaderBlockServices,
-  CourseServices,
-  SearchService,
-  // --------------------------------------------------------------------
-  FilterPipe,
-  // --------------------------------------------------------------------
-
 ];
 
 interface StoreType {
@@ -84,6 +62,7 @@ interface StoreType {
   imports: [
     // --------------------------------------------------------------------
     HttpModule,
+    // OriginalHttp,
     // --------------------------------------------------------------------
     BrowserModule,
     BrowserAnimationsModule,

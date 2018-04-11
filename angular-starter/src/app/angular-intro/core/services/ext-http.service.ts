@@ -13,7 +13,8 @@ import {
   RequestMethod
 } from '@angular/http';
 
-export class AuthorizedHttp extends Http {
+@Injectable()
+export class AuthorizedHttpService extends Http {
   private headers: Array<{ name: string, value: string | string[]}> = [];
 
   public setHeaders(arr: Array<{ name: string, value: string | string[]}>) {

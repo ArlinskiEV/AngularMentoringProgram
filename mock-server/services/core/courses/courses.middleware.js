@@ -20,7 +20,7 @@ module.exports = (server) => {
 		}
     courses = courses.filter( item => !filterArr[item.id])
       .slice(from, to);
-		
+		console.log(`filter=${JSON.stringify(filterArr)}`);
 		res.json(courses);
   });
   

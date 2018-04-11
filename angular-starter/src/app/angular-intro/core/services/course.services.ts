@@ -140,7 +140,6 @@ export class CourseServices {
   }
 
   public search(query: string) {
-    console.log(query);
     const listener = this.server({start: 0, count: 10, query})
       .subscribe(
         (data: Course[]) => {
@@ -187,7 +186,7 @@ export class CourseServices {
           const obj = {
             ...item,
             duration: + new Date(item.length * 60000),
-            date: +new Date(item.date),
+            date: + new Date(item.date),
             tags: [],
             isAccept: false,
             text: item.description,

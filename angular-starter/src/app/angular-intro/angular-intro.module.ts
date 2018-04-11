@@ -17,6 +17,19 @@ import { CoursePageModule } from './course-page';
 
 console.log('`INTRO` bundle loaded asynchronously');
 
+import {
+  CourseServices,
+  ModalWindowServices,
+  AuthorizationService,
+  LoaderBlockServices,
+  SearchService,
+  AuthorizedHttpService,
+} from './core/services';
+// } from './angular-intro/core/services';
+// import * as INTRO_SERVICES from './angular-intro/core/services';
+
+import { FilterPipe } from './core';
+
 @NgModule({
   declarations: [
     /**
@@ -24,6 +37,22 @@ console.log('`INTRO` bundle loaded asynchronously');
      */
 
     IntroComponent,
+  ],
+  providers: [
+    // --------------------------------------------------------------------
+    // ...toArray(INTRO_SERVICES),
+    AuthorizedHttpService,
+
+    ModalWindowServices,
+    LoaderBlockServices,
+
+    CourseServices,
+
+    AuthorizationService,
+    SearchService,
+    // --------------------------------------------------------------------
+    FilterPipe,
+    // --------------------------------------------------------------------
   ],
   imports: [
     CommonModule,
