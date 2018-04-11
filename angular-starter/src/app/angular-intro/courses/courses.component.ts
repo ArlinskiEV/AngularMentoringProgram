@@ -8,7 +8,7 @@ import {
 
 import {
   CourseServices,
-  LoaderBlockServices,
+  // LoaderBlockServices,
   SearchService,
 } from '../core/services';
 import { FilterPipe } from '../core/pipes';
@@ -30,7 +30,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   private listeners: Subscription[] = [];
 
   constructor(
-    private _loaderBlockServices: LoaderBlockServices,
+    // private _loaderBlockServices: LoaderBlockServices,
     private _courseServices: CourseServices,
     private _filter: FilterPipe<Course>,
     private _searchService: SearchService,
@@ -72,10 +72,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
     console.log(`courses.handler emit.type=${emit.type}`);
     switch (emit.type) {
       case 'deletter': {
-        this._loaderBlockServices.Show();
+        // this._loaderBlockServices.Show();
         this._courseServices.removeItem(emit.value);
         // ...no service in service?
-        setTimeout( () => this._loaderBlockServices.Hide(), 1500);
+        // setTimeout( () => this._loaderBlockServices.Hide(), 1500);
         break;
       }
     }

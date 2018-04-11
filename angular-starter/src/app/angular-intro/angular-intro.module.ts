@@ -20,7 +20,7 @@ import {
   LoaderBlockServices,
   SearchService,
   AuthorizationService,
-  AuthorizedHttpService,
+  // AuthorizedHttpService,
 } from './core/services';
 
 // function toArray(obj) {
@@ -65,12 +65,13 @@ export class IntroModule {
       providers: [
         // --------------------------------------------------------------------
         // AuthorizedHttpService,
-        {provide: 'ext-http', useClass: AuthorizedHttpService},
+        // {provide: 'ext-http', useClass: AuthorizedHttpService},
         AuthorizationService,
 
         ModalWindowServices,
-        LoaderBlockServices,
 
+        // {provide: LoaderBlockServices, useClass: LoaderBlockServices},
+        {provide: 'load-spinner', useClass: LoaderBlockServices},
         CourseServices,
 
         SearchService,

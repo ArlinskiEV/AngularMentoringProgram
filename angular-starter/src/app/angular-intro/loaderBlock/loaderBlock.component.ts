@@ -4,6 +4,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 
 import { LoaderBlockServices } from '../core/services';
@@ -21,7 +22,7 @@ export class LoaderBlockComponent implements OnInit, OnDestroy {
   private listener: Subscription;
 
   constructor(
-    private _loaderBlockServices: LoaderBlockServices,
+    @Inject('load-spinner') private _loaderBlockServices: LoaderBlockServices,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {}
 

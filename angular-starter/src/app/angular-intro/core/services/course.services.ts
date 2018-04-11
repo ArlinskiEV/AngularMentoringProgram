@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -24,7 +24,7 @@ import {
   RequestMethod
 } from '@angular/http';
 
-// import { LoaderBlockServices } from '../services';
+import { LoaderBlockServices } from '../services';
 
 @Injectable()
 export class CourseServices {
@@ -32,7 +32,7 @@ export class CourseServices {
   private baseUrl = BASE_URL;
   private end = 0;
   constructor(
-    // private _loaderBlockServices: LoaderBlockServices,
+    @Inject('load-spinner') private _loaderBlockServices: LoaderBlockServices,
     private _http: Http,
   ) {
     console.log('### CourseService constructor ###');
@@ -72,7 +72,7 @@ export class CourseServices {
   }
 
   public removeItem(id: number): void {
-    // this._loaderBlockServices.Show();
+    this._loaderBlockServices.Show();
 
     // const currentID = this.sourceList.value.findIndex((item) => item.id === id);
     // if (currentID >= 0) {
@@ -120,7 +120,7 @@ export class CourseServices {
         }
       )
     ;
-    // settimeout(() =>this._loaderBlockServices.Hide(), 1000);
+    setTimeout(() => this._loaderBlockServices.Hide(), 1000);
   }
 
   public loadMoreItem(count: number): void {
