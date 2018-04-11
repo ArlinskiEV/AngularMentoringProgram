@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { HeaderModule } from './header';
 import { FooterModule } from './footer';
@@ -23,7 +23,6 @@ import {
   AuthorizedHttpService,
 } from './core/services';
 
-// import * as SERVICES from './core/services';
 // function toArray(obj) {
 //   return Object.keys(obj).map((k) => obj[k]);
 // }
@@ -39,23 +38,6 @@ import { HttpModule } from '@angular/http';
      */
 
     IntroComponent,
-  ],
-  providers: [
-    // --------------------------------------------------------------------
-    // for singletone
-    // ...toArray(SERVICES),
-    AuthorizedHttpService,
-
-    ModalWindowServices,
-    LoaderBlockServices,
-
-    CourseServices,
-
-    AuthorizationService,
-    SearchService,
-    // --------------------------------------------------------------------
-    FilterPipe,
-    // --------------------------------------------------------------------
   ],
   imports: [
     CommonModule,
@@ -76,4 +58,25 @@ import { HttpModule } from '@angular/http';
     IntroComponent,
   ],
 })
-export class IntroModule {}
+export class IntroModule {
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: IntroModule,
+      providers: [
+        // --------------------------------------------------------------------
+        AuthorizedHttpService,
+
+        ModalWindowServices,
+        LoaderBlockServices,
+
+        CourseServices,
+
+        AuthorizationService,
+        SearchService,
+        // --------------------------------------------------------------------
+        FilterPipe,
+        // --------------------------------------------------------------------
+      ],
+    };
+  }
+}
