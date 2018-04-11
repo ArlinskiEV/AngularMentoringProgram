@@ -22,10 +22,6 @@ import { DevModuleModule } from './+dev-module';
 
 // --------------------------------------------------------------------
 import { IntroModule } from './angular-intro';
-
-function toArray(obj) {
-  return Object.keys(obj).map((k) => obj[k]);
-}
 // --------------------------------------------------------------------
 
 import '../styles/styles.scss';

@@ -5,14 +5,11 @@ import { HeaderModule } from './header';
 import { FooterModule } from './footer';
 import { ToolbarModule } from './toolbar';
 import { CoursesModule } from './courses';
-import { CourseModule } from './course';
 import { ModalWindowModule } from './modalWindow';
 import { LoginPageModule } from './login-page';
 import { LoaderBlockModule } from './loaderBlock';
 
 import { IntroComponent } from './angular-intro.component';
-import { StylelightModule } from './stylelight';
-import { DurationPipeModule } from './core/pipes';
 import { CoursePageModule } from './course-page';
 
 console.log('`INTRO` bundle loaded asynchronously');
@@ -25,8 +22,11 @@ import {
   SearchService,
   AuthorizedHttpService,
 } from './core/services';
-// } from './angular-intro/core/services';
-// import * as INTRO_SERVICES from './angular-intro/core/services';
+
+// import * as SERVICES from './core/services';
+// function toArray(obj) {
+//   return Object.keys(obj).map((k) => obj[k]);
+// }
 
 import { FilterPipe } from './core';
 
@@ -42,7 +42,8 @@ import { HttpModule } from '@angular/http';
   ],
   providers: [
     // --------------------------------------------------------------------
-    // ...toArray(INTRO_SERVICES),
+    // for singletone
+    // ...toArray(SERVICES),
     AuthorizedHttpService,
 
     ModalWindowServices,
@@ -59,23 +60,17 @@ import { HttpModule } from '@angular/http';
   imports: [
     CommonModule,
     // --------------------------------------------------------------------
+    // for providers...
     HttpModule,
     // --------------------------------------------------------------------
     HeaderModule,
     FooterModule,
     ToolbarModule,
     CoursesModule,
-    CourseModule,
     ModalWindowModule,
     LoginPageModule,
     CoursePageModule,
     LoaderBlockModule,
-
-    DurationPipeModule,
-
-    // what? i foget about this, but it was worked
-    StylelightModule, // need import only for itself?
-
   ],
   exports: [
     IntroComponent,
