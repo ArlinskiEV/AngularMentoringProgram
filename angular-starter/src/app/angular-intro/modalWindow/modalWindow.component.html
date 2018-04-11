@@ -1,0 +1,13 @@
+<div *ngIf="visible">
+  <div class="message">
+    <h2>{{message}}</h2>
+    <div class="buttons">
+      <button *ngFor = "let item of answerArr"
+      (click) = "click(item)"
+      >{{item}}</button>
+    </div>
+    <i class="close far fa-times-circle"
+    (click) = "click()"
+    ></i>
+  </div>
+</div>

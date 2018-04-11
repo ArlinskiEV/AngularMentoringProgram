@@ -1,0 +1,20 @@
+<p>Courses component {{ text }}</p>
+<div class="box">
+  <p>Accepted count: {{count}}</p>
+  <hr>
+  <course>null</course>
+  <div *ngIf = "coursesArr.length !== 0">
+    <course *ngFor = "let item of coursesArr | myOrderBy:'createdDate':'desc'"
+    [courseItem] = "item"
+    (handler) = "handler($event)"
+    ></course>
+  </div>
+  <div *ngIf = "coursesArr.length === 0">
+    <div class="message">
+      <p>Sorry, no Course in array</p>
+    </div>
+  </div>
+  <div>
+    <button (click)="loadMore()">Add more (3)</button>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div>
+  <app-header></app-header>
+  <h1>Course Page</h1>
+  <div ngClass="content">
+    <div>
+      <span>Title</span>
+      <input type="text">
+    </div>
+    <div>
+      <span>Description</span>
+      <textarea name="Description" id="" cols="15" rows="5"></textarea>
+    </div>
+    <div>
+      <span>Date</span>
+      <!-- <date-component></date-component> -->
+      <input type="text">
+    </div>
+    <div>
+      <span>Duration</span>
+      <!-- <duration-component></duration-component> -->
+      <input type="text">
+    </div>
+    <div>
+      <span>Authors</span>
+      <!-- <authors-component></authors-component> -->
+    </div>
+    <div>
+      <button type="submit" (click)="save()">Save</button>
+      <button type="submit" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
