@@ -30,6 +30,8 @@ import {
 
 import { FilterPipe } from './core';
 
+import { HttpModule } from '@angular/http';
+
 @NgModule({
   declarations: [
     /**
@@ -56,7 +58,9 @@ import { FilterPipe } from './core';
   ],
   imports: [
     CommonModule,
-
+    // --------------------------------------------------------------------
+    HttpModule,
+    // --------------------------------------------------------------------
     HeaderModule,
     FooterModule,
     ToolbarModule,

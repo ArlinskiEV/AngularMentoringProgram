@@ -30,7 +30,6 @@ function toArray(obj) {
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import { HttpModule } from '@angular/http';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -60,10 +59,6 @@ interface StoreType {
    * Import Angular's modules.
    */
   imports: [
-    // --------------------------------------------------------------------
-    HttpModule,
-    // OriginalHttp,
-    // --------------------------------------------------------------------
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
