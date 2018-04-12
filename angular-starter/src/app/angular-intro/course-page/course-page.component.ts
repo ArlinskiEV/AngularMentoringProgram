@@ -12,15 +12,13 @@ import { NgForm } from '@angular/forms';
 
 export class CoursePageComponent {
 
-  // constructor() {}
-
-  public click() {
-    console.warn('it was click');
+  public click(text: string) {
+    console.warn(`it was click:${text}`);
   }
   public save() {
-    this.click();
+    this.click('save');
   }
   public cancel() {
-    this.click();
+    this.click('cancel');
   }
 }

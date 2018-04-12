@@ -1,33 +1,35 @@
 <div>
   <app-header></app-header>
   <h1>Course Page</h1>
-  <div ngClass="content">
-    <div>
-      <span>Title</span>
-      <input type="text">
-    </div>
-    <div>
-      <span>Description</span>
-      <textarea name="Description" id="" cols="15" rows="5"></textarea>
-    </div>
-    <div>
-      <span>Date</span>
-      <!-- <date-component></date-component> -->
-      <input type="text">
-    </div>
-    <div>
-      <span>Duration</span>
+  <form ngClass="content">
+    <label>Title <input type="text" maxlength="50">
+    </label>
+
+    <label>Description <textarea
+      cols="15" rows="5"
+      maxlength="500"
+      ></textarea>
+    </label>
+
+    <label>Date
+      <!-- [value]="1523536679309" -->
+      <date-component
+      ></date-component>
+      <!-- 1523536679309 = Date.now(). hardcode for test -->
+    </label>
+
+    <label>Duration<input type="text">
       <!-- <duration-component></duration-component> -->
-      <input type="text">
-    </div>
-    <div>
-      <span>Authors</span>
+    </label>
+
+    <label>Authors<input type="text">
       <!-- <authors-component></authors-component> -->
-    </div>
-    <div>
+    </label>
+
+    <label>
       <button type="submit" (click)="save()">Save</button>
       <button type="submit" (click)="cancel()">Cancel</button>
-    </div>
-  </div>
+    </label>
+  </form>
   <app-footer></app-footer>
 </div>
