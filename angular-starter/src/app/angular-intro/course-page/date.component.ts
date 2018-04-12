@@ -1,5 +1,9 @@
 import {
-  Component, ChangeDetectionStrategy, forwardRef, Input,
+  Component,
+  ChangeDetectionStrategy,
+  forwardRef,
+  Input,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -32,6 +36,8 @@ In case of wrong format return null.
 export class DateComponent implements ControlValueAccessor {
   @Input() public value: number; // +new Date()
 
+  constructor(private _changeDetectorRef: ChangeDetectorRef) {}
+
   public writeValue(value: number): void {
     console.warn(`writeValue:${value}`);
     if (value !== this.value) {
@@ -53,20 +59,33 @@ export class DateComponent implements ControlValueAccessor {
   private onChange = (_) => {};
   private onTouched = () => {};
 
-  public set date(newValue: string) {
+  private set date(newValue: string) {
+    console.warn(`set date:${newValue}`);
     if (newValue) {
-      this.value = + new Date(newValue);
-      this.onChange(this.value);
+      this.value = null;
+      // check
+      if (newValue.match(/^[?0-2][0-9]\/[?0,1][0-9]\/[1,2][0-9]{3}$/)) {
+        const t = newValue.split('/');
+        this.value = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
+      }
+      this._changeDetectorRef.markForCheck();
+      this.onChange(this.value); // string only for view
     }
   }
 
-  public get date(): string {
+  private get date(): string {
     const result = new Date(this.value);
-    return `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`;
+    console.warn(`get date:${this.value}`);
+    console.warn(`result=${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`);
+    return this.value
+      ? `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`
+      : ''
+    ;
   }
 
   private setValue(item) {
-    this.value = item.target.value;
+    console.warn(`setValue:${item.target.value}`);
+    this.date = item.target.value;
   }
 
 }

@@ -31,7 +31,6 @@ export class CourseComponent {
     text: 'error: it is an empty text',
     topRated: false,
   };
-
   @Output('handler') protected handler = new  EventEmitter();
 
   constructor(
