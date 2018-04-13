@@ -24,9 +24,9 @@ const CUSTOM_DATE_VALUE_ACCESSOR = {
       #my
       (change)="setValue($event)"
       placeholder="dd/MM/yyyy"
-      [value]="date"
+      [value]="value"
     >
-    <p>date:{{date | json}}</p>
+    <p>date:{{value | json}}</p>
     <p>value:{{value | json}}</p>
     <p>date2: {{value | date:'dd/MM/yyyy'}}</p>
     <p>input: {{my.value}}</p>
@@ -43,27 +43,22 @@ Datetime as return value.
 In case of wrong format return null.
 */
 export class DateComponent implements ControlValueAccessor {
-  public value: number; // +new Date()
+  private currentValue: number; // +new Date()
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) {}
 
   public writeValue(value: number): void {
     console.warn(`writeValue:${value}`);
-    if (value !== this.value) {
-      this.value = value;
+    if (value !== this.currentValue) {
+      // this.setValue(value);
+      this.currentValue = value;
     }
   }
   public registerOnChange(fn: any): void {
-    this.onChange = (_) => {
-      fn(_);
-      // this._changeDetectorRef.markForCheck();
-    };
+    this.onChange = fn;
   }
   public registerOnTouched(fn: any): void {
-    this.onTouched = () => {
-      fn();
-      // this._changeDetectorRef.markForCheck();
-    };
+    this.onTouched = fn;
   }
 
   // ...it isn't so necessarily as she said
@@ -77,34 +72,34 @@ export class DateComponent implements ControlValueAccessor {
   // -----------------------------------------------------
   // -----------------------------------------------------
 
-  private set date(newValue: string) {
+  private set value(newValue: string) {
     console.warn(`set date:${newValue}`);
 
-    this.value = null;
+    this.currentValue = null;
     // check
     if (newValue.match(/^[0-2]?[0-9]\/[0,1]?[0-9]\/[1,2][0-9]{3}$/)) {
       const t = newValue.split('/');
-      this.value = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
-      console.warn(`check:true:${this.value}`);
+      this.currentValue = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
+      console.warn(`check:true:${this.currentValue}`);
     }
     this.onChange(this.value); // string only for view
 
     this._changeDetectorRef.markForCheck();
   }
 
-  private get date(): string {
-    const result = new Date(this.value);
-    console.warn(`get date:${this.value}`);
+  private get value(): string {
+    const result = new Date(this.currentValue);
+    console.warn(`get date:${this.currentValue}`);
     console.warn(`result=${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`);
-    return this.value
+    return this.currentValue
       ? `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`
-      : 'wrong'
+      : ''
     ;
   }
 
   private setValue(item) {
     console.warn(`setValue:${item.target.value}`);
-    this.date = item.target.value;
+    this.value = item.target.value;
   }
 
 }
