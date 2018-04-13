@@ -17,6 +17,7 @@ const CUSTOM_TEST_VALUE_ACCESSOR = {
   styles: [`
     :host>div {
       border: 3px solid green;
+      margin: 15px;
       padding: 15px;
     }
     :host>div.dis {
@@ -67,7 +68,6 @@ export class TestComponent implements ControlValueAccessor {
   private dis: boolean;
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) {
-    this.value = undefined;
     this.dis = false;
     this.arrItem = ['red', 'green', 'blue'];
   }
@@ -75,7 +75,7 @@ export class TestComponent implements ControlValueAccessor {
   public writeValue(value: number): void {
     console.warn(`writeValue:${value}`);
     if (value !== this.value) {
-      this.value = value;
+      this.setValue(value);
     }
   }
   public registerOnChange(fn: any): void {

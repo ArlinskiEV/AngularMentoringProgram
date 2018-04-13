@@ -1,7 +1,13 @@
 <div>
   <app-header></app-header>
   <h1>Course Page</h1>
-  <test-component></test-component>
+  <div class="testCustomControls">
+    <test-component [(ngModel)]="test"></test-component>
+    <input type="number" [(ngModel)]="test">
+    <br>
+    <input type="number" [(ngModel)]="test2">
+    <input type="number" [(ngModel)]="test2">
+  </div>
   <!-- #myForm [formGroup]="myForm" -->
   <form ngClass="content"
     >
