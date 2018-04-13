@@ -22,15 +22,14 @@ const CUSTOM_DATE_VALUE_ACCESSOR = {
   template: `
     <input type="text"
       #my
-      (change)="setValue($event)"
+      (change)="setValue($event.target.value)"
       placeholder="dd/MM/yyyy"
       [value]="value"
     >
-    <p>date:{{value | json}}</p>
     <p>value:{{value | json}}</p>
-    <p>date2: {{value | date:'dd/MM/yyyy'}}</p>
     <p>input: {{my.value}}</p>
   `,
+  // (change)="setValue($event)"
   // [value]="value | date:'dd/MM/yyyy'
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CUSTOM_DATE_VALUE_ACCESSOR],
@@ -50,8 +49,10 @@ export class DateComponent implements ControlValueAccessor {
   public writeValue(value: number): void {
     console.warn(`writeValue:${value}`);
     if (value !== this.currentValue) {
+      // this.currentValue = value;
+      const result = new Date(value);
       // this.setValue(value);
-      this.currentValue = value;
+      this.setValue(`${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`);
     }
   }
   public registerOnChange(fn: any): void {
@@ -82,26 +83,31 @@ export class DateComponent implements ControlValueAccessor {
       this.currentValue = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
       console.warn(`check:true:${this.currentValue}`);
     }
-    this.onChange(this.value); // string only for view
+    // this.onChange(this.value); // string only for view
+    this.onChange(this.currentValue);
 
     this._changeDetectorRef.markForCheck();
   }
 
   private get value(): string {
     const result = new Date(this.currentValue);
-    console.warn(`get date:${this.currentValue}`);
-    console.warn(`result=${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`);
+    // console.warn(`get date:${this.currentValue}`);
+    // console.warn(`result=${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`);
     return this.currentValue
       ? `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`
       : ''
     ;
   }
 
-  private setValue(item) {
-    console.warn(`setValue:${item.target.value}`);
-    this.value = item.target.value;
-  }
+  // private setValue(item) {
+  //   console.warn(`setValue:${item.target.value}`);
+  //   this.value = item.target.value;
+  // }
 
+  private setValue(value: string) {
+    console.warn(`setValue:${value}`);
+    this.value = value;
+  }
 }
 // input = text input dd/MM/yyyy format
 // value = real date-value, type = number, + new Date()

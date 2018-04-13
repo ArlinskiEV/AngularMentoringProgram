@@ -23,7 +23,10 @@
 
     <label>Date
       <date-component
+        [(ngModel)]="testDate"
+        [ngModelOptions]="{standalone: true}"
       ></date-component>
+      <p>{{testDate | date}}</p>
     </label>
 
     <label>Duration<input type="text">

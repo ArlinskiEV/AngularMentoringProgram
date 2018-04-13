@@ -107,7 +107,6 @@ export class TestComponent implements ControlValueAccessor {
   private setValue(newValue: number) {
     if (!this.dis && this.value !== newValue) {
       this.value = newValue; // ---- setter !!!!!!
-      this._changeDetectorRef.markForCheck();
     }
   }
 

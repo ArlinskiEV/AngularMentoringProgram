@@ -15,6 +15,8 @@ export class CoursePageComponent {
   public test2 = 0;
   public disabledFlag: boolean = false;
 
+  public testDate: number = Date.now();
+
   public click(text: string) {
     console.warn(`it was click:${text}`);
   }
