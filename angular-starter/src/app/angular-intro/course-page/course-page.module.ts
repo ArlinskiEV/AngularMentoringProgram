@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { CoursePageComponent } from './course-page.component';
 import { DateComponent } from './date.component';
+import { TestComponent } from './test.component';
 
 import { HeaderModule } from '../header';
 import { FooterModule } from '../footer';
@@ -12,6 +13,7 @@ import { FooterModule } from '../footer';
   declarations: [
     CoursePageComponent,
     DateComponent,
+    TestComponent,
   ],
   imports: [
     CommonModule,

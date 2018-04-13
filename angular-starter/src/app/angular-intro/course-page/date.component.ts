@@ -2,7 +2,6 @@ import {
   Component,
   ChangeDetectionStrategy,
   forwardRef,
-  Input,
   ChangeDetectorRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -29,6 +28,7 @@ const CUSTOM_DATE_VALUE_ACCESSOR = {
     >
     <p>date:{{date | json}}</p>
     <p>value:{{value | json}}</p>
+    <p>date2: {{value | date:'dd/MM/yyyy'}}</p>
     <p>input: {{my.value}}</p>
   `,
   // [value]="value | date:'dd/MM/yyyy'
@@ -43,7 +43,7 @@ Datetime as return value.
 In case of wrong format return null.
 */
 export class DateComponent implements ControlValueAccessor {
-  @Input() public value: number; // +new Date()
+  public value: number; // +new Date()
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) {}
 
@@ -79,16 +79,16 @@ export class DateComponent implements ControlValueAccessor {
 
   private set date(newValue: string) {
     console.warn(`set date:${newValue}`);
-    if (newValue) {
-      this.value = null;
-      // check
-      if (newValue.match(/^[0-2]?[0-9]\/[0,1]?[0-9]\/[1,2][0-9]{3}$/)) {
-        const t = newValue.split('/');
-        this.value = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
-        console.warn(`check:true:${this.value}`);
-      }
-      this.onChange(this.value); // string only for view
+
+    this.value = null;
+    // check
+    if (newValue.match(/^[0-2]?[0-9]\/[0,1]?[0-9]\/[1,2][0-9]{3}$/)) {
+      const t = newValue.split('/');
+      this.value = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
+      console.warn(`check:true:${this.value}`);
     }
+    this.onChange(this.value); // string only for view
+
     this._changeDetectorRef.markForCheck();
   }
 
@@ -98,7 +98,7 @@ export class DateComponent implements ControlValueAccessor {
     console.warn(`result=${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`);
     return this.value
       ? `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`
-      : ''
+      : 'wrong'
     ;
   }
 
