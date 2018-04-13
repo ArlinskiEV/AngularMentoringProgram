@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
 export class CoursePageComponent {
   public test = 0;
   public test2 = 0;
+  public disabledFlag: boolean = false;
 
   public click(text: string) {
     console.warn(`it was click:${text}`);

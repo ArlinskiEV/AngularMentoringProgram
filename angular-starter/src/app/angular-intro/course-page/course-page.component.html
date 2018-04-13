@@ -2,11 +2,12 @@
   <app-header></app-header>
   <h1>Course Page</h1>
   <div class="testCustomControls">
-    <test-component [(ngModel)]="test"></test-component>
-    <input type="number" [(ngModel)]="test">
+      <label><input type="checkbox" [(ngModel)]="disabledFlag"> Disable button</label>
+    <test-component [(ngModel)]="test" [disabled]="disabledFlag"></test-component>
+    <input type="number" [(ngModel)]="test" [disabled]="disabledFlag">
     <br>
-    <input type="number" [(ngModel)]="test2">
-    <input type="number" [(ngModel)]="test2">
+    <input type="number" [(ngModel)]="test2" [disabled]="disabledFlag">
+    <input type="number" [(ngModel)]="test2" [disabled]="disabledFlag">
   </div>
   <!-- #myForm [formGroup]="myForm" -->
   <form ngClass="content"

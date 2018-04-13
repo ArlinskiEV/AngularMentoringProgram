@@ -86,6 +86,7 @@ export class TestComponent implements ControlValueAccessor {
   }
   public setDisabledState(isDisabled: boolean): void {
     this.dis = isDisabled;
+    this._changeDetectorRef.markForCheck();
   }
 
   private onChange = (_) => {};
@@ -94,7 +95,7 @@ export class TestComponent implements ControlValueAccessor {
   // -----------------------------------------------------
   // -----------------------------------------------------
   private setValue(newValue: number) {
-    if (this.value !== newValue) {
+    if (!this.dis && this.value !== newValue) {
       this.value = newValue;
       this._changeDetectorRef.markForCheck();
     }
