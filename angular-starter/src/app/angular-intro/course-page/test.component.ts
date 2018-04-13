@@ -16,13 +16,17 @@ const CUSTOM_TEST_VALUE_ACCESSOR = {
   selector: 'test-component',
   styles: [`
     :host>div {
-      border: 5px solid black;
+      border: 3px solid green;
+      padding: 15px;
+    }
+    :host>div.dis {
+      opacity: 0.3;
     }
     :host .control {
-      border: 3px solid green;
       display: flex;
     }
     :host .control .item {
+      margin: 5px;
       color: black;
       border-radius: 50%;
       background-color: gray;
@@ -30,31 +34,24 @@ const CUSTOM_TEST_VALUE_ACCESSOR = {
       height: 50px;
       text-align: center;
     }
-    :host .control .item.red {
-      background-color: red;
-    }
-    :host .control .item.green {
-      background-color: green;
-    }
-    :host .control .item.blue {
-      background-color: blue;
-    }
     :host .control div.item.checked {
       border-radius: 0;
     }
   `],
   template: `
-    <div>
-      <p>value: {{value | json}}</p>
+    <div
+      [ngClass]="{'dis': dis}"
+    >
+      <p>value: -{{value | json}}-</p>
       <div class="control">
-        <div [ngClass]="{'checked':(value==0), 'item':true, 'red':true}">
-          <p>red</p>
-        </div>
-        <div [ngClass]="{'checked':(value==1), 'item':true, 'green':true}">
-          <p>green</p>
-        </div>
-        <div [ngClass]="{'checked':(value==2), 'item':true, 'blue':true}">
-          <p>blue</p>
+        <div
+          *ngFor="let item of arrItem; index as i"
+          [ngClass]="{'checked':(value==i), 'item':true}"
+          [ngStyle]="{'background-color': item}"
+          tabindex="-1"
+          (click)="setValue(i)"
+        >
+          <p>{{item}}</p>
         </div>
       </div>
     </div>
@@ -64,11 +61,15 @@ const CUSTOM_TEST_VALUE_ACCESSOR = {
 })
 
 export class TestComponent implements ControlValueAccessor {
-  public value: number; // undefined/0/1/2
+  public value: number;
+
+  private arrItem: string[];
+  private dis: boolean;
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) {
-    // this.value = undefined;
-    this.value = 1;
+    this.value = undefined;
+    this.dis = false;
+    this.arrItem = ['red', 'green', 'blue'];
   }
 
   public writeValue(value: number): void {
@@ -78,16 +79,13 @@ export class TestComponent implements ControlValueAccessor {
     }
   }
   public registerOnChange(fn: any): void {
-    this.onChange = (_) => {
-      fn(_);
-      // this._changeDetectorRef.markForCheck();
-    };
+    this.onChange = fn;
   }
   public registerOnTouched(fn: any): void {
-    this.onTouched = () => {
-      fn();
-      // this._changeDetectorRef.markForCheck();
-    };
+    this.onTouched = fn;
+  }
+  public setDisabledState(isDisabled: boolean): void {
+    this.dis = isDisabled;
   }
 
   private onChange = (_) => {};
@@ -95,5 +93,11 @@ export class TestComponent implements ControlValueAccessor {
 
   // -----------------------------------------------------
   // -----------------------------------------------------
+  private setValue(newValue: number) {
+    if (this.value !== newValue) {
+      this.value = newValue;
+      this._changeDetectorRef.markForCheck();
+    }
+  }
 
 }
