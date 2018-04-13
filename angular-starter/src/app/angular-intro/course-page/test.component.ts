@@ -62,7 +62,7 @@ const CUSTOM_TEST_VALUE_ACCESSOR = {
 })
 
 export class TestComponent implements ControlValueAccessor {
-  public value: number;
+  private currentValue: number;
 
   private arrItem: string[];
   private dis: boolean;
@@ -74,7 +74,8 @@ export class TestComponent implements ControlValueAccessor {
 
   public writeValue(value: number): void {
     console.warn(`writeValue:${value}`);
-    if (value !== this.value) {
+    if (value !== this.currentValue) {
+      // this.currentValue = value; // ---- real !!!!!!
       this.setValue(value);
     }
   }
@@ -94,9 +95,18 @@ export class TestComponent implements ControlValueAccessor {
 
   // -----------------------------------------------------
   // -----------------------------------------------------
+  get value(): number {
+    return this.currentValue;
+  }
+  set value(newValue: number) {
+    this.currentValue = newValue;
+    this.onChange(newValue);
+    this._changeDetectorRef.markForCheck();
+  }
+
   private setValue(newValue: number) {
     if (!this.dis && this.value !== newValue) {
-      this.value = newValue;
+      this.value = newValue; // ---- setter !!!!!!
       this._changeDetectorRef.markForCheck();
     }
   }
