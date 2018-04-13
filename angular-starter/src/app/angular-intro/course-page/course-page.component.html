@@ -1,7 +1,9 @@
 <div>
   <app-header></app-header>
   <h1>Course Page</h1>
-  <form ngClass="content">
+  <!-- #myForm [formGroup]="myForm" -->
+  <form ngClass="content"
+    >
     <label>Title <input type="text" maxlength="50">
     </label>
 
@@ -12,8 +14,8 @@
     </label>
 
     <label>Date
-      <!-- [value]="1523536679309" -->
       <date-component
+      [value]="1523536679309"
       ></date-component>
       <!-- 1523536679309 = Date.now(). hardcode for test -->
     </label>
