@@ -1,6 +1,5 @@
 // import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { HeaderModule } from './header';
@@ -37,13 +36,13 @@ function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOp
 // --------------------------------------------------------------------
 
 @NgModule({
+  bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
   ],
   imports: [
     // CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
     // --------------------------------------------------------------------
     // for providers...
     HttpModule,
