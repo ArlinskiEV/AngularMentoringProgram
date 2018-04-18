@@ -1,46 +1,43 @@
-<div>
-  <app-header></app-header>
-  <h1>Course Page</h1>
-  <div class="testCustomControls">
-      <label><input type="checkbox" [(ngModel)]="disabledFlag"> Disable button</label>
-    <test-component [(ngModel)]="test" [disabled]="disabledFlag"></test-component>
-    <input type="number" [(ngModel)]="test" [disabled]="disabledFlag">
-    <br>
-    <input type="number" [(ngModel)]="test2" [disabled]="disabledFlag">
-    <input type="number" [(ngModel)]="test2" [disabled]="disabledFlag">
-  </div>
-  <!-- #myForm [formGroup]="myForm" -->
-  <form ngClass="content"
-    >
-    <label>Title <input type="text" maxlength="50">
-    </label>
-
-    <label>Description <textarea
-      cols="15" rows="5"
-      maxlength="500"
-      ></textarea>
-    </label>
-
-    <label>Date
-      <date-component
-        [(ngModel)]="testDate"
-        [ngModelOptions]="{standalone: true}"
-      ></date-component>
-      <p>{{testDate | date}}</p>
-    </label>
-
-    <label>Duration<input type="text">
-      <!-- <duration-component></duration-component> -->
-    </label>
-
-    <label>Authors<input type="text">
-      <!-- <authors-component></authors-component> -->
-    </label>
-
-    <label>
-      <button type="submit" (click)="save()">Save</button>
-      <button type="submit" (click)="cancel()">Cancel</button>
-    </label>
-  </form>
-  <app-footer></app-footer>
+<h1>Course Page</h1>
+<div class="testCustomControls">
+    <label><input type="checkbox" [(ngModel)]="disabledFlag"> Disable button</label>
+  <test-component [(ngModel)]="test" [disabled]="disabledFlag"></test-component>
+  <input type="number" [(ngModel)]="test" [disabled]="disabledFlag">
+  <br>
+  <input type="number" [(ngModel)]="test2" [disabled]="disabledFlag">
+  <input type="number" [(ngModel)]="test2" [disabled]="disabledFlag">
 </div>
+<!-- #myForm [formGroup]="myForm" -->
+<form ngClass="content"
+  >
+  <label>Title <input type="text" maxlength="50">
+  </label>
+
+  <label>Description <textarea
+    cols="15" rows="5"
+    maxlength="500"
+    ></textarea>
+  </label>
+
+  <label>Date
+    <date-component
+      [(ngModel)]="testDate"
+      [ngModelOptions]="{standalone: true}"
+    ></date-component>
+    <p>{{testDate | date}}</p>
+  </label>
+
+  <label>Duration<input type="text">
+    <!-- <duration-component></duration-component> -->
+  </label>
+
+  <label>Authors<input type="text">
+    <!-- <authors-component></authors-component> -->
+  </label>
+
+  <label>
+    <button type="submit" (click)="save()">Save</button>
+    <button type="submit" (click)="cancel()">Cancel</button>
+  </label>
+</form>
+

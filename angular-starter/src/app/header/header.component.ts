@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
+import { LoginPageComponent } from '../login-page';
 
 @Component({
   selector: 'app-header',
@@ -18,12 +19,13 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  @Input() protected owner: string;
+  private showBreadCrumbs: boolean = true;
   private listener: Subscription;
 
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
+    private route: ActivatedRoute,
   ) {}
 
   get isAuth() {
@@ -35,6 +37,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.listener = this.authorizationService.getUserInfo().subscribe(
       () => this.changeDetectorRef.markForCheck(),
     );
+
+    console.error(this.route);
+    // ???
+    // setTimeout(() =>
+    // this.showBreadCrumbs = this.route.firstChild.component.name === 'LoginPageComponent', 1000);
   }
 
   public ngOnDestroy() {
