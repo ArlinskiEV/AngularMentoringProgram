@@ -17,8 +17,8 @@ export class StylelightDirective<T> implements OnInit {
     caseArr: [{data: T & {start: T, end: T}, setStyle: StyleRule[]}], // case array
   };
   constructor(
-    private _el: ElementRef,
-    private _renderer: Renderer
+    private el: ElementRef,
+    private renderer: Renderer
   ) {}
 
   public ngOnInit() {
@@ -32,7 +32,7 @@ export class StylelightDirective<T> implements OnInit {
     if (current) {
       // renderer.setElementStyle(el.nativeElement, 'backgroundColor', 'yellow');
       current.setStyle.forEach( (item) => {
-        this._renderer.setElementStyle(this._el.nativeElement, item.rule, item.value);
+        this.renderer.setElementStyle(this.el.nativeElement, item.rule, item.value);
       });
     }
   }

@@ -16,24 +16,24 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input() protected owner: string;
   private listener: Subscription;
 
   constructor(
-    private _authorizationService: AuthorizationService,
-    private _changeDetectorRef: ChangeDetectorRef,
+    private authorizationService: AuthorizationService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   get isAuth() {
-    return this._authorizationService.isAuthenticated();
+    return this.authorizationService.isAuthenticated();
   }
 
   public ngOnInit() {
     // because auth-info must be actual
-    this.listener = this._authorizationService.getUserInfo().subscribe(
-      () => this._changeDetectorRef.markForCheck(),
+    this.listener = this.authorizationService.getUserInfo().subscribe(
+      () => this.changeDetectorRef.markForCheck(),
     );
   }
 

@@ -26,17 +26,17 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
   private answerArr: string[];
 
   constructor(
-    private _modalWindowService: ModalWindowService,
-    private _changeDetectorRef: ChangeDetectorRef,
+    private modalWindowService: ModalWindowService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
-    this.data = this._modalWindowService.data;
+    this.data = this.modalWindowService.data;
     this.listener = this.data.subscribe((data) => {
       this.visible = true;
       this.message = data.message;
       this.answerArr = data.answerArr;
-      this._changeDetectorRef.markForCheck();
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -46,8 +46,8 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
 
   private click(answer: string)  {
     this.visible = false;
-    this._changeDetectorRef.markForCheck();
-    this._modalWindowService.answer(answer ? answer : 'Close');
+    this.changeDetectorRef.markForCheck();
+    this.modalWindowService.answer(answer ? answer : 'Close');
   }
 
 }

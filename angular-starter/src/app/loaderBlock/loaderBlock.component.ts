@@ -22,14 +22,14 @@ export class LoaderBlockComponent implements OnInit, OnDestroy {
   private listener: Subscription;
 
   constructor(
-    @Inject('load-spinner') private _loaderBlockService: LoaderBlockService,
-    private _changeDetectorRef: ChangeDetectorRef,
+    @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
-    this.listener = this._loaderBlockService.source.asObservable().subscribe((payload) => {
+    this.listener = this.loaderBlockService.source.asObservable().subscribe((payload) => {
       this.visible = payload.show;
-      this._changeDetectorRef.markForCheck();
+      this.changeDetectorRef.markForCheck();
     });
   }
   public ngOnDestroy() {

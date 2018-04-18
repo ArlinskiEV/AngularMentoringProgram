@@ -20,16 +20,16 @@ export class UserInfoComponent  implements OnInit, OnDestroy {
   private user: SharedUserInfo;
   private listener: Subscription;
   constructor(
-    private _authorizationService: AuthorizationService,
-    private _changeDetectorRef: ChangeDetectorRef,
+    private authorizationService: AuthorizationService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
     // because info must be actual
-    this.listener = this._authorizationService.getUserInfo().subscribe(
-      (payload) => {
-        this.user = payload;
-        this._changeDetectorRef.markForCheck();
+    this.listener = this.authorizationService.getUserInfo().subscribe(
+      (user: SharedUserInfo) => {
+        this.user = user;
+        this.changeDetectorRef.markForCheck();
       },
     );
 
@@ -40,6 +40,6 @@ export class UserInfoComponent  implements OnInit, OnDestroy {
   }
 
   public click() {
-    this._authorizationService.logout();
+    this.authorizationService.logout();
   }
 }

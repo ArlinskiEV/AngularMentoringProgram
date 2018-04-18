@@ -44,7 +44,7 @@ In case of wrong format return null.
 export class DateComponent implements ControlValueAccessor {
   private currentValue: number; // +new Date()
 
-  constructor(private _changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   public writeValue(value: number): void {
     console.warn(`writeValue:${value}`);
@@ -86,7 +86,7 @@ export class DateComponent implements ControlValueAccessor {
     // this.onChange(this.value); // string only for view
     this.onChange(this.currentValue);
 
-    this._changeDetectorRef.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 
   private get value(): string {

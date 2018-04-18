@@ -14,12 +14,12 @@ import { AuthorizationService } from '../core/services';
 export class LoginPageComponent {
   protected login: string;
   protected password: string;
-  constructor(private _authorizationService: AuthorizationService) {
+  constructor(private authorizationService: AuthorizationService) {
     this.login = '';
     this.password = '';
   }
 
   public click() {
-    this._authorizationService.login({login: this.login, password: this.password});
+    this.authorizationService.login({login: this.login, password: this.password});
   }
 }

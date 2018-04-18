@@ -67,7 +67,7 @@ export class TestComponent implements ControlValueAccessor {
   private arrItem: string[];
   private dis: boolean;
 
-  constructor(private _changeDetectorRef: ChangeDetectorRef) {
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
     this.dis = false;
     this.arrItem = ['red', 'green', 'blue'];
   }
@@ -87,7 +87,7 @@ export class TestComponent implements ControlValueAccessor {
   }
   public setDisabledState(isDisabled: boolean): void {
     this.dis = isDisabled;
-    this._changeDetectorRef.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 
   private onChange = (_) => {};
@@ -101,7 +101,7 @@ export class TestComponent implements ControlValueAccessor {
   set value(newValue: number) {
     this.currentValue = newValue;
     this.onChange(newValue);
-    this._changeDetectorRef.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 
   private setValue(newValue: number) {

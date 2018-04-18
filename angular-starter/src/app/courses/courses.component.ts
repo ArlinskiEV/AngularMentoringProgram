@@ -30,31 +30,31 @@ export class CoursesComponent implements OnInit, OnDestroy {
   private listeners: Subscription[] = [];
 
   constructor(
-    // private _loaderBlockServices: LoaderBlockServices,
-    private _courseServices: CourseServices,
-    private _filter: FilterPipe<Course>,
-    private _searchService: SearchService,
-    private _changeDetectorRef: ChangeDetectorRef,
+    // private loaderBlockServices: LoaderBlockServices,
+    private courseServices: CourseServices,
+    private filter: FilterPipe<Course>,
+    private searchService: SearchService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     console.log('courses-constructor, Arr:');
     console.log(this.fullCoursesArr);
   }
   public ngOnInit() {
     // observable from CourseServices
-    this.listeners.push(this._courseServices.getList()
+    this.listeners.push(this.courseServices.getList()
       .subscribe((data) => {
         this.fullCoursesArr = data;
-        this.coursesArr = this._filter.transform(this.fullCoursesArr, this.filterData);
-        this._changeDetectorRef.markForCheck();
+        this.coursesArr = this.filter.transform(this.fullCoursesArr, this.filterData);
+        this.changeDetectorRef.markForCheck();
       })
     );
 
     // observable from SearchService
-    this.listeners.push(this._searchService.getSearchData()
+    this.listeners.push(this.searchService.getSearchData()
       .subscribe((item) => {
         this.filterData = item;
-        this.coursesArr = this._filter.transform(this.fullCoursesArr, item);
-        this._changeDetectorRef.markForCheck();
+        this.coursesArr = this.filter.transform(this.fullCoursesArr, item);
+        this.changeDetectorRef.markForCheck();
       })
     );
   }
@@ -73,7 +73,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     switch (emit.type) {
       case 'deletter': {
         // this._loaderBlockServices.Show();
-        this._courseServices.removeItem(emit.value);
+        this.courseServices.removeItem(emit.value);
         // ...no service in service?
         // setTimeout( () => this._loaderBlockServices.Hide(), 1500);
         break;
@@ -82,7 +82,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
   protected loadMore() {
-    this._courseServices.loadMoreItem(3);
+    this.courseServices.loadMoreItem(3);
   }
 
 }

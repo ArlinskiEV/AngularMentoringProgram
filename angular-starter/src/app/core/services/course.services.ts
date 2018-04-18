@@ -32,8 +32,8 @@ export class CourseServices {
   private baseUrl = BASE_URL;
   private end = 0;
   constructor(
-    @Inject('load-spinner') private _loaderBlockService: LoaderBlockService,
-    private _http: Http,
+    @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
+    private http: Http,
   ) {
     console.log('### CourseService constructor ###');
     this.sourceList = new BehaviorSubject([]);
@@ -72,7 +72,7 @@ export class CourseServices {
   }
 
   public removeItem(id: number): void {
-    this._loaderBlockService.Show();
+    this.loaderBlockService.Show();
 
     // const currentID = this.sourceList.value.findIndex((item) => item.id === id);
     // if (currentID >= 0) {
@@ -97,7 +97,7 @@ export class CourseServices {
 
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const listener = this._http.request(request)
+    const listener = this.http.request(request)
       .map((res: Response) => res.json())
       // ------------------------------------------------
       .subscribe(
@@ -120,7 +120,7 @@ export class CourseServices {
         }
       )
     ;
-    setTimeout(() => this._loaderBlockService.Hide(), 1000);
+    setTimeout(() => this.loaderBlockService.Hide(), 1000);
   }
 
   public loadMoreItem(count: number): void {
@@ -177,7 +177,7 @@ export class CourseServices {
     requestOptions.search = urlParams;
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    return this._http.request(request)
+    return this.http.request(request)
       .map((res: Response) => res.json())
       // ------------------------------------------------
       // transform

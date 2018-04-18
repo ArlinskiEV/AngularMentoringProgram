@@ -34,14 +34,14 @@ export class CourseComponent {
   @Output('handler') protected handler = new  EventEmitter();
 
   constructor(
-    private _modalWindowService: ModalWindowService,
+    private modalWindowService: ModalWindowService,
   ) {}
 
   protected del() {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService
-    const listener = this._modalWindowService
+    const listener = this.modalWindowService
     .show({
       message: `HEY! are you sure? id=${this.courseItem.id}`,
       answerArr: ['Yes', 'No']

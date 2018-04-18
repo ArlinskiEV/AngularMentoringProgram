@@ -35,9 +35,9 @@ export class AuthorizationService {
   private baseUrl = BASE_URL;
 
   constructor(
-    private _ngZone: NgZone,
-    private _http: Http,
-    @Inject('Ahttp') private _Ahttp: AuthorizedHttpService,
+    private ngZone: NgZone,
+    private http: Http,
+    @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
   ) {
     console.log('### AuthorizationService constructor ###');
     this.mySource = new BehaviorSubject(null);
@@ -45,10 +45,10 @@ export class AuthorizationService {
     // this.mySource.next({login: ''});
     // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
-    const stable: Subscription = _ngZone.onUnstable.subscribe(() => start = Date.now(), null,
+    const stable: Subscription = ngZone.onUnstable.subscribe(() => start = Date.now(), null,
       () => stable.unsubscribe()
     );
-    const unstable: Subscription = _ngZone.onStable.subscribe(() =>
+    const unstable: Subscription = ngZone.onStable.subscribe(() =>
       console.log(`ngZone Stable. unstable time=${Date.now() - start}`), null,
       () => unstable.unsubscribe()
     );
@@ -67,13 +67,13 @@ export class AuthorizationService {
     requestOptions.body = payload;
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const listener = this._http.request(request)
+    const listener = this.http.request(request)
       .map((res: Response) => res.json())
       .subscribe(
         (data: any) => {
           // console.warn(data);
           this.token = data.token;
-          this._Ahttp.setHeaders([
+          this.Ahttp.setHeaders([
             {name: 'Authorization', value: this.token}
           ]);
         },
@@ -89,7 +89,7 @@ export class AuthorizationService {
     // Logout (wipes fake user info and token from local storage)
     this.user = null;
     this.token = null;
-    this._Ahttp.clearHeaders();
+    this.Ahttp.clearHeaders();
     this.mySource.next({login: '', name: {first: 'noName', last: 'noName'}});
   }
   public isAuthenticated(): boolean {
@@ -113,7 +113,7 @@ export class AuthorizationService {
 
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const listener = this._http.request(request)
+    const listener = this.http.request(request)
     .map((res: Response) => res.json())
     .map((data) => {console.warn(data); return data; })
     .subscribe(

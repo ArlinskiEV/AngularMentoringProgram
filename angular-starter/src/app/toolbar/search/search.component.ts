@@ -18,8 +18,8 @@ export class SearchComponent {
   protected searchText: string;
 
   constructor(
-    private _searchService: SearchService,
-    private _courseServices: CourseServices,
+    private searchService: SearchService,
+    private courseServices: CourseServices,
   ) {
     this.searchText = '';
   }
@@ -32,8 +32,8 @@ export class SearchComponent {
     // );
 
     // clean 14-day pre-set
-    this._searchService.setSearchData([]);
+    this.searchService.setSearchData([]);
 
-    this._courseServices.search(this.searchText);
+    this.courseServices.search(this.searchText);
   }
 }
