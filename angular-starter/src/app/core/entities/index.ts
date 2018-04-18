@@ -6,3 +6,4 @@ export * from './modalRule';
 export * from './const';
 export * from './serverQuery';
 export * from './answer';
+export * from './name';

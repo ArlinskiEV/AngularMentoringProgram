@@ -28,9 +28,7 @@ import { AuthorizedHttpService } from '../services';
 @Injectable()
 export class AuthorizationService {
   public mySource: BehaviorSubject<SharedUserInfo>;
-  // public mySource: ReplaySubject<SharedUserInfo>;
-  private user: User | null = null;
-  private token: string;
+  private user: User;
 
   private baseUrl = BASE_URL;
 
@@ -40,9 +38,9 @@ export class AuthorizationService {
     @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
   ) {
     console.log('### AuthorizationService constructor ###');
-    this.mySource = new BehaviorSubject(null);
-    // this.mySource = new ReplaySubject(1);
-    // this.mySource.next({login: ''});
+    this.user = new User();
+    this.mySource = new BehaviorSubject(this.user.sharedInfo());
+
     // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
     const stable: Subscription = ngZone.onUnstable.subscribe(() => start = Date.now(), null,
@@ -72,12 +70,12 @@ export class AuthorizationService {
       .subscribe(
         (data: any) => {
           // console.warn(data);
-          this.token = data.token;
+          this.user.token = data.token;
           this.Ahttp.setHeaders([
-            {name: 'Authorization', value: this.token}
+            {name: 'Authorization', value: this.user.token}
           ]);
         },
-        (error) => console.error(`ERROR: ${error.error}`),
+        (error) => console.error(`ERROR: ${error._body}`),
         () => {
           listener.unsubscribe();
           this.getInfo();
@@ -87,14 +85,13 @@ export class AuthorizationService {
 
   public logout(): void {
     // Logout (wipes fake user info and token from local storage)
-    this.user = null;
-    this.token = null;
+    this.user = new User();
     this.Ahttp.clearHeaders();
-    this.mySource.next({login: '', name: {first: 'noName', last: 'noName'}});
+    this.mySource.next(this.user.sharedInfo());
   }
   public isAuthenticated(): boolean {
     // IsAuthenticated (boolean)
-    return !!this.user;
+    return !!this.user.token;
     // or this.token ? case: recive token without info
   }
   public getUserInfo(): Observable<SharedUserInfo> {
@@ -118,13 +115,16 @@ export class AuthorizationService {
     .map((data) => {console.warn(data); return data; })
     .subscribe(
       (data: any) => {
+        // ----------------------------
+        // transform
         const obj: any = {
           ...data,
           token: data.fakeToken
         };
         delete obj.fakeToken;
-        this.user = obj;
-        this.mySource.next({login: this.user.login, name: this.user.name});
+        // ----------------------------
+        this.user = new User(obj);
+        this.mySource.next(this.user.sharedInfo());
       },
       (error) => console.error(`ERROR: ${error.error}`),
       () => {
