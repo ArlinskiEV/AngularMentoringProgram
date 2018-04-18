@@ -1,42 +1,11 @@
-<nav>
-  <a [routerLink]=" ['./'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-    Index
-  </a>
-  <a [routerLink]=" ['./home'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-    Home
-  </a>
-  <a [routerLink]=" ['./detail'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-    Detail
-  </a>
-  <a [routerLink]=" ['./barrel'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-    Barrel
-  </a>
-  <a [routerLink]=" ['./about'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-    About
-  </a>
-  <a *ngIf="showDevModule" [routerLink]=" ['./dev-module'] "
-      routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-    DevModule
-  </a>
-</nav>
-
 <main>
-  <router-outlet></router-outlet>
-  <intro></intro>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <app-header></app-header>
+  <modalWindow></modalWindow>
+  <loaderBlock></loaderBlock>
+  <tools></tools>
+  <courses></courses>
+  <login-page></login-page>
+  <course-page></course-page>
+  <app-footer></app-footer>
 </main>
-
-<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-<footer>
-  <span>Angular Starter by <a [href]="twitter">@gdi2290</a></span>
-  <div>
-    <a [href]="url">
-      <img [src]="tipe" width="25%">
-    </a>
-  </div>
-</footer>
