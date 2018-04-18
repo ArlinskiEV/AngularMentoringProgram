@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { ModalRule } from '../entities';
+import { ModalRule, Answer } from '../entities';
 
 @Injectable()
 export class ModalWindowService {
 
   private source: Subject<ModalRule>;
-  private answerSream: Subject<string>;
+  private answerSream: Subject<Answer>;
 
   constructor() {
     console.log('### ModalWindowServices constructor ###');
@@ -20,12 +20,12 @@ export class ModalWindowService {
     return this.source.asObservable();
   }
 
-  public show( query: ModalRule): Observable<string> {
+  public show(query: ModalRule): Observable<Answer> {
     this.source.next(query);
     return this.answerSream.asObservable();
   }
 
-  public answer(response: string) {
+  public answer(response: Answer) {
     this.answerSream.next(response);
   }
 }

@@ -5,3 +5,4 @@ export * from './filterRule';
 export * from './modalRule';
 export * from './const';
 export * from './serverQuery';
+export * from './answer';

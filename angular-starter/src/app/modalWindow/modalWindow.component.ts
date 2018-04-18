@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { ModalWindowService } from '../core/services';
-import { ModalRule } from '../core/entities';
+import { ModalRule, Answer } from '../core/entities';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -23,7 +23,8 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
   private listener: Subscription;
   private data: Observable<ModalRule>;
   private message: string;
-  private answerArr: string[];
+  private default: Answer;
+  private answerArr: Answer[];
 
   constructor(
     private modalWindowService: ModalWindowService,
@@ -36,6 +37,9 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
       this.visible = true;
       this.message = data.message;
       this.answerArr = data.answerArr;
+      this.default = data.default
+        ? data.default
+        : {title: 'Cancel', value: -1};
       this.changeDetectorRef.markForCheck();
     });
   }
@@ -44,10 +48,10 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
     this.listener.unsubscribe();
   }
 
-  private click(answer: string)  {
+  private click(answer: Answer)  {
     this.visible = false;
     this.changeDetectorRef.markForCheck();
-    this.modalWindowService.answer(answer ? answer : 'Close');
+    this.modalWindowService.answer(answer);
   }
 
 }

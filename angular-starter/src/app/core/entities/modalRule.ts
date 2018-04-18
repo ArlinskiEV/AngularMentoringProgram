@@ -1,4 +1,7 @@
+import { Answer } from './answer';
+
 export interface ModalRule {
   message: string;
-  answerArr: string[];
+  answerArr: Answer[];
+  default?: Answer;
 }

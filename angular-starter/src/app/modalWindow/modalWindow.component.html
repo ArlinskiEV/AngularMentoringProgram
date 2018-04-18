@@ -4,10 +4,11 @@
     <div class="buttons">
       <button *ngFor = "let item of answerArr"
       (click) = "click(item)"
-      >{{item}}</button>
+      >{{item.title}}</button>
     </div>
     <i class="close far fa-times-circle"
-    (click) = "click()"
+    (click) = "click(default)"
+    title="{{default.title}}"
     ></i>
   </div>
 </div>

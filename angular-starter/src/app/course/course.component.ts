@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 // ---------------
-import { Course } from '../core/entities';
+import { Course, Answer } from '../core/entities';
 // ---------------
 import { ModalWindowService } from '../core/services';
 
@@ -21,16 +21,7 @@ import { ModalWindowService } from '../core/services';
 export class CourseComponent {
   public currentDate = Date.now();
   public infinityDate = Infinity;
-  @Input() protected courseItem: Course = {
-    id: 0,
-    name: 'NoName',
-    duration: +new Date(),
-    date: +new Date(),
-    tags: ['error'],
-    isAccept: false,
-    text: 'error: it is an empty text',
-    topRated: false,
-  };
+  @Input() protected courseItem: Course = new Course();
   @Output('handler') protected handler = new  EventEmitter();
 
   constructor(
@@ -44,21 +35,25 @@ export class CourseComponent {
     const listener = this.modalWindowService
     .show({
       message: `HEY! are you sure? id=${this.courseItem.id}`,
-      answerArr: ['Yes', 'No']
+      default: {title: 'Cancel', value: -1},
+      answerArr: [
+        {title: 'Yes', value: 0},
+        {title: 'No', value: 1}
+      ]
     })
     .subscribe(
       // callback ... o_O
-      (message: string) => {
-        switch (message) {
-          case 'Yes': { // only in this case need call parent
+      (message: Answer) => {
+        switch (message.value) {
+          case 0: { // only in this case need call parent
             this.handler.emit({value: this.courseItem.id});
             break;
           }
-          case 'No': {
+          case 1: {
             console.log('modal was declined');
             break;
           }
-          case 'Close': {
+          case -1: {
             console.log('courseComponent: modal was closed without answer');
             break;
           }
