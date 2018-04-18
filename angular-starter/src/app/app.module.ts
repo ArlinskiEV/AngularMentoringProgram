@@ -1,86 +1,80 @@
-import { NgModule } from '@angular/core';
+// import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, PreloadAllModules } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
-/*
- * Platform and Environment providers/directives/pipes
- */
-import { environment } from 'environments/environment';
-import { ROUTES } from './app.routes';
-// App is our top level component
+import { HeaderModule } from './header';
+import { FooterModule } from './footer';
+import { ToolbarModule } from './toolbar';
+import { CoursesModule } from './courses';
+import { ModalWindowModule } from './modalWindow';
+import { LoginPageModule } from './login-page';
+import { LoaderBlockModule } from './loaderBlock';
+
 import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
-import { DevModuleModule } from './+dev-module';
+import { CoursePageModule } from './course-page';
+
+console.log('`APP` old `INTRO` bundle loaded asynchronously');
+
+import {
+  CourseServices,
+  ModalWindowService,
+  LoaderBlockService,
+  SearchService,
+  AuthorizationService,
+  AuthorizedHttpService,
+} from './core/services';
+
+import { FilterPipe } from './core';
+
+import { HttpModule } from '@angular/http';
 
 // --------------------------------------------------------------------
-import { IntroModule } from './angular-intro';
-// --------------------------------------------------------------------
-
-import '../styles/styles.scss';
-import '../styles/headings.css';
-
-// Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState,
-];
-
-interface StoreType {
-  state: InternalStateType;
-  restoreInputValues: () => void;
-  disposeOldHosts: () => void;
+import { RequestOptions, Http, XHRBackend } from '@angular/http';
+function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+  return new AuthorizedHttpService(xhrBackend, requestOptions);
 }
+// --------------------------------------------------------------------
 
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
 @NgModule({
-  bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    AboutComponent,
-    HomeComponent,
-    NoContentComponent,
-    XLargeDirective,
   ],
-  /**
-   * Import Angular's modules.
-   */
   imports: [
+    // CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule.forRoot(ROUTES, {
-      useHash: Boolean(history.pushState) === false,
-      preloadingStrategy: PreloadAllModules
-    }),
-
     // --------------------------------------------------------------------
-    IntroModule.forRoot(),
+    // for providers...
+    HttpModule,
     // --------------------------------------------------------------------
-
-    /**
-     * This section will import the `DevModuleModule` only in certain build types.
-     * When the module is not imported it will get tree shaked.
-     * This is a simple example, a big app should probably implement some logic
-     */
-    ...environment.showDevModule ? [ DevModuleModule ] : [],
+    HeaderModule,
+    FooterModule,
+    ToolbarModule,
+    CoursesModule,
+    ModalWindowModule,
+    LoginPageModule,
+    CoursePageModule,
+    LoaderBlockModule,
   ],
-  /**
-   * Expose our Services and Providers into Angular's dependency injection.
-   */
   providers: [
-    environment.ENV_PROVIDERS,
-    APP_PROVIDERS
-  ]
+    // --------------------------------------------------------------------
+    // {provide: 'ext-http', useClass: AuthorizedHttpService},
+    { provide: Http, useFactory: AuthorizedHttpFactory, deps: [XHRBackend, RequestOptions]},
+    { provide: 'Ahttp', useExisting: Http},
+    // --------------------------------------------------------------------
+    AuthorizationService,
+
+    ModalWindowService,
+
+    {provide: 'load-spinner', useClass: LoaderBlockService},
+    CourseServices,
+
+    SearchService,
+    // --------------------------------------------------------------------
+    FilterPipe,
+    // --------------------------------------------------------------------
+  ],
 })
+
 export class AppModule {}

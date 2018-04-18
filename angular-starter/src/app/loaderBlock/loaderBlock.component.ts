@@ -7,7 +7,7 @@ import {
   Inject,
 } from '@angular/core';
 
-import { LoaderBlockServices } from '../core/services';
+import { LoaderBlockService } from '../core/services';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -22,12 +22,12 @@ export class LoaderBlockComponent implements OnInit, OnDestroy {
   private listener: Subscription;
 
   constructor(
-    @Inject('load-spinner') private _loaderBlockServices: LoaderBlockServices,
+    @Inject('load-spinner') private _loaderBlockService: LoaderBlockService,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
-    this.listener = this._loaderBlockServices.source.asObservable().subscribe((payload) => {
+    this.listener = this._loaderBlockService.source.asObservable().subscribe((payload) => {
       this.visible = payload.show;
       this._changeDetectorRef.markForCheck();
     });

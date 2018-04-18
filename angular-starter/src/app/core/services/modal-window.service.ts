@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { ModalRule } from '../entities';
 
 @Injectable()
-export class ModalWindowServices {
+export class ModalWindowService {
 
   private source: Subject<ModalRule>;
   private answerSream: Subject<string>;

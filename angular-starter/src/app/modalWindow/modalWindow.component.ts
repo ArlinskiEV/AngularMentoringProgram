@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 
-import { ModalWindowServices } from '../core/services';
+import { ModalWindowService } from '../core/services';
 import { ModalRule } from '../core/entities';
 
 import { Observable } from 'rxjs/Observable';
@@ -26,12 +26,12 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
   private answerArr: string[];
 
   constructor(
-    private _modalWindowServices: ModalWindowServices,
+    private _modalWindowService: ModalWindowService,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
-    this.data = this._modalWindowServices.data;
+    this.data = this._modalWindowService.data;
     this.listener = this.data.subscribe((data) => {
       this.visible = true;
       this.message = data.message;
@@ -47,7 +47,7 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
   private click(answer: string)  {
     this.visible = false;
     this._changeDetectorRef.markForCheck();
-    this._modalWindowServices.answer(answer ? answer : 'Close');
+    this._modalWindowService.answer(answer ? answer : 'Close');
   }
 
 }

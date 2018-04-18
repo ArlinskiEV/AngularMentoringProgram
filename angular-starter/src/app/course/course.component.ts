@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 // ---------------
 import { Course } from '../core/entities';
 // ---------------
-import { ModalWindowServices } from '../core/services';
+import { ModalWindowService } from '../core/services';
 
 @Component({
   selector: 'course',
@@ -34,7 +34,7 @@ export class CourseComponent {
   @Output('handler') protected handler = new  EventEmitter();
 
   constructor(
-    private _modalWindowService: ModalWindowServices,
+    private _modalWindowService: ModalWindowService,
   ) {}
 
   protected del() {

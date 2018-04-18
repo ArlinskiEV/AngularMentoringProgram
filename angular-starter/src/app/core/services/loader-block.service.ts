@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class LoaderBlockServices {
+export class LoaderBlockService {
 
   public source: BehaviorSubject<{show: boolean}>;
   private show = false;
