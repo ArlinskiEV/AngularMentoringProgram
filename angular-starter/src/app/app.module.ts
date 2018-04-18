@@ -2,6 +2,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
+import { RouterModule } from '@angular/router';
+
 import { HeaderModule } from './header';
 import { FooterModule } from './footer';
 import { ToolbarModule } from './toolbar';
@@ -35,6 +37,8 @@ function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOp
 }
 // --------------------------------------------------------------------
 
+import { ROUTES } from './app.routes';
+
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
@@ -55,6 +59,8 @@ function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOp
     LoginPageModule,
     CoursePageModule,
     LoaderBlockModule,
+
+    RouterModule.forRoot(ROUTES, {useHash: true}),
   ],
   providers: [
     // --------------------------------------------------------------------
