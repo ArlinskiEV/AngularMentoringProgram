@@ -6,6 +6,8 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 
+import { HostListener } from '@angular/core';
+
 import { ModalWindowService } from '../core/services';
 import { ModalRule, Answer } from '../core/entities';
 
@@ -52,6 +54,11 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
     this.visible = false;
     this.changeDetectorRef.markForCheck();
     this.modalWindowService.answer(answer);
+  }
+
+  @HostListener('document:keyup.esc', ['$event'])
+  private onKeyUp(ev: KeyboardEvent) {
+    this.click(this.default);
   }
 
 }
