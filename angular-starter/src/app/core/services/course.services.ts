@@ -24,7 +24,7 @@ import {
   RequestMethod
 } from '@angular/http';
 
-import { LoaderBlockService } from '../services';
+// import { LoaderBlockService } from '../services';
 
 @Injectable()
 export class CourseServices {
@@ -32,7 +32,7 @@ export class CourseServices {
   private baseUrl = BASE_URL;
   private end = 0;
   constructor(
-    @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
+    // @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
     private http: Http,
   ) {
     console.log('### CourseService constructor ###');
@@ -72,7 +72,7 @@ export class CourseServices {
   }
 
   public removeItem(id: number): void {
-    this.loaderBlockService.Show();
+    // this.loaderBlockService.Show();
 
     // const currentID = this.sourceList.value.findIndex((item) => item.id === id);
     // if (currentID >= 0) {
@@ -120,7 +120,7 @@ export class CourseServices {
         }
       )
     ;
-    setTimeout(() => this.loaderBlockService.Hide(), 1000);
+    // setTimeout(() => this.loaderBlockService.Hide(), 1000);
   }
 
   public loadMoreItem(count: number): void {

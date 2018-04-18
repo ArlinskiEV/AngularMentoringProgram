@@ -51,7 +51,7 @@ export class CourseComponent {
       (message: string) => {
         switch (message) {
           case 'Yes': { // only in this case need call parent
-            this.handler.emit({type: 'deletter', value: this.courseItem.id});
+            this.handler.emit({value: this.courseItem.id});
             break;
           }
           case 'No': {

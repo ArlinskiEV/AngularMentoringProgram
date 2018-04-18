@@ -4,11 +4,12 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 
 import {
   CourseServices,
-  // LoaderBlockServices,
+  LoaderBlockService,
   SearchService,
 } from '../core/services';
 import { FilterPipe } from '../core/pipes';
@@ -30,7 +31,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
   private listeners: Subscription[] = [];
 
   constructor(
-    // private loaderBlockServices: LoaderBlockServices,
+    // private loaderBlockService: LoaderBlockService,
+    @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
     private courseServices: CourseServices,
     private filter: FilterPipe<Course>,
     private searchService: SearchService,
@@ -68,17 +70,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
   }
 
-  protected handler(emit: any) {
-    console.log(`courses.handler emit.type=${emit.type}`);
-    switch (emit.type) {
-      case 'deletter': {
-        // this._loaderBlockServices.Show();
-        this.courseServices.removeItem(emit.value);
-        // ...no service in service?
-        // setTimeout( () => this._loaderBlockServices.Hide(), 1500);
-        break;
-      }
-    }
+  protected deletter(emit: {value: number}) {
+    this.loaderBlockService.Show();
+    this.courseServices.removeItem(emit.value);
+    setTimeout( () => this.loaderBlockService.Hide(), 1500);
   }
 
   protected loadMore() {

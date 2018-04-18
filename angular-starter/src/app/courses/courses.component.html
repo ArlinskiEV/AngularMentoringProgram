@@ -6,7 +6,7 @@
   <div *ngIf = "coursesArr.length !== 0">
     <course *ngFor = "let item of coursesArr | myOrderBy:'createdDate':'desc'"
     [courseItem] = "item"
-    (handler) = "handler($event)"
+    (handler) = "deletter($event)"
     ></course>
   </div>
   <div *ngIf = "coursesArr.length === 0">

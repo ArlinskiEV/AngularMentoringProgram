@@ -24,8 +24,11 @@ export class StylelightDirective<T> implements OnInit {
   public ngOnInit() {
     // this.el.nativeElement.style.backgroundColor = 'yellow';
     const current = this.payload.caseArr
+      // find case for this data
       .find((item) => typeof item.data === typeof this.payload.data
+        // if exact
         ? this.payload.data === item.data
+        // if in interval
         : ((this.payload.data >= item.data.start)
           && ( this.payload.data < item.data.end))
       );
