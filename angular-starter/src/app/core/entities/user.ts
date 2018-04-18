@@ -1,20 +1,19 @@
+export interface Name {
+  first: string;
+  last: string;
+}
+
 export interface User {
   id: number;
   token: string;
-  name: {
-    first: string;
-    last: string;
-  };
+  name: Name;
   login: string;
   password: string;
 }
 
 export interface SharedUserInfo {
   login: string;
-  name: {
-    first: string;
-    last: string;
-  };
+  name: Name;
 }
 
 export interface Shared {
@@ -31,10 +30,7 @@ export class MyUser implements Shared {
 export interface UserFromServer {
   id: number;
   fakeToken: string;
-  name: {
-    first: string;
-    last: string;
-  };
+  name: Name;
   login: string;
   password: string;
 }
