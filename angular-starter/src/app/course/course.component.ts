@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 import { Course, Answer } from '../core/entities';
 // ---------------
 import { ModalWindowService } from '../core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'course',
@@ -26,7 +27,12 @@ export class CourseComponent {
 
   constructor(
     private modalWindowService: ModalWindowService,
+    private router: Router
   ) {}
+
+  protected edit(id: number) {
+    this.router.navigateByUrl(`courses/${id}`);
+  }
 
   protected del() {
     console.log(`del from child, id:${this.courseItem.id}`);

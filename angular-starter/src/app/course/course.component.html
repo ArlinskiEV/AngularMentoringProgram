@@ -20,7 +20,7 @@
     <!--i want: checkbox ===  courseItem.isAccept and click => recalc counter -->
     <label><input type = "checkbox" [(ngModel)] = "courseItem.isAccept"
     />Accepted</label>
-    <button>edit</button>
+    <button (click) = "edit(courseItem.id)">edit</button>
     <button (click) = "del()">delete</button>
   </div>
   <p class="tags" *ngIf="courseItem.tags.length > 0">
