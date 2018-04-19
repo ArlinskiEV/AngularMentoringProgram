@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+// import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
@@ -20,12 +20,10 @@ import { LoginPageComponent } from '../login-page';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   private showBreadCrumbs: boolean = true;
-  private listener: Subscription;
-
+  private listeners: Subscription[] = [];
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
-    private route: ActivatedRoute,
   ) {}
 
   get isAuth() {
@@ -34,18 +32,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     // because auth-info must be actual
-    this.listener = this.authorizationService.getUserInfo().subscribe(
-      () => this.changeDetectorRef.markForCheck(),
+    this.listeners.push(
+      this.authorizationService.getUserInfo().subscribe(
+        () => this.changeDetectorRef.markForCheck(),
+      )
     );
 
-    console.error(this.route);
-    // ???
-    // setTimeout(() =>
-    // this.showBreadCrumbs = this.route.firstChild.component.name === 'LoginPageComponent', 1000);
+    // const t = this.router.routerState.snapshot.root.firstChild;
+    // const t2: any = t.component;
+    // this.showBreadCrumbs = t2 &&
+    //   t2.name === 'LoginPageComponent';
   }
 
   public ngOnDestroy() {
-    this.listener.unsubscribe();
+    this.listeners.forEach((item) => item.unsubscribe());
   }
 
 }

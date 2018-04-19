@@ -7,6 +7,8 @@ import { CoursesComponent } from './courses';
 export const ROUTES: Routes = [
   // {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '', component: CoursesComponent},
-  {path: 'login', component: LoginPageComponent},
+  {path: 'login', component: LoginPageComponent, data: { title: 'LoginPage' }},
   {path: 'course', component: CoursePageComponent},
+
+  {path: '**', redirectTo: ''},
 ];

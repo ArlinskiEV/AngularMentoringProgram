@@ -24,7 +24,6 @@ import { Subscription } from 'rxjs/Subscription';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoursesComponent implements OnInit, OnDestroy {
-  protected text = 'Courses TEXT';
   protected coursesArr: Course[] = [];
   private fullCoursesArr: Course[] = [];
   private filterData: FilterRule[] = [];

@@ -1,8 +1,6 @@
-<p>Courses component {{ text }}</p>
 <div class="box">
   <p>Accepted count: {{count}}</p>
   <hr>
-  <course>null</course>
   <div *ngIf = "coursesArr.length !== 0">
     <course *ngFor = "let item of coursesArr | myOrderBy:'createdDate':'desc'"
     [courseItem] = "item"
