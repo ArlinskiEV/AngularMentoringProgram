@@ -18,7 +18,7 @@ import { CoursePageModule } from './course-page';
 console.log('`APP` old `INTRO` bundle loaded asynchronously');
 
 import {
-  CourseServices,
+  CourseService,
   ModalWindowService,
   LoaderBlockService,
   SearchService,
@@ -73,7 +73,7 @@ import { ROUTES } from './app.routes';
     ModalWindowService,
 
     {provide: 'load-spinner', useClass: LoaderBlockService},
-    CourseServices,
+    CourseService,
 
     SearchService,
     // --------------------------------------------------------------------

@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchService, CourseServices } from '../../core';
+import { SearchService, CourseService } from '../../core';
 
 @Component({
   selector: 'search',
@@ -19,7 +19,7 @@ export class SearchComponent {
 
   constructor(
     private searchService: SearchService,
-    private courseServices: CourseServices,
+    private courseServices: CourseService,
   ) {
     this.searchText = '';
   }

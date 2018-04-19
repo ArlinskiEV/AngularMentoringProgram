@@ -3,4 +3,5 @@ export interface ServerQuery {
   count: number;
   sort?: any;
   query?: any;
+  id?: number;
 }

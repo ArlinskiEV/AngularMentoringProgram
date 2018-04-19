@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -27,7 +28,7 @@ import {
 // import { LoaderBlockService } from '../services';
 
 @Injectable()
-export class CourseServices {
+export class CourseService {
   private sourceList: BehaviorSubject<Course[]>;
   private baseUrl = BASE_URL;
   private end = 0;
@@ -57,8 +58,15 @@ export class CourseServices {
     this.sourceList.next([...this.sourceList.value, newCourse]);
   }
 
-  public getItemById(id: number): Course {
-    return this.sourceList.value.find((item) => item.id === id);
+  public getItemById(id: number): Observable<Course> {
+    const result = this.sourceList.value.find((item) => item.id === id);
+    if (result) {
+      return Observable.of(result);
+    } else {
+      return this.server({start: 0, count: 10, id})
+        .map((data: Course[]) => data.length ? data[0] : new Course())
+      ;
+    }
   }
 
   public updateItem(obj: UpdateCourseItem): void {
@@ -162,13 +170,17 @@ export class CourseServices {
     // const pageNumber = 1;
     // const count = 3; // count courses on page
     // const start = (pageNumber - 1) * count; // from 0
-    urlParams.set('start', '' + params.start);
-    urlParams.set('count', '' + params.count);
-    if (params.sort) {
-      urlParams.set('sort', '' + params.sort);
-    }
-    if (params.query) {
-      urlParams.set('query', '' + params.query);
+    if (params.id) {
+      urlParams.set('id', '' + params.id);
+    } else {
+      urlParams.set('start', '' + params.start);
+      urlParams.set('count', '' + params.count);
+      if (params.sort) {
+        urlParams.set('sort', '' + params.sort);
+      }
+      if (params.query) {
+        urlParams.set('query', '' + params.query);
+      }
     }
     headers.set('My-Header', 'myValue');
     requestOptions.url = `${this.baseUrl}/courses`;

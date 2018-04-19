@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {
-  CourseServices,
+  CourseService,
   LoaderBlockService,
   SearchService,
 } from '../core/services';
@@ -32,7 +32,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   constructor(
     // private loaderBlockService: LoaderBlockService,
     @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
-    private courseServices: CourseServices,
+    private courseService: CourseService,
     private filter: FilterPipe<Course>,
     private searchService: SearchService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -42,7 +42,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
   public ngOnInit() {
     // observable from CourseServices
-    this.listeners.push(this.courseServices.getList()
+    this.listeners.push(this.courseService.getList()
       .subscribe((data) => {
         this.fullCoursesArr = data;
         this.coursesArr = this.filter.transform(this.fullCoursesArr, this.filterData);
@@ -71,12 +71,12 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   protected deletter(emit: {value: number}) {
     this.loaderBlockService.Show();
-    this.courseServices.removeItem(emit.value);
+    this.courseService.removeItem(emit.value);
     setTimeout( () => this.loaderBlockService.Hide(), 1500);
   }
 
   protected loadMore() {
-    this.courseServices.loadMoreItem(3);
+    this.courseService.loadMoreItem(3);
   }
 
 }

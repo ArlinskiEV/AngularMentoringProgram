@@ -13,5 +13,6 @@ export const ROUTES: Routes = [
 
   {path: 'login', component: LoginPageComponent, data: { title: 'LoginPage' }},
 
+  {path: 'notfound', component: PageNotFoundComponent},
   {path: '**', component: PageNotFoundComponent},
 ];
