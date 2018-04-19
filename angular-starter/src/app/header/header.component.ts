@@ -11,6 +11,7 @@ import {
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
 import { LoginPageComponent } from '../login-page';
+import { Router, Event, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   get isAuth() {
@@ -38,10 +40,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
     );
 
-    // const t = this.router.routerState.snapshot.root.firstChild;
-    // const t2: any = t.component;
-    // this.showBreadCrumbs = t2 &&
-    //   t2.name === 'LoginPageComponent';
+    // --------------------------------------------------------
+    // show/don't breadcrumbs
+    this.listeners.push(
+      this.router.events.subscribe(
+        (e: Event) => {
+          if (e instanceof NavigationEnd) {
+            const t = this.router.routerState.root.firstChild;
+            const t2: any = t.component;
+            this.showBreadCrumbs = !(t2 &&
+              t2.name === 'LoginPageComponent');
+          }
+        },
+      )
+    );
+    // --------------------------------------------------------
   }
 
   public ngOnDestroy() {
