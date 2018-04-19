@@ -11,6 +11,7 @@ import { CoursesModule } from './courses';
 import { ModalWindowModule } from './modalWindow';
 import { LoginPageModule } from './login-page';
 import { LoaderBlockModule } from './loaderBlock';
+import { PageNotFoundModule } from './page-not-found';
 
 import { AppComponent } from './app.component';
 import { CoursePageModule } from './course-page';
@@ -59,6 +60,7 @@ import { ROUTES } from './app.routes';
     LoginPageModule,
     CoursePageModule,
     LoaderBlockModule,
+    PageNotFoundModule,
 
     RouterModule.forRoot(ROUTES, {useHash: true}),
   ],

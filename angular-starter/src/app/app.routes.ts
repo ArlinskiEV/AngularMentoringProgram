@@ -3,12 +3,15 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page';
 import { CoursePageComponent } from './course-page';
 import { CoursesComponent } from './courses';
+import { PageNotFoundComponent } from './page-not-found';
 
 export const ROUTES: Routes = [
-  // {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: '', component: CoursesComponent},
-  {path: 'login', component: LoginPageComponent, data: { title: 'LoginPage' }},
-  {path: 'course', component: CoursePageComponent},
+  {path: '', redirectTo: 'courses', pathMatch: 'full'},
+  {path: 'courses', component: CoursesComponent},
+  {path: 'courses/new', component: CoursePageComponent, data: {new: true}},
+  {path: 'courses/:id', component: CoursePageComponent},
 
-  {path: '**', redirectTo: ''},
+  {path: 'login', component: LoginPageComponent, data: { title: 'LoginPage' }},
+
+  {path: '**', component: PageNotFoundComponent},
 ];

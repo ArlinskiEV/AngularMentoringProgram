@@ -23,7 +23,7 @@
     <button>edit</button>
     <button (click) = "del()">delete</button>
   </div>
-  <p class="tags">
+  <p class="tags" *ngIf="courseItem.tags.length > 0">
     <span
     *ngFor="let tag of courseItem.tags as tags; index as i"
     appStylelight
