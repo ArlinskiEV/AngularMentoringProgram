@@ -24,6 +24,7 @@ import {
 } from '@angular/http';
 
 import { AuthorizedHttpService } from '../services';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthorizationService {
@@ -36,6 +37,7 @@ export class AuthorizationService {
     private ngZone: NgZone,
     private http: Http,
     @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
+    private router: Router,
   ) {
     console.log('### AuthorizationService constructor ###');
     this.user = new User();
@@ -125,6 +127,10 @@ export class AuthorizationService {
         // ----------------------------
         this.user = new User(obj);
         this.mySource.next(this.user.sharedInfo());
+        // ----------------------------
+        // redirect
+        this.router.navigateByUrl('courses');
+        // ----------------------------
       },
       (error) => console.error(`ERROR: ${error.error}`),
       () => {
