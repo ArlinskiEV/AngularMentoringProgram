@@ -90,6 +90,10 @@ export class AuthorizationService {
     this.user = new User();
     this.Ahttp.clearHeaders();
     this.mySource.next(this.user.sharedInfo());
+    // ----------------------------
+    // redirect
+    this.router.navigateByUrl('login');
+    // ----------------------------
   }
   public isAuthenticated(): boolean {
     // IsAuthenticated (boolean)
