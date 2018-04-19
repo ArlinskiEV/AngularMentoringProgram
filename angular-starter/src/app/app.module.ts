@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from './header';
 import { FooterModule } from './footer';
-import { ToolbarModule } from './toolbar';
 import { CoursesModule } from './courses';
 import { ModalWindowModule } from './modalWindow';
 import { LoginPageModule } from './login-page';
@@ -54,7 +53,6 @@ import { ROUTES } from './app.routes';
     // --------------------------------------------------------------------
     HeaderModule,
     FooterModule,
-    ToolbarModule,
     CoursesModule,
     ModalWindowModule,
     LoginPageModule,

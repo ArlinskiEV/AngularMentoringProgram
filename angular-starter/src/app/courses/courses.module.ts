@@ -7,6 +7,7 @@ import {
   OrderByPipeModule,
   FilterPipeModule,
 } from '../core/pipes';
+import { ToolbarModule } from '../toolbar';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {
     CourseModule,
     OrderByPipeModule,
     FilterPipeModule,
+    ToolbarModule
   ],
   exports: [
     CoursesComponent,
