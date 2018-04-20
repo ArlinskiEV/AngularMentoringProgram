@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { HeaderComponent } from './header.component';
 import { UserInfoModule } from '../userinfo';
+import { BreadcrumbsComponent } from './breadcrumbs.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
+    BreadcrumbsComponent,
   ],
   imports: [
     CommonModule,

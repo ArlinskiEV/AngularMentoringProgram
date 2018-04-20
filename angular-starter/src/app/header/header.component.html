@@ -7,9 +7,9 @@
       <h1>Angular</h1>
     </div>
   </div>
-  <div *ngIf="showBreadCrumbs">
-    <!-- <breadcrumbs-component></breadcrumbs-component> -->
-    <p>breadcrumbs</p>
-  </div>
+  <breadcrumbs-component
+    *ngIf="showBreadCrumbs"
+  ></breadcrumbs-component>
+
   <userinfo *ngIf="isAuth"></userinfo>
 </div>
