@@ -11,7 +11,6 @@ export class ModalWindowService {
   private answerSream: Subject<Answer>;
 
   constructor() {
-    console.log('### ModalWindowServices constructor ###');
     this.source = new Subject();
     this.answerSream = new Subject();
   }

@@ -39,7 +39,6 @@ export class AuthorizationService {
     @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
     private router: Router,
   ) {
-    console.log('### AuthorizationService constructor ###');
     this.user = new User();
     this.mySource = new BehaviorSubject(this.user.sharedInfo());
 

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -11,8 +10,4 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class AppComponent  implements OnInit {
-  public ngOnInit() {
-    console.log('hello `APP` old `INTRO` component');
-  }
-}
+export class AppComponent {}

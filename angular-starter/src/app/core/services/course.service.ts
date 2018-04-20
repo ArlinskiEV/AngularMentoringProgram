@@ -36,7 +36,6 @@ export class CourseService {
     // @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
     private http: Http,
   ) {
-    console.log('### CourseService constructor ###');
     this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
     // observable for server (with http)
@@ -50,7 +49,6 @@ export class CourseService {
   }
 
   public getList(): Observable<Course[]> {
-    console.log('### CourseServices.getList ###');
     return this.sourceList.asObservable();
   }
 
@@ -107,7 +105,6 @@ export class CourseService {
     // ----------------------------------------------------------------
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
-      // ------------------------------------------------
       .subscribe(
         (data) => {
           // confirm delete

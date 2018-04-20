@@ -36,10 +36,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private filter: FilterPipe<Course>,
     private searchService: SearchService,
     private changeDetectorRef: ChangeDetectorRef,
-  ) {
-    console.log('courses-constructor, Arr:');
-    console.log(this.fullCoursesArr);
-  }
+  ) {}
   public ngOnInit() {
     // observable from CourseServices
     this.listeners.push(this.courseService.getList()

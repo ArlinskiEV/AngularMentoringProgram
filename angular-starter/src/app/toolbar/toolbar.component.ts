@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,11 +11,9 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ToolbarComponent  implements OnInit {
+export class ToolbarComponent {
   constructor(private router: Router) {}
-  public ngOnInit() {
-    console.log('hello `Toolbar` component');
-  }
+
   public createNewCourse() {
     this.router.navigateByUrl('courses/new');
   }

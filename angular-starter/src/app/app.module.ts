@@ -15,8 +15,6 @@ import { PageNotFoundModule } from './page-not-found';
 import { AppComponent } from './app.component';
 import { CoursePageModule } from './course-page';
 
-console.log('`APP` old `INTRO` bundle loaded asynchronously');
-
 import {
   CourseService,
   ModalWindowService,

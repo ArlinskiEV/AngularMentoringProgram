@@ -6,9 +6,9 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-// ---------------
+
 import { Course, Answer } from '../core/entities';
-// ---------------
+
 import { ModalWindowService } from '../core/services';
 import { Router } from '@angular/router';
 

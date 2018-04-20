@@ -14,8 +14,6 @@ import {
   ConnectionBackend
 } from '@angular/http';
 
-console.log('### AuthorizedHttpService loaded ###');
-
 @Injectable()
 export class AuthorizedHttpService extends Http {
   private headers: Array<{name: string, value: string | string[]}> = [];

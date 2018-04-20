@@ -4,13 +4,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class LoaderBlockService {
 
-  public source: BehaviorSubject<{show: boolean}>;
+  public source = new BehaviorSubject({show: false});
   private show = false;
-
-  constructor() {
-    console.log('### LoaderBlockService constructor ###');
-    this.source = new BehaviorSubject({show: false});
-  }
 
   public Show() {
     this.show = true;

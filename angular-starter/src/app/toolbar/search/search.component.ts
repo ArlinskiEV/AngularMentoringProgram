@@ -15,14 +15,12 @@ import { SearchService, CourseService } from '../../core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
-  protected searchText: string;
+  protected searchText: string = '';
 
   constructor(
     private searchService: SearchService,
     private courseServices: CourseService,
-  ) {
-    this.searchText = '';
-  }
+  ) {}
 
   public find() {
     console.log(`search:'${this.searchText}'`);
