@@ -51,6 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           (e: Event) => {
             const t = this.router.routerState.root.firstChild;
             const t2: any = t.component;
+            // this.showBreadCrumbs = !(t2 instanceof LoginPageComponent);
             this.showBreadCrumbs = !(t2 &&
               t2.name === 'LoginPageComponent');
           },

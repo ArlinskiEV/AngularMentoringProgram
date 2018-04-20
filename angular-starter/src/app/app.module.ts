@@ -58,7 +58,10 @@ import { ROUTES } from './app.routes';
     LoaderBlockModule,
     PageNotFoundModule,
 
-    RouterModule.forRoot(ROUTES, {useHash: true}),
+    RouterModule.forRoot(ROUTES, {
+      useHash: true,
+      enableTracing: true, // <- only for debugg
+    }),
   ],
   providers: [
     // --------------------------------------------------------------------
