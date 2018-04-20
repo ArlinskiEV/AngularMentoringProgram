@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { LoginPageComponent } from '../login-page';
 import { Router, Event, NavigationEnd } from '@angular/router';
 
+import 'rxjs/add/operator/filter';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -43,16 +45,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // --------------------------------------------------------
     // show/don't breadcrumbs
     this.listeners.push(
-      this.router.events.subscribe(
-        (e: Event) => {
-          if (e instanceof NavigationEnd) {
+      this.router.events
+        .filter((e: Event) => e instanceof NavigationEnd)
+        .subscribe(
+          (e: Event) => {
             const t = this.router.routerState.root.firstChild;
             const t2: any = t.component;
             this.showBreadCrumbs = !(t2 &&
               t2.name === 'LoginPageComponent');
-          }
-        },
-      )
+          },
+        )
     );
     // --------------------------------------------------------
   }
