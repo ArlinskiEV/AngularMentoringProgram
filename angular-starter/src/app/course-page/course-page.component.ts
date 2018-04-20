@@ -2,9 +2,10 @@ import {
   Component, ChangeDetectionStrategy, OnInit, OnDestroy,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Params, Data } from '@angular/router';
+import { ActivatedRoute, Params, Data, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/switch';
 import { Subscription } from 'rxjs/Subscription';
 import { CourseService, Course } from '../core';
 
@@ -25,54 +26,62 @@ export class CoursePageComponent implements OnInit, OnDestroy {
   // --------------------------------------
 
   public course = new Course();
-  private listeners: Subscription[] = [];
   private sourse: Observable<Course>;
+  private idInfo: {new: boolean, id: any};
+  private listeners: Subscription[] = [];
 
   constructor(
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private courseService: CourseService
   ) {
-    const sourceParams = this.route.params
+    const sourceParams = this.activatedRoute.params
       .map((data: Params) => {
         return {new: false, id: data['id']};
       })
     ;
 
-    const sourseData = this.route.data
+    const sourseData = this.activatedRoute.data
+      .filter((data: Data) => !!Object.keys(data).length)
       .map((data: Data) => {
         return {new: data.new, id: null};
       })
     ;
 
-    // --------------------------
-    // need fix
     this.sourse = sourceParams
       .merge(sourseData)
       .map((data: {new: boolean, id: any}) => {
+        this.idInfo = data;
         if (!data.new) {
           return this.courseService.getItemById(data.id);
         } else {
           return Observable.of(new Course());
         }
-      })
+      }).switch()
     ;
-    // --------------------------
+
   }
 
-  public click(text: string) {
-    console.warn(`it was click:${text}`);
-  }
   public save() {
-    this.click('save');
+    this.courseService.updateItem(this.course);
+    this.router.navigateByUrl('courses');
   }
   public cancel() {
-    this.click('cancel');
+    this.router.navigateByUrl('courses');
   }
 
   public ngOnInit() {
     this.listeners.push(
       this.sourse.subscribe((data: Course) => {
-        // this.course = data;
+        // -----------------------------------------
+        // how check it right?
+        if (+this.idInfo.id === data.id) {
+          this.course = data;
+          console.log(data);
+        } else {
+          this.router.navigateByUrl('notfound');
+        }
+        // -----------------------------------------
       })
     );
   }

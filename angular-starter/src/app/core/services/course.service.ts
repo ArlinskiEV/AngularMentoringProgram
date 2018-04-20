@@ -70,8 +70,14 @@ export class CourseService {
   public updateItem(obj: UpdateCourseItemById): void {
     const arr = [...this.sourceList.value];
     const i = arr.findIndex((item) => item.id === obj.id);
-    arr[i] = Course.updateCourseItemById(arr[i], obj);
-    this.sourceList.next(arr);
+    if (i !== -1) {
+      arr[i] = Course.updateCourseItemById(arr[i], obj);
+      this.sourceList.next(arr);
+      console.log('update successful');
+    } else {
+      console.warn('item not found in local array');
+      console.warn(obj);
+    }
   }
 
   public removeItem(id: number): void {
