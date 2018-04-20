@@ -22,6 +22,7 @@ import {
   SearchService,
   AuthorizationService,
   AuthorizedHttpService,
+  BreadcrumbsService,
 } from './core/services';
 
 import { FilterPipe } from './core';
@@ -69,14 +70,15 @@ import { ROUTES } from './app.routes';
     { provide: Http, useFactory: AuthorizedHttpFactory, deps: [XHRBackend, RequestOptions]},
     { provide: 'Ahttp', useExisting: Http},
     // --------------------------------------------------------------------
+    BreadcrumbsService,
+    ModalWindowService,
+    {provide: 'load-spinner', useClass: LoaderBlockService},
+    SearchService,
+
     AuthorizationService,
 
-    ModalWindowService,
-
-    {provide: 'load-spinner', useClass: LoaderBlockService},
     CourseService,
 
-    SearchService,
     // --------------------------------------------------------------------
     FilterPipe,
     // --------------------------------------------------------------------

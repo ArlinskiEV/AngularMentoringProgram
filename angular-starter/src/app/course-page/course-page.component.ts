@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/switch';
 import { Subscription } from 'rxjs/Subscription';
-import { CourseService, Course } from '../core';
+import { CourseService, Course, BreadcrumbsService } from '../core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
@@ -37,6 +37,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     private router: Router,
     private courseService: CourseService,
     private changeDetectorRef: ChangeDetectorRef,
+    private breadcrumbsService: BreadcrumbsService,
   ) {
     const sourceParams = this.activatedRoute.params
       .map((data: Params) => {
@@ -63,10 +64,8 @@ export class CoursePageComponent implements OnInit, OnDestroy {
       }).switch()
     ;
 
-  }
+    this.breadcrumbsService.setSource(this.course.asObservable());
 
-  public iWantYourData(): Observable<Course> {
-    return this.course.asObservable();
   }
 
   public save() {

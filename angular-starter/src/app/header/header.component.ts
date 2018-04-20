@@ -10,8 +10,7 @@ import {
 
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
-import { LoginPageComponent } from '../login-page';
-import { Router, Event, NavigationEnd } from '@angular/router';
+import { Router, Event, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import 'rxjs/add/operator/filter';
 
@@ -27,7 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   get isAuth() {
