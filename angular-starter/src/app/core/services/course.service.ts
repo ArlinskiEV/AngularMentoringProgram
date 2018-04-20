@@ -187,9 +187,10 @@ export class CourseService {
       .map((res: Response) => res.json())
       // ------------------------------
       // transform
-      .map((data: CourseFromServer[]) =>
+      .map((data: CourseFromServer[]) => // just type
         data.map((item) =>
-          item.transformToCourse()
+          // instanse of class
+          (new CourseFromServer(item)).transformToCourse()
         )
       )
       // ------------------------------
