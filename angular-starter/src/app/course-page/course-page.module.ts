@@ -6,9 +6,6 @@ import { CoursePageComponent } from './course-page.component';
 import { DateComponent } from './date.component';
 import { TestComponent } from './test.component';
 
-import { HeaderModule } from '../header';
-import { FooterModule } from '../footer';
-
 @NgModule({
   declarations: [
     CoursePageComponent,
@@ -18,9 +15,6 @@ import { FooterModule } from '../footer';
   imports: [
     CommonModule,
     FormsModule,
-
-    HeaderModule,
-    FooterModule,
   ],
   exports: [
     CoursePageComponent,

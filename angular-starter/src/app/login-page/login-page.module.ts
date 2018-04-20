@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { LoginPageComponent } from './login-page.component';
 
-import { HeaderModule } from '../header';
-import { FooterModule } from '../footer';
 
 @NgModule({
   declarations: [
@@ -14,9 +12,6 @@ import { FooterModule } from '../footer';
   imports: [
     CommonModule,
     FormsModule,
-
-    HeaderModule,
-    FooterModule,
   ],
   exports: [
     LoginPageComponent,
