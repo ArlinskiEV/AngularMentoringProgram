@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import {
   Course,
   CourseFromServer,
-  UpdateCourseItem,
+  UpdateCourseItemById,
   BASE_URL,
   ServerQuery,
 } from '../entities';
@@ -67,14 +67,11 @@ export class CourseService {
     }
   }
 
-  public updateItem(obj: UpdateCourseItem): void {
-    const arr = this.sourceList.value;
+  public updateItem(obj: UpdateCourseItemById): void {
+    const arr = [...this.sourceList.value];
     const i = arr.findIndex((item) => item.id === obj.id);
-    arr[i] = {
-      ...arr[i],
-      ...obj
-    };
-    this.sourceList.next([...arr]);
+    arr[i] = Course.updateCourseItemById(arr[i], obj);
+    this.sourceList.next(arr);
   }
 
   public removeItem(id: number): void {
@@ -185,31 +182,18 @@ export class CourseService {
     requestOptions.headers = headers;
     requestOptions.search = urlParams;
     const request = new Request(requestOptions);
-    // ----------------------------------------------------------------
+
     return this.http.request(request)
       .map((res: Response) => res.json())
-      // ------------------------------------------------
+      // ------------------------------
       // transform
-      .map((data: CourseFromServer[]) => {
-        return data.map((item) => {
-          const obj = {
-            ...item,
-            duration: + new Date(item.length * 60000),
-            date: + new Date(item.date),
-            tags: [],
-            isAccept: false,
-            text: item.description,
-            topRated: item.isTopRated,
-          };
-          delete obj.description;
-          delete obj.isTopRated;
-          delete obj.authors;
-          delete obj.length;
-          return obj;
-        });
-      })
-      ;
-      // ------------------------------------------------
+      .map((data: CourseFromServer[]) =>
+        data.map((item) =>
+          item.transformToCourse()
+        )
+      )
+      // ------------------------------
+    ;
   }
 
 }
