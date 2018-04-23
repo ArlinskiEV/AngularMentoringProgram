@@ -6,17 +6,17 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class BreadcrumbsService {
-  private source = new BehaviorSubject(new Course());
+  private source = new BehaviorSubject('');
 
-  public setSource(newSource: Observable<Course>) {
+  public setSource(newSource: Observable<string>) {
     const listener: Subscription = newSource.subscribe(
-      (course: Course) => this.source.next(course),
+      (text: string) => this.source.next(text),
       null,
       () => listener.unsubscribe()
     );
   }
 
-  public getSource(): Observable<Course> {
+  public getSource(): Observable<string> {
     return this.source.asObservable();
   }
 }

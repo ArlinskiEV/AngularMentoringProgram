@@ -64,7 +64,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
       }).switch()
     ;
 
-    this.breadcrumbsService.setSource(this.course.asObservable());
+    this.breadcrumbsService.setSource(this.course.asObservable().map((item) => item.name));
 
   }
 
