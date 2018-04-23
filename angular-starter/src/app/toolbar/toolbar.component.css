@@ -1,0 +1,6 @@
+div {
+  background-color: purple;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0px;
+}

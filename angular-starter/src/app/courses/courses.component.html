@@ -1,0 +1,20 @@
+<tools></tools>
+
+<div class="box">
+  <p>Accepted count: {{count}}</p>
+  <hr>
+  <div *ngIf = "coursesArr.length !== 0">
+    <course *ngFor = "let item of coursesArr | myOrderBy:'createdDate':'desc'"
+    [courseItem] = "item"
+    (handler) = "deletter($event)"
+    ></course>
+  </div>
+  <div *ngIf = "coursesArr.length === 0">
+    <div class="message">
+      <p>Sorry, no Course in array</p>
+    </div>
+  </div>
+  <div>
+    <button (click)="loadMore()">Add more (3)</button>
+  </div>
+</div>
