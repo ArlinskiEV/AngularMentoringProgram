@@ -5,7 +5,15 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { Router, RouterLink, Event, NavigationEnd, ActivatedRoute, Params, UrlSegment } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  Event,
+  NavigationEnd,
+  ActivatedRoute,
+  Params,
+  UrlSegment
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Course, BreadcrumbsService } from '../core';
@@ -18,10 +26,9 @@ import { Subject } from 'rxjs/Subject';
      text-decoration: underline;
    }
    a:not(:first-of-type)::before {
-     content: '>'
+     content: '>';
    }
    :host > div {
-    // display: flex;
     align-items: center;
    }
   `],
