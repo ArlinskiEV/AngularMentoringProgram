@@ -23,6 +23,7 @@ import {
   AuthorizationService,
   AuthorizedHttpService,
   BreadcrumbsService,
+  CanActivateGuard,
 } from './core/services';
 
 import { FilterPipe } from './core';
@@ -76,6 +77,7 @@ import { ROUTES } from './app.routes';
     SearchService,
 
     AuthorizationService,
+    CanActivateGuard,
 
     CourseService,
 
