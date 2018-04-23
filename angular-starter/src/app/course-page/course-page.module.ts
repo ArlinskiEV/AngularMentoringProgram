@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { CoursePageComponent } from './course-page.component';
 import { DateComponent } from './date.component';
 import { TestComponent } from './test.component';
+import { DateValidatorDirective } from './date.validator';
 
 @NgModule({
   declarations: [
     CoursePageComponent,
     DateComponent,
     TestComponent,
+    DateValidatorDirective,
   ],
   imports: [
     CommonModule,

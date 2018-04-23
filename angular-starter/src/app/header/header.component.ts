@@ -54,6 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             // this.showBreadCrumbs = !(t2 instanceof LoginPageComponent);
             this.showBreadCrumbs = !(t2 &&
               t2.name === 'LoginPageComponent');
+            this.changeDetectorRef.markForCheck();
           },
         )
     );

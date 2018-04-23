@@ -45,7 +45,6 @@ export class DateComponent implements ControlValueAccessor {
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   public writeValue(value: number): void {
-    console.warn('write');
     this.value = value;
   }
   public registerOnChange(fn: any): void {
@@ -61,13 +60,11 @@ export class DateComponent implements ControlValueAccessor {
   // ------------------------------------------------------------------
   // set & get date-component value
   private get value(): number {
-    console.warn('get');
     return this.currentValue;
   }
 
   // all other methods work with this
   private set value(newValue: number) {
-    console.warn('set');
     this.currentValue = newValue;
     this.onChange(newValue);
     this.changeDetectorRef.markForCheck();
@@ -77,17 +74,14 @@ export class DateComponent implements ControlValueAccessor {
   // ------------------------------------------------------------------
   // work text-input with number-date
   private setValue(value: string) {
-    console.warn('setValue');
     let newValue = null; // if format incorrect
     // check
     if (value.match(/^[0-2]?[0-9]\/[0,1]?[0-9]\/[1,2][0-9]{3}$/)) {
-      const t = value.split('/');
-      newValue = + new Date(`${t[2]}-${t[1]}-${t[0]}`); // YYYY-MM-DD
+      newValue = + new Date(value.split('/').reverse().join('-')); // YYYY-MM-DD
     }
     this.value = newValue;
   }
   private valueToString(value: number): string {
-    console.warn('valueToString');
     const result = new Date(value);
     return `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`;
   }

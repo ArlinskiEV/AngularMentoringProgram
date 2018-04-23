@@ -62,7 +62,7 @@ import { ROUTES } from './app.routes';
 
     RouterModule.forRoot(ROUTES, {
       useHash: true,
-      enableTracing: true, // <- only for debugg
+      // enableTracing: true, // <- only for debugg
     }),
   ],
   providers: [
