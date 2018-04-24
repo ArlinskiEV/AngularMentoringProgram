@@ -13,9 +13,9 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class LoginPageComponent {
-  private login: string = '';
-  private password: string = '';
-  private error: string = '';
+  public login: string = '';
+  public password: string = '';
+  public error: string = '';
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,

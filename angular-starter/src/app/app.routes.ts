@@ -39,6 +39,6 @@ export const ROUTES: Routes = [
   },
   {
     path: '**',
-    component: PageNotFoundComponent
+    redirectTo: 'notfound'
   },
 ];

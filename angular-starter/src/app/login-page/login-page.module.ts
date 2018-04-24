@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { LoginPageComponent } from './login-page.component';
 
-
 @NgModule({
   declarations: [
     LoginPageComponent,

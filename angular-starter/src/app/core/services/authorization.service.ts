@@ -136,7 +136,6 @@ export class AuthorizationService {
           ...data,
           token: data.fakeToken
         };
-        delete obj.fakeToken;
         // ----------------------------
         this.user = new User(obj);
         this.mySource.next(this.user.sharedInfo());
