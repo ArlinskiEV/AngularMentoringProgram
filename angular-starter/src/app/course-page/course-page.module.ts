@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CoursePageComponent } from './course-page.component';
 import { DateComponent } from './date.component';
 import { TestComponent } from './test.component';
-import { DateValidatorDirective } from './date.validator.directive';
+import { DateValidatorDirective } from './date';
 
 @NgModule({
   declarations: [
