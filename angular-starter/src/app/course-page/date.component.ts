@@ -6,31 +6,23 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
-const CUSTOM_DATE_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => DateComponent),
-  multi: true
-};
-
 @Component({
   selector: 'date-component',
   styles: [`
     :host>* {
-      border: 5px solid red;
+      // border: 5px solid red;
     }
   `],
   template: `
     <input type="text"
-      #my
       (change)="setValue($event.target.value)"
       placeholder="dd/MM/yyyy"
       [value]="valueToString(value)"
+      (blur)="onTouched()"
     >
-    <p>value:{{value | json}}</p>
-    <p>input: {{my.value}}</p>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CUSTOM_DATE_VALUE_ACCESSOR],
+  providers: [{provide: NG_VALUE_ACCESSOR, useExisting: DateComponent, multi: true}],
 })
 /*
 Text input.
@@ -45,7 +37,10 @@ export class DateComponent implements ControlValueAccessor {
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   public writeValue(value: number): void {
-    this.value = value;
+    console.warn('write');
+    // do not call onChange -> prestine
+    this.currentValue = value;
+    this.changeDetectorRef.markForCheck();
   }
   public registerOnChange(fn: any): void {
     this.onChange = fn;

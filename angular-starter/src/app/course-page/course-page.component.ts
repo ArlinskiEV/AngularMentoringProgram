@@ -19,13 +19,6 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class CoursePageComponent implements OnInit, OnDestroy {
-  // --------------------------------------
-  // test content
-  public test = 0;
-  public test2 = 0;
-  public disabledFlag: boolean = false;
-  public testDate: number = Date.now();
-  // --------------------------------------
 
   public course = new BehaviorSubject(new Course());
   private source: Observable<Course>;
