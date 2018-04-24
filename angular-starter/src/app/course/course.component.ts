@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 
 import { Course, Answer } from '../core/entities';
 
-import { ModalWindowService } from '../core/services';
+import { ModalWindowService, BreadcrumbsService } from '../core/services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,7 +27,8 @@ export class CourseComponent {
 
   constructor(
     private modalWindowService: ModalWindowService,
-    private router: Router
+    private router: Router,
+    private breadcrumbsService: BreadcrumbsService,
   ) {}
 
   protected edit(id: number) {

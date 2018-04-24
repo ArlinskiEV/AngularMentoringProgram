@@ -7,10 +7,13 @@ import {
   Inject,
 } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 import {
   CourseService,
   LoaderBlockService,
   SearchService,
+  BreadcrumbsService,
 } from '../core/services';
 import { FilterPipe } from '../core/pipes';
 import { Course, FilterRule } from '../core/entities';
@@ -36,6 +39,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private filter: FilterPipe<Course>,
     private searchService: SearchService,
     private changeDetectorRef: ChangeDetectorRef,
+    private breadcrumbsService: BreadcrumbsService,
   ) {}
   public ngOnInit() {
     // observable from CourseServices
@@ -55,6 +59,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.markForCheck();
       })
     );
+
+    this.breadcrumbsService.setSource(Observable.of('Home'));
   }
 
   public ngOnDestroy() {

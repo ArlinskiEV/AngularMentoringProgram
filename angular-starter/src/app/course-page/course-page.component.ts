@@ -57,8 +57,6 @@ export class CoursePageComponent implements OnInit, OnDestroy {
       }).switch()
     ;
 
-    this.breadcrumbsService.setSource(this.course.asObservable().map((item) => item.name));
-
   }
 
   public save() {
@@ -84,6 +82,8 @@ export class CoursePageComponent implements OnInit, OnDestroy {
         // -----------------------------------------
       })
     );
+
+    this.breadcrumbsService.setSource(this.course.asObservable().map((item) => item.name));
   }
 
   public ngOnDestroy() {

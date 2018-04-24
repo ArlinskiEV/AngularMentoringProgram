@@ -7,12 +7,15 @@ import { Subscription } from 'rxjs/Subscription';
 @Injectable()
 export class BreadcrumbsService {
   private source = new BehaviorSubject('');
+  private listener: Subscription;
 
   public setSource(newSource: Observable<string>) {
-    const listener: Subscription = newSource.subscribe(
+    if (this.listener) {
+      this.listener.unsubscribe();
+    }
+
+    this.listener = newSource.subscribe(
       (text: string) => this.source.next(text),
-      null,
-      () => listener.unsubscribe()
     );
   }
 
