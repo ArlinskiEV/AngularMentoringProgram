@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-// import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import {
   User,
@@ -25,6 +24,7 @@ import {
 
 import { AuthorizedHttpService } from '../services';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthorizationService {
@@ -42,7 +42,7 @@ export class AuthorizationService {
     this.user = new User();
     this.mySource = new BehaviorSubject(this.user.sharedInfo());
 
-    // ----------------------------------------------------------------STABLE-UNSTABLE-TIMING
+    // --------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
     const stable: Subscription = ngZone.onUnstable.subscribe(() => start = Date.now(), null,
       () => stable.unsubscribe()
@@ -51,10 +51,10 @@ export class AuthorizationService {
       console.log(`ngZone Stable. unstable time=${Date.now() - start}`), null,
       () => unstable.unsubscribe()
     );
-    // ----------------------------------------------------------------
+    // --------------------------------------------
   }
 
-  public login(payload: {login: string, password: any}): void {// how do it right??
+  public login(payload: {login: string, password: any}): Observable<string> {// how do it right??
     // Login (stores fake user info and token to local storage)
 
     const headers = new Headers();
@@ -66,22 +66,26 @@ export class AuthorizationService {
     requestOptions.body = payload;
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
+    const error = new Subject<string>();
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
       .subscribe(
         (data: any) => {
-          // console.warn(data);
           this.user.token = data.token;
           this.Ahttp.setHeaders([
             {name: 'Authorization', value: this.user.token}
           ]);
-        },
-        (error) => console.error(`ERROR: ${error._body}`),
-        () => {
-          listener.unsubscribe();
           this.getInfo();
-        }
-      );
+        },
+        (serverError) => {
+          error.next(serverError._body);
+          console.error(`ERROR:${error}`);
+        },
+        () => listener.unsubscribe()
+      )
+    ;
+
+    return error.asObservable();
   }
 
   public logout(): void {
@@ -95,9 +99,7 @@ export class AuthorizationService {
     // ----------------------------
   }
   public isAuthenticated(): boolean {
-    // IsAuthenticated (boolean)
     return !!this.user.token;
-    // or this.token ? case: recive token without info
   }
   public getUserInfo(): Observable<SharedUserInfo> {
     return this.mySource.asObservable();

@@ -1,6 +1,8 @@
-:host /deep/>div{
-  color: palevioletred;
+:host div {
   border: 3px solid rgb(43, 178, 219);
   margin: 15px;
   padding: 15px;
+}
+:host span{
+  color: red;
 }

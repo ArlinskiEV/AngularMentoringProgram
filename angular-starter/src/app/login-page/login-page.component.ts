@@ -1,8 +1,9 @@
 import {
-  Component, ChangeDetectionStrategy,
+  Component, ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthorizationService } from '../core/services';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'login-page',
@@ -12,14 +13,25 @@ import { AuthorizationService } from '../core/services';
 })
 
 export class LoginPageComponent {
-  protected login: string;
-  protected password: string;
-  constructor(private authorizationService: AuthorizationService) {
-    this.login = '';
-    this.password = '';
-  }
+  private login: string = '';
+  private password: string = '';
+  private error: string = '';
+  constructor(
+    private authorizationService: AuthorizationService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   public click() {
-    this.authorizationService.login({login: this.login, password: this.password});
+    const listener: Subscription = this.authorizationService
+      .login({login: this.login, password: this.password})
+      .subscribe(
+        (error) => {
+          this.error = error;
+          this.changeDetectorRef.markForCheck();
+        },
+        null,
+        () => listener.unsubscribe()
+      )
+    ;
   }
 }
