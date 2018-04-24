@@ -55,7 +55,6 @@ export class AuthorizationService {
   }
 
   public login(payload: {login: string, password: any}): Observable<string> {// how do it right??
-    // Login (stores fake user info and token to local storage)
 
     const headers = new Headers();
     const requestOptions = new RequestOptions();
@@ -78,8 +77,18 @@ export class AuthorizationService {
           this.getInfo();
         },
         (serverError) => {
-          error.next(serverError._body);
-          console.error(`ERROR:${serverError}`);
+          switch (serverError.status) {
+            case 0: {
+              error.next('Connection error');
+              break;
+            }
+            case 401: {
+              error.next(`Authorization error: ${serverError._body}`);
+              break;
+            }
+            default: error.next(`Unknown error: ${serverError._body}`);
+          }
+          console.error(`ERROR:${JSON.stringify(serverError)}`);
         },
         () => listener.unsubscribe()
       )
@@ -89,7 +98,6 @@ export class AuthorizationService {
   }
 
   public logout(): void {
-    // Logout (wipes fake user info and token from local storage)
     this.user = new User();
     this.Ahttp.clearHeaders();
     this.mySource.next(this.user.sharedInfo());
