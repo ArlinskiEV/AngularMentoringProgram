@@ -5,14 +5,7 @@ import { FilterRule } from '../entities';
 
 @Injectable()
 export class SearchService {
-  private source: BehaviorSubject<FilterRule[]> = new BehaviorSubject([{
-    field: 'date',
-    compareWith: null,
-    interval: {
-      start: + Date.now() - 14 * 24 * 60 * 60 * 1000,
-      end: + Date.now()
-    },
-  }]);
+  private source = new BehaviorSubject<FilterRule[]>([]);
 
   public getSearchData() {
     return this.source.asObservable();
@@ -21,5 +14,3 @@ export class SearchService {
     this.source.next(data);
   }
 }
-
-console.error('click "find" with empty field');
