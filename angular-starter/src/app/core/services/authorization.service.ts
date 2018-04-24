@@ -79,7 +79,7 @@ export class AuthorizationService {
         },
         (serverError) => {
           error.next(serverError._body);
-          console.error(`ERROR:${error}`);
+          console.error(`ERROR:${serverError}`);
         },
         () => listener.unsubscribe()
       )
