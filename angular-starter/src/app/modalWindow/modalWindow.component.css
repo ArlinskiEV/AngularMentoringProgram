@@ -11,13 +11,13 @@
 }
 
 :host>div .message {
-  padding: 15px;
+  padding: 15px 35px;
   border-radius: 15px;
   position: relative;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-:host>div .message>.buttons{
+:host>div .message>.btn-group{
   width: 100%;
   display: flex;
   justify-content: space-around;

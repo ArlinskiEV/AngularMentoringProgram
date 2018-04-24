@@ -1,17 +1,6 @@
-p {
-  /* color: #369; */
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
-}
 .box {
-  border: 5px solid mediumslateblue;
   padding: 15px;
 }
-
-/* :host /deep/ course:not(:last-child)>div{
-  border-bottom: 3px solid rgb(41, 51, 189);
-  margin-bottom: 7px;
-} */
 
 .message {
   background-color: dimgray;

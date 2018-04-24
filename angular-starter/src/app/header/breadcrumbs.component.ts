@@ -33,13 +33,26 @@ import { Subject } from 'rxjs/Subject';
    }
   `],
   template: `
-  <div>
   <h3>{{title}}</h3>
-      <a
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li
         *ngFor="let part of path index as i"
-        (click)="goToPath(i)"
-      >{{part.path}}</a>
-    </div>
+        ngClass="breadcrumb-item active"
+        [ngClass]="{
+          'breadcrumb-item': true,
+          'active': i === path.length - 1
+        }"
+        aria-current="page"
+      >
+        <a
+          *ngIf="i !== path.length - 1"
+          (click)="goToPath(i)"
+        >{{part.path}}</a>
+        <span *ngIf="i === path.length - 1">{{part.path}}</span>
+      </li>
+    </ol>
+  </nav>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
