@@ -1,15 +1,5 @@
 .content {
-  background-color: rgb(44, 206, 206);
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.testCustomControls {
-  background-color: rgb(158, 241, 241);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 15px;
-  padding: 15px;
 }

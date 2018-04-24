@@ -1,25 +1,27 @@
-<h1>LOGIN PAGE</h1>
-<div class="form-inline">
-  <input
-    type="text"
-    class="form-control"
-    [(ngModel)]="login"
-    placeholder="Login"
-  >
-  <input
-    type="password"
-    class="form-control"
-    [(ngModel)]="password"
-    placeholder="Password"
-  >
-  <button
-    type="submit"
-    (click)="click()"
-    class="btn btn-primary"
-  >Sign In</button>
-  <span
-    *ngIf="error"
-    class="alert alert-danger"
-    role="alert"
-  >ERROR: {{error}}</span>
+<div class="container-fluid">
+  <h1>LOGIN PAGE</h1>
+  <div class="form-inline">
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="login"
+      placeholder="Login"
+    >
+    <input
+      type="password"
+      class="form-control"
+      [(ngModel)]="password"
+      placeholder="Password"
+    >
+    <button
+      type="submit"
+      (click)="click()"
+      class="btn btn-primary"
+    >Sign In</button>
+    <span
+      *ngIf="error"
+      class="alert alert-danger"
+      role="alert"
+    >ERROR: {{error}}</span>
+  </div>
 </div>
