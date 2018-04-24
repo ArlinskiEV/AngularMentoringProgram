@@ -24,14 +24,12 @@ export class SearchComponent {
 
   public find() {
     console.log(`search:'${this.searchText}'`);
-    // this._searchService.setSearchData(this.searchText
-    //   ? [{field: 'name', compareWith: this.searchText}]
-    //   : []
-    // );
+    this.searchService.setSearchData(this.searchText
+      ? [{field: 'name', compareWith: this.searchText}]
+      : []
+    );
 
-    // clean 14-day pre-set
-    this.searchService.setSearchData([]);
-
+    // server-side search
     this.courseServices.search(this.searchText);
   }
 }

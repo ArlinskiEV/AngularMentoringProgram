@@ -151,7 +151,7 @@ export class CourseService {
     const listener = this.server({start: 0, count: 10, query})
       .subscribe(
         (data: Course[]) => {
-          this.sourceList.next(data);
+          // this.sourceList.next(data);
         },
         null,
         () => {
