@@ -7,7 +7,8 @@ import {
   SharedUserInfo,
   UserFromServer,
   BASE_URL,
-  UserLoginModel
+  UserLoginModel,
+  SERVER_ERROR
 } from '../entities';
 
 import { NgZone } from '@angular/core';
@@ -65,7 +66,7 @@ export class AuthorizationService {
     requestOptions.body = payload;
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
-    const error = new Subject<string>();
+    const result = new Subject<string>();
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
       .subscribe(
@@ -75,26 +76,26 @@ export class AuthorizationService {
             {name: 'Authorization', value: this.user.token}
           ]);
           this.getInfo();
+          result.next('Authorization success');
         },
         (serverError) => {
           switch (serverError.status) {
-            case 0: {
-              error.next('Connection error');
+            case SERVER_ERROR.CONNECTION_ERROR: {
+              result.error('Connection error');
               break;
             }
-            case 401: {
-              error.next(`Authorization error: ${serverError._body}`);
+            case SERVER_ERROR.AUTHORIZATION_ERROR: {
+              result.error(`Authorization error: ${serverError._body}`);
               break;
             }
-            default: error.next(`Unknown error: ${serverError._body}`);
+            default: result.error(`Unknown error: ${serverError._body}`);
           }
-          console.error(`ERROR:${JSON.stringify(serverError)}`);
         },
         () => listener.unsubscribe()
       )
     ;
 
-    return error.asObservable();
+    return result.asObservable();
   }
 
   public logout(): void {

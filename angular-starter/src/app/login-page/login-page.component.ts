@@ -3,7 +3,9 @@ import {
 } from '@angular/core';
 import { NgForm, FormGroup } from '@angular/forms';
 import { AuthorizationService } from '../core/services';
+import 'rxjs/add/operator/finally';
 import { Subscription } from 'rxjs/Subscription';
+
 import { UserLoginModel } from '../core/entities';
 
 @Component({
@@ -18,7 +20,11 @@ export class LoginPageComponent {
     login: '',
     password: ''
   };
-  public error: string = '';
+  public alert = {
+    message: '',
+    class: '',
+  };
+
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -27,14 +33,17 @@ export class LoginPageComponent {
   public submit(form: FormGroup) {
     const listener: Subscription = this.authorizationService
       .login(form.value)
+      .finally(() => listener.unsubscribe())
       .subscribe(
-        (error) => {
-          this.error = error;
-          this.changeDetectorRef.markForCheck();
-        },
-        null,
-        () => listener.unsubscribe()
+        (result) => this.showAlert('RESULT: ' + result, 'alert-success'),
+        (error) => this.showAlert('ERROR: ' + error, 'alert-danger')
       )
     ;
+  }
+
+  private showAlert(message: string, alertClass: string) {
+    this.alert.message = message;
+    this.alert.class = alertClass;
+    this.changeDetectorRef.markForCheck();
   }
 }

@@ -1,5 +1,4 @@
 <div class="container-fluid">
-  <h1>LOGIN PAGE</h1>
   <form class="form-inline" #form="ngForm" (submit)="submit(form)">
     <input
       type="text"
@@ -19,10 +18,10 @@
       type="submit"
       class="btn btn-primary"
     >Sign In</button>
-    <span
-      *ngIf="error"
-      class="alert alert-danger"
-      role="alert"
-    >ERROR: {{error}}</span>
   </form>
+  <span
+    *ngIf="alert.message"
+    [ngClass]="['alert', alert.class]"
+    role="alert"
+  >{{alert.message}}</span>
 </div>

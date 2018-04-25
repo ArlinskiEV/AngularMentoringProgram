@@ -1,3 +1,9 @@
-.form-inline {
-  justify-content: center;
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  margin-bottom: 1rem;
 }

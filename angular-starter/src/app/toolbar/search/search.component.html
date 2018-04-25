@@ -1,8 +1,11 @@
 <div class="container-fluid">
-  <input type="text"
-    [(ngModel)]="searchText"
-    placeholder="Search..."
-    (keyup.enter)="find()"
-  >
-  <button class="btn btn-info" (click)="find()">Find</button>
+  <form class="form-inline" (submit)="find()">
+    <input type="text" class="form-control"
+      [(ngModel)]="searchText"
+      placeholder="Search..."
+      (keyup.enter)="find()"
+      [ngModelOptions]="{standalone: true}"
+    >
+    <button class="btn btn-info" (click)="find()">Find</button>
+  </form>
 </div>
