@@ -44,7 +44,6 @@ export class DateComponent implements ControlValueAccessor {
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   public writeValue(value: number): void {
-    console.warn('write');
     // do not call onChange -> prestine
     this.currentValue = value;
     this.changeDetectorRef.markForCheck();
