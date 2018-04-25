@@ -9,11 +9,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'date-component',
-  styles: [`
-    :host>* {
-      // border: 5px solid red;
-    }
-  `],
+  styles: [``],
   template: `
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -55,17 +51,17 @@ export class DateComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private onChange = (_) => {};
-  private onTouched = () => {};
+  public onChange = (_) => {};
+  public onTouched = () => {};
 
   // ------------------------------------------------------------------
   // set & get date-component value
-  private get value(): number {
+  public get value(): number {
     return this.currentValue;
   }
 
   // all other methods work with this
-  private set value(newValue: number) {
+  public set value(newValue: number) {
     this.currentValue = newValue;
     this.onChange(newValue);
     this.changeDetectorRef.markForCheck();
@@ -74,7 +70,7 @@ export class DateComponent implements ControlValueAccessor {
 
   // ------------------------------------------------------------------
   // work text-input with number-date
-  private viewToValue(value: string) {
+  public viewToValue(value: string) {
     let newValue = null; // if format incorrect
     // check
     if (value.match(/^[0-2]?[0-9]\/[0,1]?[0-9]\/[1,2][0-9]{3}$/)) {
@@ -82,7 +78,7 @@ export class DateComponent implements ControlValueAccessor {
     }
     this.value = newValue;
   }
-  private valueToView(value: number): string {
+  public valueToView(value: number): string {
     const result = new Date(value);
     return `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`;
   }

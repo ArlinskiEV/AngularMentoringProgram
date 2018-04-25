@@ -9,11 +9,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'duration-component',
-  styles: [`
-    :host>* {
-      // border: 5px solid red;
-    }
-  `],
+  styles: [``],
   template: `
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -31,7 +27,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 })
 
 export class DurationComponent implements ControlValueAccessor {
-  @Input() public titleString: string = 'myDate';
+  @Input() public titleString: string = 'myDuration';
   private currentValue: number; // +new Date()
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
@@ -48,27 +44,27 @@ export class DurationComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private onChange = (_) => {};
-  private onTouched = () => {};
+  public onChange = (_) => {};
+  public onTouched = () => {};
 
   // ------------------------------------------------------------------
   // set & get date-component value
-  private get value(): number {
+  public get value(): number {
     return this.currentValue;
   }
 
   // all other methods work with this
-  private set value(newValue: number) {
+  public set value(newValue: number) {
     this.currentValue = newValue;
     this.onChange(newValue);
     this.changeDetectorRef.markForCheck();
   }
   // ------------------------------------------------------------------
 
-  private viewToValue(value: number) {
+  public viewToValue(value: number) {
     this.value = + new Date(value * 60000);
   }
-  private valueToView(value: number): number {
+  public valueToView(value: number): number {
     const result = new Date(value);
     return Math.round(value / 60000);
   }

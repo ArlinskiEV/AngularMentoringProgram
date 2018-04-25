@@ -42,6 +42,7 @@ export class CourseFromServer implements CourseFromServer {
       isAccept: false,
       text: this.description,
       topRated: this.isTopRated,
+      authors: [...this.authors]
     });
   }
 

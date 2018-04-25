@@ -35,22 +35,20 @@
 
     <duration-component
       #myDate="ngModel"
-      date-validator
+      duration-validator
       [titleString]="'Duration'"
       [(ngModel)]="course.value.duration"
       [ngModelOptions]="{standalone: true}"
     ></duration-component>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="authors">Authors</span>
-      </div>
-      <input type="text" class="form-control" aria-describedby="authors"
-        required
-        [ngModel]="course.value.authors"
-        [ngModelOptions]="{standalone: true}"
-      >
-    </div>
+    <authors-component
+      #myDate="ngModel"
+      date-validator
+      [titleString]="'Authors'"
+      [authorsList]="course.value.authors"
+      [(ngModel)]="course.value.authors"
+      [ngModelOptions]="{standalone: true}"
+    ></authors-component>
 
     <div>
       <p>{{course | async | json}}</p>
