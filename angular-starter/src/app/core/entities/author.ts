@@ -5,6 +5,12 @@ export interface Author {
   name: Name;
 }
 
+export interface AuthorFromServer {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
 export class Author implements Author {
   constructor(
     public id: number,

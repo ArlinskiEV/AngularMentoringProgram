@@ -7,7 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/switch';
 import { Subscription } from 'rxjs/Subscription';
-import { CourseService, Course, BreadcrumbsService } from '../core';
+import { CourseService, BreadcrumbsService } from '../core';
+import { Course, Author } from '../core/entities';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
@@ -21,6 +22,7 @@ import { Subject } from 'rxjs/Subject';
 export class CoursePageComponent implements OnInit, OnDestroy {
 
   public course = new BehaviorSubject(new Course());
+  public authorsList = new BehaviorSubject<Author[]>([]);
   private source: Observable<Course>;
   private idInfo: {new: boolean, id: any};
   private listeners: Subscription[] = [];
@@ -80,6 +82,13 @@ export class CoursePageComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('notfound');
         }
         // -----------------------------------------
+      })
+    );
+
+    this.listeners.push(
+      this.courseService.getAuthorsList().subscribe((data: Author[]) => {
+        this.authorsList.next([...data]);
+        this.changeDetectorRef.markForCheck();
       })
     );
 

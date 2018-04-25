@@ -69,15 +69,8 @@ export class AuthorsComponent implements ControlValueAccessor {
 
   public selected(id: number): boolean {
     return this.currentValue
-      .findIndex((item) => item.id === id) > 0;
+      .findIndex((item) => item.id === id) >= 0;
   }
-  // private viewToValue(value: Author[]) {
-  //   this.value = [...value];
-  // }
-  // private valueToView(value: Author[]): number {
-  //   const result = new Date(value);
-  //   return Math.round(value / 60000);
-  // }
 
 }
 // set/get value - work with currentValue + angular

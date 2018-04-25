@@ -11,6 +11,9 @@ import {
   UpdateCourseItemById,
   BASE_URL,
   ServerQuery,
+  Author,
+  AuthorFromServer,
+  Name,
 } from '../entities';
 
 // import { COURSES } from '../mocks';
@@ -52,6 +55,31 @@ export class CourseService {
     return this.sourceList.asObservable();
   }
 
+  public getAuthorsList(): Observable<Author[]> {
+    const headers = new Headers();
+    const requestOptions = new RequestOptions();
+    const urlParams: URLSearchParams = new URLSearchParams();
+
+    requestOptions.url = `${this.baseUrl}/courses/authors`;
+    requestOptions.method = RequestMethod.Get;
+    requestOptions.headers = headers;
+    requestOptions.search = urlParams;
+    const request = new Request(requestOptions);
+
+    return this.http.request(request)
+      .map((res: Response) => res.json())
+      // ------------------------------
+      // transform
+      .map((data: AuthorFromServer[]) => // just type
+        data.map((item) =>
+          // instanse of class
+            (new Author(item.id, new Name(item.firstName, item.lastName)))
+        )
+      )
+      // ------------------------------
+    ;
+  }
+
   public createCourse(newCourse: Course): void {
     this.sourceList.next([...this.sourceList.value, newCourse]);
   }
@@ -83,7 +111,7 @@ export class CourseService {
     const urlParams: URLSearchParams = new URLSearchParams();
 
     urlParams.set('id', '' + id);
-    headers.set('My-Header', 'myValue');
+    // headers.set('My-Header', 'myValue');
 
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Delete;
@@ -168,7 +196,7 @@ export class CourseService {
         urlParams.set('query', '' + params.query);
       }
     }
-    headers.set('My-Header', 'myValue');
+    // headers.set('My-Header', 'myValue');
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Get;
     requestOptions.headers = headers;

@@ -26,33 +26,29 @@
     </div>
 
     <date-component
-      #myDate="ngModel"
       date-validator
+      required
       [titleString]="'Date'"
       [(ngModel)]="course.value.date"
       [ngModelOptions]="{standalone: true}"
     ></date-component>
 
     <duration-component
-      #myDate="ngModel"
       duration-validator
+      required
       [titleString]="'Duration'"
       [(ngModel)]="course.value.duration"
       [ngModelOptions]="{standalone: true}"
     ></duration-component>
 
     <authors-component
-      #myDate="ngModel"
       date-validator
+      required
       [titleString]="'Authors'"
-      [authorsList]="course.value.authors"
+      [authorsList]="authorsList.value"
       [(ngModel)]="course.value.authors"
       [ngModelOptions]="{standalone: true}"
     ></authors-component>
-
-    <div>
-      <p>{{course | async | json}}</p>
-    </div>
 
     <div class="btn-group" role="group" aria-label="Save">
       <button type="submit" class="btn btn-success" (click)="save()">Save</button>

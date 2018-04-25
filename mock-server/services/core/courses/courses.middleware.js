@@ -31,6 +31,25 @@ module.exports = (server) => {
 
 		res.json(courses);
   });
+
+  router.get('/courses/authors', (req, res, next) => {
+    console.log(`Auth:${req.header('Authorization')}`);
+    let courses = server.db.getState().courses,
+      authors = courses
+        .map((item) => item.authors) // [[author, author], [author], ...]
+        // [author, author, ...]
+        .reduce((prev, authorsArr) => [...prev, ...authorsArr], [])
+        
+        .reduce((prev, item) => prev.every((author) => author.id !== item.id)
+            ? [...prev, item]
+            : prev, []
+          ,
+          []
+        )
+    ;
+
+    res.json(authors);
+  });
   
   router.delete('/courses', (req, res, next) => {
     console.log(`Auth:${req.header('Authorization')}`)

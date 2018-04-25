@@ -47,6 +47,11 @@ export class AuthorizationService {
       JSON.parse(localStorage.getItem(STORAGE_USER_KEY))
     );
     this.mySource = new BehaviorSubject(this.user.sharedInfo());
+    if (this.isAuthenticated()) {
+      this.Ahttp.setHeaders([
+        {name: 'Authorization', value: this.user.token}
+      ]);
+    }
 
     // --------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
@@ -63,7 +68,7 @@ export class AuthorizationService {
   public login(payload: UserLoginModel): Observable<string> {
     const headers = new Headers();
     const requestOptions = new RequestOptions();
-    headers.set('My-Header', 'myValue');
+    // headers.set('My-Header', 'myValue');
     requestOptions.url = `${this.baseUrl}/auth/login`;
     requestOptions.method = RequestMethod.Post;
     requestOptions.headers = headers;
