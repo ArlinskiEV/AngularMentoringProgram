@@ -1,21 +1,22 @@
 <div class="container-fluid">
   <h1>LOGIN PAGE</h1>
-  <div class="form-inline">
+  <form class="form-inline" #form="ngForm" (submit)="submit(form)">
     <input
       type="text"
       class="form-control"
-      [(ngModel)]="login"
+      name="login"
+      [ngModel]="model.login"
       placeholder="Login"
     >
     <input
       type="password"
       class="form-control"
-      [(ngModel)]="password"
+      name="password"
+      [ngModel]="model.password"
       placeholder="Password"
     >
     <button
       type="submit"
-      (click)="click()"
       class="btn btn-primary"
     >Sign In</button>
     <span
@@ -23,5 +24,5 @@
       class="alert alert-danger"
       role="alert"
     >ERROR: {{error}}</span>
-  </div>
+  </form>
 </div>

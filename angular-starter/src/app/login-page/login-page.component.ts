@@ -1,9 +1,10 @@
 import {
   Component, ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
+import { UserLoginModel } from '../core/entities';
 
 @Component({
   selector: 'login-page',
@@ -13,17 +14,19 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class LoginPageComponent {
-  public login: string = '';
-  public password: string = '';
+  public model: UserLoginModel = {
+    login: '',
+    password: ''
+  };
   public error: string = '';
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
-  public click() {
+  public submit(form: FormGroup) {
     const listener: Subscription = this.authorizationService
-      .login({login: this.login, password: this.password})
+      .login(form.value)
       .subscribe(
         (error) => {
           this.error = error;

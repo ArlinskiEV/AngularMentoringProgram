@@ -6,7 +6,8 @@ import {
   User,
   SharedUserInfo,
   UserFromServer,
-  BASE_URL
+  BASE_URL,
+  UserLoginModel
 } from '../entities';
 
 import { NgZone } from '@angular/core';
@@ -54,8 +55,7 @@ export class AuthorizationService {
     // --------------------------------------------
   }
 
-  public login(payload: {login: string, password: any}): Observable<string> {// how do it right??
-
+  public login(payload: UserLoginModel): Observable<string> {
     const headers = new Headers();
     const requestOptions = new RequestOptions();
     headers.set('My-Header', 'myValue');

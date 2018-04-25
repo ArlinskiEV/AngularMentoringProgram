@@ -13,6 +13,11 @@ export interface SharedUserInfo {
   name: Name;
 }
 
+export interface UserLoginModel {
+  login: string;
+  password: string;
+}
+
 export interface UserFromServer {
   id: number;
   fakeToken: string;
