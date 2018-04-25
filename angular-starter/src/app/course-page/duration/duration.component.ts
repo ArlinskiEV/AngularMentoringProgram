@@ -8,7 +8,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
-  selector: 'date-component',
+  selector: 'duration-component',
   styles: [`
     :host>* {
       // border: 5px solid red;
@@ -19,25 +19,18 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
       <div class="input-group-prepend">
         <span class="input-group-text">{{titleString}}</span>
       </div>
-      <input type="text" class="form-control"
+      <input type="number" class="form-control"
       (change)="viewToValue($event.target.value)"
-      placeholder="dd/MM/yyyy"
       [value]="valueToView(value)"
       (blur)="onTouched()"
       >
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: NG_VALUE_ACCESSOR, useExisting: DateComponent, multi: true}],
+  providers: [{provide: NG_VALUE_ACCESSOR, useExisting: DurationComponent, multi: true}],
 })
-/*
-Text input.
-Date format should be dd/MM/yyyy
-Implement ng_value_accessor and ng_validators
-Datetime as return value.
-In case of wrong format return null.
-*/
-export class DateComponent implements ControlValueAccessor {
+
+export class DurationComponent implements ControlValueAccessor {
   @Input() public titleString: string = 'myDate';
   private currentValue: number; // +new Date()
 
@@ -72,22 +65,13 @@ export class DateComponent implements ControlValueAccessor {
   }
   // ------------------------------------------------------------------
 
-  // ------------------------------------------------------------------
-  // work text-input with number-date
-  private viewToValue(value: string) {
-    let newValue = null; // if format incorrect
-    // check
-    if (value.match(/^[0-2]?[0-9]\/[0,1]?[0-9]\/[1,2][0-9]{3}$/)) {
-      newValue = + new Date(value.split('/').reverse().join('-')); // YYYY-MM-DD
-    }
-    this.value = newValue;
+  private viewToValue(value: number) {
+    this.value = + new Date(value * 60000);
   }
-  private valueToView(value: number): string {
+  private valueToView(value: number): number {
     const result = new Date(value);
-    return `${result.getDate()}/${result.getMonth() + 1}/${result.getFullYear()}`;
+    return Math.round(value / 60000);
   }
-  // ------------------------------------------------------------------
+
 }
-// input = text input dd/MM/yyyy format
-// currentValue = real date-value, type = number, + new Date()
 // set/get value - work with currentValue + angular

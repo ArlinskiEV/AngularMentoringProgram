@@ -33,16 +33,13 @@
       [ngModelOptions]="{standalone: true}"
     ></date-component>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="duration">Duration</span>
-      </div>
-      <input type="text" class="form-control" aria-describedby="duration"
-        required
-        [ngModel]="course.value.duration"
-        [ngModelOptions]="{standalone: true}"
-      >
-    </div>
+    <duration-component
+      #myDate="ngModel"
+      date-validator
+      [titleString]="'Duration'"
+      [(ngModel)]="course.value.duration"
+      [ngModelOptions]="{standalone: true}"
+    ></duration-component>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
