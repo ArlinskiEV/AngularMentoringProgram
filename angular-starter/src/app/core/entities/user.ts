@@ -5,7 +5,6 @@ export interface User {
   token: string;
   name: Name;
   login: string;
-  password: string;
 }
 
 export interface SharedUserInfo {
@@ -33,7 +32,6 @@ export class User implements User {
   public token: string | null;
   public name: Name;
   public login: string;
-  public password: string;
   constructor(obj?: any) {
     this.id = obj && obj.id ? obj.id : 0;
     this.token = obj && obj.token ? obj.token : null;
@@ -41,7 +39,6 @@ export class User implements User {
       ? new Name(obj.name.first, obj.name.last)
       : new Name();
     this.login = obj && obj.login ? obj.login : 'NoLogin';
-    this.password = obj && obj.password ? obj.password : '';
   }
   public sharedInfo(): SharedUserInfo {
     return {login: this.login, name: this.name};

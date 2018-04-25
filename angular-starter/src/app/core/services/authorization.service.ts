@@ -8,7 +8,8 @@ import {
   UserFromServer,
   BASE_URL,
   UserLoginModel,
-  SERVER_ERROR
+  SERVER_ERROR,
+  STORAGE_USER_KEY
 } from '../entities';
 
 import { NgZone } from '@angular/core';
@@ -41,7 +42,10 @@ export class AuthorizationService {
     @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
     private router: Router,
   ) {
-    this.user = new User();
+
+    this.user = new User(
+      JSON.parse(localStorage.getItem(STORAGE_USER_KEY))
+    );
     this.mySource = new BehaviorSubject(this.user.sharedInfo());
 
     // --------------------------------------------STABLE-UNSTABLE-TIMING
@@ -69,13 +73,18 @@ export class AuthorizationService {
     const result = new Subject<string>();
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
+      .map((data: any) => {
+        const token = data.token;
+        return this.getInfo(token);
+      })
+      .switch()
+      .finally(() => listener.unsubscribe())
       .subscribe(
-        (data: any) => {
-          this.user.token = data.token;
+        (_) => {
           this.Ahttp.setHeaders([
             {name: 'Authorization', value: this.user.token}
           ]);
-          this.getInfo();
+          localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(this.user));
           result.next('Authorization success');
         },
         (serverError) => {
@@ -90,8 +99,7 @@ export class AuthorizationService {
             }
             default: result.error(`Unknown error: ${serverError._body}`);
           }
-        },
-        () => listener.unsubscribe()
+        }
       )
     ;
 
@@ -99,8 +107,9 @@ export class AuthorizationService {
   }
 
   public logout(): void {
-    this.user = new User();
+    localStorage.removeItem(STORAGE_USER_KEY);
     this.Ahttp.clearHeaders();
+    this.user = new User();
     this.mySource.next(this.user.sharedInfo());
     // ----------------------------
     // redirect
@@ -114,21 +123,23 @@ export class AuthorizationService {
     return this.mySource.asObservable();
   }
 
-  private getInfo() {
-    // const headers = new Headers();
+  private getInfo(token: string): Observable<boolean> {
+    const result = new Subject<boolean>();
+    const headers = new Headers();
     const requestOptions = new RequestOptions();
 
-    // headers.set('Authorization', this.token);
+    headers.set('Authorization', token);
 
     requestOptions.url = `${this.baseUrl}/auth/userinfo`;
     requestOptions.method = RequestMethod.Post;
-    // requestOptions.headers = headers;
+    requestOptions.headers = headers;
 
     const request = new Request(requestOptions);
     // ----------------------------------------------------------------
     const listener = this.http.request(request)
     .map((res: Response) => res.json())
     .map((data) => {console.warn(data); return data; })
+    .finally(() => listener.unsubscribe())
     .subscribe(
       (data: any) => {
         // ----------------------------
@@ -140,16 +151,18 @@ export class AuthorizationService {
         // ----------------------------
         this.user = new User(obj);
         this.mySource.next(this.user.sharedInfo());
+        result.next(true);
         // ----------------------------
         // redirect
         this.router.navigateByUrl('courses');
         // ----------------------------
       },
-      (error) => console.error(`ERROR: ${error.error}`),
-      () => {
-        listener.unsubscribe();
+      (error) => {
+        console.error(`ERROR: ${error.error}`);
+        result.error(error);
       }
     );
+    return result.asObservable();
   }
 
 }
