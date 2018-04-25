@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <form (submit)="save()">
+  <form #form="ngForm" (submit)="submit(form)">
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -8,8 +8,8 @@
       <input type="text" class="form-control" aria-describedby="title"
         maxlength="50"
         required
+        name="name"
         [ngModel]="course.value.name"
-        [ngModelOptions]="{standalone: true}"
       >
     </div>
 
@@ -20,8 +20,8 @@
       <textarea class="form-control" aria-label="Description"
         maxlength="500"
         required
+        name="text"
         [ngModel]="course.value.text"
-        [ngModelOptions]="{standalone: true}"
       ></textarea>
     </div>
 
@@ -29,29 +29,29 @@
       date-validator
       required
       [titleString]="'Date'"
-      [(ngModel)]="course.value.date"
-      [ngModelOptions]="{standalone: true}"
+      name="date"
+      [ngModel]="course.value.date"
     ></date-component>
 
     <duration-component
       duration-validator
       required
       [titleString]="'Duration'"
-      [(ngModel)]="course.value.duration"
-      [ngModelOptions]="{standalone: true}"
+      name="duration"
+      [ngModel]="course.value.duration"
     ></duration-component>
 
     <authors-component
-      date-validator
+      authors-validator
       required
       [titleString]="'Authors'"
       [authorsList]="authorsList.value"
-      [(ngModel)]="course.value.authors"
-      [ngModelOptions]="{standalone: true}"
+      name="authors"
+      [ngModel]="course.value.authors"
     ></authors-component>
 
     <div class="btn-group" role="group" aria-label="Save">
-      <button type="submit" class="btn btn-success" (click)="save()">Save</button>
+      <button type="submit" class="btn btn-success" [disabled]="form.invalid">Save</button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
     </div>
   </form>

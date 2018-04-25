@@ -16,7 +16,10 @@ import { Author } from '../../core/entities';
       <div class="input-group-prepend">
         <span class="input-group-text">{{titleString}}</span>
       </div>
-      <select multiple class="form-control">
+      <select multiple class="form-control" size="8"
+        (blur)="onTouched()"
+        (change)="viewToValue(+$event.target.value)"
+      >
         <option
           *ngFor="let author of authorsList"
           [selected]="selected(author.id)"
@@ -62,10 +65,23 @@ export class AuthorsComponent implements ControlValueAccessor {
   // all other methods work with this
   public set value(newValue: Author[]) {
     this.currentValue = [...newValue];
+    debugger;
     this.onChange(newValue);
     this.changeDetectorRef.markForCheck();
   }
   // ------------------------------------------------------------------
+  public viewToValue(id: number) {
+    debugger;
+    const value = this.authorsList[this.authorsList.findIndex((item) => item.id === id)];
+    const result = this.currentValue;
+    const index = result.findIndex((item) => item.id === value.id);
+    if ( index >= 0) {
+      result.splice(index, 1);
+    } else {
+      result.push(value);
+    }
+    this.value = result;
+  }
 
   public selected(id: number): boolean {
     return this.currentValue

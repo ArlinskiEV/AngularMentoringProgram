@@ -1,7 +1,7 @@
 import {
   Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Data, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/merge';
@@ -20,7 +20,6 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class CoursePageComponent implements OnInit, OnDestroy {
-
   public course = new BehaviorSubject(new Course());
   public authorsList = new BehaviorSubject<Author[]>([]);
   private source: Observable<Course>;
@@ -61,8 +60,8 @@ export class CoursePageComponent implements OnInit, OnDestroy {
 
   }
 
-  public save() {
-    this.courseService.updateItem(this.course.value);
+  public submit(form: FormGroup) {
+    this.courseService.updateItem({id: this.course.value.id, ...form.value});
     this.router.navigateByUrl('courses');
   }
   public cancel() {

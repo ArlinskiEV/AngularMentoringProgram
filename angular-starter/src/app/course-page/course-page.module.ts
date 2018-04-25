@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CoursePageComponent } from './course-page.component';
 import { DateComponent, DateValidatorDirective } from './date';
 import { DurationComponent, DurationValidatorDirective } from './duration';
-import { AuthorsComponent } from './authors';
+import { AuthorsComponent, AuthorsValidatorDirective } from './authors';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import { AuthorsComponent } from './authors';
     DurationComponent,
     DurationValidatorDirective,
 
-    AuthorsComponent
+    AuthorsComponent,
+    AuthorsValidatorDirective
   ],
   imports: [
     CommonModule,
