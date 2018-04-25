@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   forwardRef,
   ChangeDetectorRef,
+  Input,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -14,12 +15,17 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     }
   `],
   template: `
-    <input type="text"
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{titleString}}</span>
+      </div>
+      <input type="text" class="form-control"
       (change)="setValue($event.target.value)"
       placeholder="dd/MM/yyyy"
       [value]="valueToString(value)"
       (blur)="onTouched()"
-    >
+      >
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: NG_VALUE_ACCESSOR, useExisting: DateComponent, multi: true}],
@@ -32,6 +38,7 @@ Datetime as return value.
 In case of wrong format return null.
 */
 export class DateComponent implements ControlValueAccessor {
+  @Input() public titleString: string = 'myDate';
   private currentValue: number; // +new Date()
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}

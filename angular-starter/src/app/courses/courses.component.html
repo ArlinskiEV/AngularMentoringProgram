@@ -2,13 +2,13 @@
   <tools></tools>
   <div class="container-fluid">
     <p>Accepted count: {{count}}</p>
-    <div *ngIf = "coursesArr.length !== 0">
-      <course *ngFor = "let item of coursesArr | myOrderBy:'createdDate':'desc'"
-      [courseItem] = "item"
-      (handler) = "deletter($event)"
+    <div *ngIf="coursesArr.length !== 0">
+      <course *ngFor="let item of coursesArr | myOrderBy:'createdDate':'desc'"
+      [courseItem]="item"
+      (handler)="deletter($event)"
       ></course>
     </div>
-    <div *ngIf = "coursesArr.length === 0">
+    <div *ngIf="coursesArr.length === 0">
       <div class="message">
         <p>Sorry, no Course in array</p>
       </div>

@@ -1,7 +1,11 @@
 import {
   Component,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnInit
 } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+import { BreadcrumbsService } from '../core';
 
 @Component({
   selector: 'app-notFound',
@@ -15,4 +19,11 @@ import {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageNotFoundComponent {}
+export class PageNotFoundComponent implements OnInit{
+  constructor(
+    private breadcrumbsService: BreadcrumbsService
+  ) {}
+  public ngOnInit() {
+    this.breadcrumbsService.setSource(Observable.of('404: Not found'));
+  }
+}

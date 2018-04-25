@@ -1,41 +1,67 @@
 <div class="container-fluid">
-  <h1>Course Page</h1>
-  <form class="content">
-    <label>Title <input type="text" maxlength="50">
-    </label>
+  <form (submit)="save()">
 
-    <label>Description <textarea
-      cols="15" rows="5"
-      maxlength="500"
-      ></textarea>
-    </label>
-
-    <label>Date
-      <date-component
-        #myDate="ngModel"
-        date-validator
-        [(ngModel)]="course.value.date"
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="title">Title</span>
+      </div>
+      <input type="text" class="form-control" aria-describedby="title"
+        maxlength="50"
+        required
+        [ngModel]="course.value.name"
         [ngModelOptions]="{standalone: true}"
-      ></date-component>
-      <p>{{course.value.date | date}}</p>
-      <p>valid: {{myDate.valid}}</p>
-    </label>
+      >
+    </div>
 
-    <label>Duration<input type="text">
-      <!-- <duration-component></duration-component> -->
-    </label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Description</span>
+      </div>
+      <textarea class="form-control" aria-label="Description"
+        maxlength="500"
+        required
+        [ngModel]="course.value.text"
+        [ngModelOptions]="{standalone: true}"
+      ></textarea>
+    </div>
 
-    <label>Authors<input type="text">
-      <!-- <authors-component></authors-component> -->
-    </label>
+    <date-component
+      #myDate="ngModel"
+      date-validator
+      [titleString]="Date"
+      [(ngModel)]="course.value.date"
+      [ngModelOptions]="{standalone: true}"
+    ></date-component>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="duration">Duration</span>
+      </div>
+      <input type="text" class="form-control" aria-describedby="duration"
+        required
+        [ngModel]="course.value.duration"
+        [ngModelOptions]="{standalone: true}"
+      >
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="authors">Authors</span>
+      </div>
+      <input type="text" class="form-control" aria-describedby="authors"
+        required
+        [ngModel]="course.value.authors"
+        [ngModelOptions]="{standalone: true}"
+      >
+    </div>
 
     <div>
       <p>{{course | async | json}}</p>
     </div>
 
-    <label>
+    <div class="btn-group" role="group" aria-label="Save">
       <button type="submit" class="btn btn-success" (click)="save()">Save</button>
-      <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-    </label>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
   </form>
 </div>

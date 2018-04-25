@@ -57,14 +57,9 @@ export class CourseService {
   }
 
   public getItemById(id: number): Observable<Course> {
-    const result = this.sourceList.value.find((item) => item.id === id);
-    if (result) {
-      return Observable.of(result);
-    } else {
       return this.server({start: 0, count: 10, id})
         .map((data: Course[]) => data.length ? data[0] : new Course())
       ;
-    }
   }
 
   public updateItem(obj: UpdateCourseItemById): void {
@@ -82,15 +77,6 @@ export class CourseService {
 
   public removeItem(id: number): void {
     // this.loaderBlockService.Show();
-
-    // const currentID = this.sourceList.value.findIndex((item) => item.id === id);
-    // if (currentID >= 0) {
-    //   const arr = this.sourceList.value;
-    //   arr.splice(currentID, 1);
-    //   this.sourceList.next([...arr]);
-    // } else {
-    //   console.warn(`### CourseServices.removeItem:ERROR: wrong ID=${id}###`);
-    // }
 
     const headers = new Headers();
     const requestOptions = new RequestOptions();

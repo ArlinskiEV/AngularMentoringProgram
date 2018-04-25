@@ -5,4 +5,4 @@ export enum SERVER_ERROR {
   AUTHORIZATION_ERROR = 401
 }
 
-export const STORAGE_USER_KEY = 'courseUserObject';
+export const STORAGE_USER_KEY = 'AppUserObject';
