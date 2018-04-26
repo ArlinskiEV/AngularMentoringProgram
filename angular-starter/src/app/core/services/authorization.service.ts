@@ -2,6 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { userLogin, userLogOut } from '../actions';
+
 import {
   User,
   SharedUserInfo,
@@ -41,16 +45,19 @@ export class AuthorizationService {
     private http: Http,
     @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
     private router: Router,
+    private store: Store<AppState>
   ) {
 
     this.user = new User(
       JSON.parse(localStorage.getItem(STORAGE_USER_KEY))
     );
+
     this.mySource = new BehaviorSubject(this.user.sharedInfo());
     if (this.isAuthenticated()) {
       this.Ahttp.setHeaders([
         {name: 'Authorization', value: this.user.token}
       ]);
+      this.store.dispatch(userLogin(this.user));
     }
 
     // --------------------------------------------STABLE-UNSTABLE-TIMING
@@ -89,6 +96,7 @@ export class AuthorizationService {
           this.Ahttp.setHeaders([
             {name: 'Authorization', value: this.user.token}
           ]);
+          this.store.dispatch(userLogin(this.user));
           localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(this.user));
           result.next('Authorization success');
         },
@@ -114,6 +122,7 @@ export class AuthorizationService {
   public logout(): void {
     localStorage.removeItem(STORAGE_USER_KEY);
     this.Ahttp.clearHeaders();
+    this.store.dispatch(userLogOut());
     this.user = new User();
     this.mySource.next(this.user.sharedInfo());
     // ----------------------------

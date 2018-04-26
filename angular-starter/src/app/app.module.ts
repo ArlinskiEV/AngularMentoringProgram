@@ -15,6 +15,11 @@ import { PageNotFoundModule } from './page-not-found';
 import { AppComponent } from './app.component';
 import { CoursePageModule } from './course-page';
 
+import { StoreModule } from '@ngrx/store';
+// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { appReducer } from './core/reducers';
+
 import {
   CourseService,
   ModalWindowService,
@@ -47,6 +52,10 @@ import { ROUTES } from './app.routes';
   imports: [
     // CommonModule,
     BrowserModule,
+    StoreModule.forRoot({ appState: appReducer }),
+    // StoreDevtoolsModule.instrumentOnlyWithExtension({
+    //   maxAge: 5
+    // }),
     // --------------------------------------------------------------------
     // for providers...
     HttpModule,
