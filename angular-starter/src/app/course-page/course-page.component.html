@@ -61,7 +61,7 @@
       authors-validator
       required
       [titleString]="'Authors'"
-      [authorsList]="authorsList.value"
+      [authorsList]="authorsList.asObservable()"
       name="authors"
       #currentAuthors="ngModel"
       [ngModel]="course.value.authors"
