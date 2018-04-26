@@ -9,9 +9,13 @@
         maxlength="50"
         required
         name="name"
+        #currentName="ngModel"
         [ngModel]="course.value.name"
       >
     </div>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="currentName.invalid && currentName.dirty"
+    >Something is wrong. Please check field.</div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -21,25 +25,37 @@
         maxlength="500"
         required
         name="text"
+        #description="ngModel"
         [ngModel]="course.value.text"
       ></textarea>
     </div>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="description.invalid && description.dirty"
+    >Something is wrong. Please check field.</div>
 
     <date-component
       date-validator
       required
       [titleString]="'Date'"
       name="date"
+      #currentDate="ngModel"
       [ngModel]="course.value.date"
     ></date-component>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="currentDate.invalid && currentDate.dirty"
+    >Something is wrong. Please check field.</div>
 
     <duration-component
       duration-validator
       required
       [titleString]="'Duration'"
       name="duration"
+      #currentDuration="ngModel"
       [ngModel]="course.value.duration"
     ></duration-component>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="currentDuration.invalid && currentDuration.dirty"
+    >Something is wrong. Please check field.</div>
 
     <authors-component
       authors-validator
@@ -47,8 +63,16 @@
       [titleString]="'Authors'"
       [authorsList]="authorsList.value"
       name="authors"
+      #currentAuthors="ngModel"
       [ngModel]="course.value.authors"
     ></authors-component>
+    <div class="alert alert-danger" role="alert"
+    *ngIf="currentAuthors.invalid && currentAuthors.dirty"
+    >Something is wrong. Please check field.</div>
+
+    <div class="alert alert-warning" role="alert"
+    *ngIf="form.invalid"
+    >All fields is required</div>
 
     <div class="btn-group" role="group" aria-label="Save">
       <button type="submit" class="btn btn-success" [disabled]="form.invalid">Save</button>

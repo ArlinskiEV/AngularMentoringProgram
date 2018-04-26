@@ -26,6 +26,7 @@ import { Author } from '../../core/entities';
         >{{author.id}} {{author.name.first}} {{author.name.last}}</option>
       </select>
     </div>
+    <p>value:{{value | json}}</p>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: NG_VALUE_ACCESSOR, useExisting: AuthorsComponent, multi: true}],
@@ -34,7 +35,7 @@ import { Author } from '../../core/entities';
 export class AuthorsComponent implements ControlValueAccessor {
   @Input() public titleString: string = 'myAythors';
   @Input() public authorsList: Author[] = [];
-  private currentValue: Author[]; // checked Author
+  private currentValue: Author[] = []; // checked Author
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -43,11 +44,11 @@ export class AuthorsComponent implements ControlValueAccessor {
     if (newValue) {
       // this.currentValue = [...newValue];
       // for right checked-state
-      this.currentValue = this.authorsList
-        .filter((author) => newValue
-          .some((item) => author.id === item.id)
-        )
-      ;
+      // this.currentValue = this.authorsList
+      //   .filter((author) => newValue
+      //     .some((item) => author.id === item.id)
+      //   )
+      // ;
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -74,7 +75,7 @@ export class AuthorsComponent implements ControlValueAccessor {
         .some((item) => author.id === item.id)
       )
     ;
-    this.onChange(newValue);
+    this.onChange(this.value);
     this.changeDetectorRef.markForCheck();
   }
 

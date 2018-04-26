@@ -56,7 +56,7 @@ export class DurationComponent implements ControlValueAccessor {
   // all other methods work with this
   public set value(newValue: number) {
     this.currentValue = newValue;
-    this.onChange(newValue);
+    this.onChange(this.value);
     this.changeDetectorRef.markForCheck();
   }
   // ------------------------------------------------------------------

@@ -43,12 +43,12 @@ export class Course implements Course {
   public topRated: boolean;
   constructor(obj?: any) {
     this.id = obj && obj.id ? obj.id : 0;
-    this.name = obj && obj.name ? obj.name : 'NoName';
-    this.duration = obj && obj.duration ? obj.duration : + new Date();
-    this.date = obj && obj.date ? obj.date : + new Date();
-    this.tags = obj && obj.tags ? obj.tags : ['error'];
+    this.name = obj && obj.name ? obj.name : '';
+    this.duration = obj && obj.duration ? obj.duration : 0;
+    this.date = obj && obj.date ? obj.date : 0;
+    this.tags = obj && obj.tags ? obj.tags : [];
     this.isAccept = obj && obj.isAccept ? obj.isAccept : false;
-    this.text = obj && obj.text ? obj.text : 'error: it is an empty text';
+    this.text = obj && obj.text ? obj.text : '';
     this.topRated = obj && obj.topRated ? obj.topRated : false;
     this.authors = obj && obj.authors ? obj.authors : [];
   }

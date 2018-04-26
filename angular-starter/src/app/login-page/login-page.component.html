@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <form class="form-inline" #form="ngForm" (submit)="submit(form)">
     <input
+      required
       type="text"
       class="form-control"
       name="login"
@@ -8,6 +9,7 @@
       placeholder="Login"
     >
     <input
+      required
       type="password"
       class="form-control"
       name="password"
@@ -17,6 +19,7 @@
     <button
       type="submit"
       class="btn btn-primary"
+      [disabled]="form.invalid"
     >Sign In</button>
   </form>
   <span
