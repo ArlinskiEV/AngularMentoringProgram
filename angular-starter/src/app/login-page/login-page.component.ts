@@ -1,7 +1,9 @@
 import {
-  Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit,
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
-import { NgForm, FormGroup } from '@angular/forms';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { AuthorizationService } from '../core/services';
 import 'rxjs/add/operator/finally';
 import { Subscription } from 'rxjs/Subscription';
@@ -15,11 +17,12 @@ import { UserLoginModel } from '../core/entities';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class LoginPageComponent implements OnInit {
-  public model: UserLoginModel = {
-    login: '',
-    password: ''
-  };
+export class LoginPageComponent {
+  public loginForm: FormGroup = new FormGroup({
+    login: new FormControl(''),
+    password: new FormControl(''),
+  });
+
   public alert = {
     message: '',
     class: '',
@@ -29,10 +32,6 @@ export class LoginPageComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
-
-  public ngOnInit() {
-    this.changeDetectorRef.markForCheck();
-  }
 
   public submit(form: FormGroup) {
     const listener: Subscription = this.authorizationService

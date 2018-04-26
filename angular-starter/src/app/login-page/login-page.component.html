@@ -1,11 +1,11 @@
 <div class="container-fluid">
-  <form class="form-inline" #form="ngForm" (submit)="submit(form)">
+  <form class="form-inline" [formGroup]="loginForm" (submit)="submit(loginForm)">
     <input
       required
       type="text"
       class="form-control"
       name="login"
-      [ngModel]="model.login"
+      formControlName="login"
       placeholder="Login"
     >
     <input
@@ -13,13 +13,13 @@
       type="password"
       class="form-control"
       name="password"
-      [ngModel]="model.password"
+      formControlName="password"
       placeholder="Password"
     >
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="form.invalid"
+      [disabled]="loginForm.invalid"
     >Sign In</button>
   </form>
   <span

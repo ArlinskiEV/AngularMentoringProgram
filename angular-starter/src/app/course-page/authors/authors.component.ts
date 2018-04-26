@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   Input,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormGroup, FormControl } from '@angular/forms';
 import { Author } from '../../core/entities';
 
 @Component({
@@ -18,7 +18,7 @@ import { Author } from '../../core/entities';
       </div>
       <select multiple class="form-control" size="8"
         (blur)="onTouched()"
-        [(ngModel)]="value"
+        [formControl]="myControl"
       >
         <option
           *ngFor="let author of authorsList"
@@ -35,6 +35,9 @@ import { Author } from '../../core/entities';
 export class AuthorsComponent implements ControlValueAccessor {
   @Input() public titleString: string = 'myAythors';
   @Input() public authorsList: Author[] = [];
+
+  public myControl: FormControl = new FormControl([]);
+
   private currentValue: Author[] = []; // checked Author
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}

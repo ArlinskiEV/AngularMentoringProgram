@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoursePageComponent } from './course-page.component';
 import { DateComponent, DateValidatorDirective } from './date';
@@ -23,6 +23,7 @@ import { AuthorsComponent, AuthorsValidatorDirective } from './authors';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     CoursePageComponent,
