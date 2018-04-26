@@ -18,13 +18,12 @@ import { Author } from '../../core/entities';
       </div>
       <select multiple class="form-control" size="8"
         (blur)="onTouched()"
-        (change)="viewToValue(+$event.target.value)"
+        [(ngModel)]="value"
       >
         <option
           *ngFor="let author of authorsList"
-          [selected]="selected(author.id)"
-          [value]="author.id"
-        >{{author.name.first}} {{author.name.last}}</option>
+          [ngValue]="author"
+        >{{author.id}} {{author.name.first}} {{author.name.last}}</option>
       </select>
     </div>
   `,
@@ -39,10 +38,16 @@ export class AuthorsComponent implements ControlValueAccessor {
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  public writeValue(value: Author[]): void {
+  public writeValue(newValue: Author[]): void {
     // do not call onChange -> prestine
-    if (value) {
-      this.currentValue = [...value];
+    if (newValue) {
+      // this.currentValue = [...newValue];
+      // for right checked-state
+      this.currentValue = this.authorsList
+        .filter((author) => newValue
+          .some((item) => author.id === item.id)
+        )
+      ;
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -64,28 +69,13 @@ export class AuthorsComponent implements ControlValueAccessor {
 
   // all other methods work with this
   public set value(newValue: Author[]) {
-    this.currentValue = [...newValue];
-    debugger;
+    this.currentValue = this.authorsList
+      .filter((author) => newValue
+        .some((item) => author.id === item.id)
+      )
+    ;
     this.onChange(newValue);
     this.changeDetectorRef.markForCheck();
-  }
-  // ------------------------------------------------------------------
-  public viewToValue(id: number) {
-    debugger;
-    const value = this.authorsList[this.authorsList.findIndex((item) => item.id === id)];
-    const result = this.currentValue;
-    const index = result.findIndex((item) => item.id === value.id);
-    if ( index >= 0) {
-      result.splice(index, 1);
-    } else {
-      result.push(value);
-    }
-    this.value = result;
-  }
-
-  public selected(id: number): boolean {
-    return this.currentValue
-      .findIndex((item) => item.id === id) >= 0;
   }
 
 }
