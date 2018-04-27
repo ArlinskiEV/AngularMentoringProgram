@@ -2,9 +2,11 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import 'rxjs/add/operator/first';
+
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { userLogin, userLogOut } from '../actions';
+import { LogIn, LogOut } from '../actions';
 
 import {
   User,
@@ -35,8 +37,8 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthorizationService {
-  public mySource: BehaviorSubject<SharedUserInfo>;
-  private user: User;
+  // public mySource: BehaviorSubject<SharedUserInfo>;
+  private user: User = new User();
 
   private baseUrl = BASE_URL;
 
@@ -48,16 +50,23 @@ export class AuthorizationService {
     private store: Store<AppState>
   ) {
 
-    this.user = new User(
+    // only for isAuthenticated ???
+    const listener: Subscription = this.store.map((state: AppState) => state.user)
+      .finally(() => listener.unsubscribe())
+      .subscribe((newUser) => this.user = newUser)
+    ;
+
+    const user = new User(
       JSON.parse(localStorage.getItem(STORAGE_USER_KEY))
     );
 
-    this.mySource = new BehaviorSubject(this.user.sharedInfo());
-    if (this.isAuthenticated()) {
+    // this.mySource = new BehaviorSubject(this.user.sharedInfo());
+
+    if (user.token) {
       this.Ahttp.setHeaders([
-        {name: 'Authorization', value: this.user.token}
+        {name: 'Authorization', value: user.token}
       ]);
-      this.store.dispatch(userLogin(this.user));
+      this.store.dispatch(new LogIn(user));
     }
 
     // --------------------------------------------STABLE-UNSTABLE-TIMING
@@ -92,12 +101,12 @@ export class AuthorizationService {
       .switch()
       .finally(() => listener.unsubscribe())
       .subscribe(
-        (_) => {
+        (user: User) => {
           this.Ahttp.setHeaders([
-            {name: 'Authorization', value: this.user.token}
+            {name: 'Authorization', value: user.token}
           ]);
-          this.store.dispatch(userLogin(this.user));
-          localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(this.user));
+          this.store.dispatch(new LogIn(user));
+          localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
           result.next('Authorization success');
         },
         (serverError) => {
@@ -122,23 +131,30 @@ export class AuthorizationService {
   public logout(): void {
     localStorage.removeItem(STORAGE_USER_KEY);
     this.Ahttp.clearHeaders();
-    this.store.dispatch(userLogOut());
-    this.user = new User();
-    this.mySource.next(this.user.sharedInfo());
+    this.store.dispatch(new LogOut());
+    // this.user = new User();
+    // this.mySource.next(this.user.sharedInfo());
     // ----------------------------
     // redirect
     this.router.navigateByUrl('login');
     // ----------------------------
   }
-  public isAuthenticated(): boolean {
+   public isAuthenticated(): boolean {
     return !!this.user.token;
+
+    // return this.store.pipe(select((state: AppState) => !!state.user.token))
+    // .first().toPromise();
   }
   public getUserInfo(): Observable<SharedUserInfo> {
-    return this.mySource.asObservable();
+    // return this.mySource.asObservable();
+    return this.store
+      // ??? which way is better? why?
+      .map((state: AppState) => state.user.sharedInfo());
+      // .pipe(select((state: AppState) => state.user.sharedInfo()));
   }
 
-  private getInfo(token: string): Observable<boolean> {
-    const result = new Subject<boolean>();
+  private getInfo(token: string): Observable<User> {
+    const result = new Subject<User>();
     const headers = new Headers();
     const requestOptions = new RequestOptions();
 
@@ -163,12 +179,16 @@ export class AuthorizationService {
           token: data.fakeToken
         };
         // ----------------------------
-        this.user = new User(obj);
-        this.mySource.next(this.user.sharedInfo());
-        result.next(true);
+        // this.user = new User(obj);
+        // this.mySource.next(this.user.sharedInfo());
+        // result.next(true);
+        console.log('before');
+        result.next(new User(obj));
         // ----------------------------
         // redirect
+        console.log('before redirect');
         this.router.navigateByUrl('courses');
+        console.log('after');
         // ----------------------------
       },
       (error) => {

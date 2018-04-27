@@ -16,7 +16,8 @@ import { AppComponent } from './app.component';
 import { CoursePageModule } from './course-page';
 
 import { StoreModule } from '@ngrx/store';
-// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment'; // Angular CLI environemnt
 
 import { appReducer } from './core/reducers';
 
@@ -52,9 +53,11 @@ import { ROUTES } from './app.routes';
   imports: [
     // CommonModule,
     BrowserModule,
-    StoreModule.forRoot({ appState: appReducer }),
+    StoreModule.forRoot(appReducer, {initialState: {}}),
+
     // StoreDevtoolsModule.instrumentOnlyWithExtension({
-    //   maxAge: 5
+    //   maxAge: 25, // Retains last 25 states
+    //   // logOnly: environment.production, // Restrict extension to log-only mode
     // }),
     // --------------------------------------------------------------------
     // for providers...

@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core';
+
 // import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { AuthorizationService } from '../core/services';
@@ -36,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     // because auth-info must be actual
+    console.log('header onInit');
     this.listeners.push(
       this.authorizationService.getUserInfo().subscribe(
         () => this.changeDetectorRef.markForCheck(),

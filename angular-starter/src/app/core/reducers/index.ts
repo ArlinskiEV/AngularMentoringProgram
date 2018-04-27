@@ -8,6 +8,8 @@ import { ActionReducer, combineReducers } from '@ngrx/store';
 import { userReducer } from './user-reducer';
 import { User } from '../entities';
 
+import { ActionsUnion } from '../actions';
+
 const reducers = {
   user: userReducer
   // authenticated: authenticatedUserReducer,
@@ -27,6 +29,6 @@ export interface AppState {
 // const reducer: ActionReducer<AppState> = combineReducers(reducers);
 const reducer = combineReducers(reducers);
 
-export function appReducer(state: any, action: any) {
+export function appReducer(state: AppState, action: ActionsUnion) {
   return reducer(state, action);
 }
