@@ -19,7 +19,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment'; // Angular CLI environemnt
 
-import { appReducer } from './core/reducers';
+import { appReducer, AppState } from './core/reducers';
 
 import {
   CourseService,
@@ -44,6 +44,8 @@ function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOp
 // --------------------------------------------------------------------
 
 import { ROUTES } from './app.routes';
+import { appInitialState } from './core/mocks';
+import { ActionsUnion } from './core/actions';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -53,7 +55,8 @@ import { ROUTES } from './app.routes';
   imports: [
     // CommonModule,
     BrowserModule,
-    StoreModule.forRoot(appReducer, {initialState: {}}),
+    // StoreModule.forRoot(appReducer),
+    StoreModule.forRoot(appReducer, { initialState: appInitialState }),
 
     // StoreDevtoolsModule.instrumentOnlyWithExtension({
     //   maxAge: 25, // Retains last 25 states

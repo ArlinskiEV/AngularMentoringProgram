@@ -8,6 +8,7 @@ import {
 import { AuthorizationService } from '../core/services';
 import { Subscription } from 'rxjs/Subscription';
 import { SharedUserInfo } from '../core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'userinfo',
@@ -22,6 +23,7 @@ export class UserInfoComponent  implements OnInit, OnDestroy {
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   public ngOnInit() {
@@ -41,5 +43,9 @@ export class UserInfoComponent  implements OnInit, OnDestroy {
 
   public click() {
     this.authorizationService.logout();
+    // ----------------------------
+    // redirect
+    this.router.navigateByUrl('login');
+    // ----------------------------
   }
 }

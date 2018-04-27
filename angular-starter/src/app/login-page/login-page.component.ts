@@ -9,6 +9,7 @@ import 'rxjs/add/operator/finally';
 import { Subscription } from 'rxjs/Subscription';
 
 import { UserLoginModel } from '../core/entities';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-page',
@@ -31,6 +32,7 @@ export class LoginPageComponent {
   constructor(
     private authorizationService: AuthorizationService,
     private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   public submit(form: FormGroup) {
@@ -38,7 +40,15 @@ export class LoginPageComponent {
       .login(form.value)
       .finally(() => listener.unsubscribe())
       .subscribe(
-        (result) => this.showAlert('RESULT: ' + result, 'alert-success'),
+        (result) => {
+          this.showAlert('RESULT: ' + result, 'alert-success');
+          // ----------------------------
+          // redirect
+          console.log('before redirect');
+          this.router.navigateByUrl('courses');
+          console.log('after');
+          // ----------------------------
+        },
         (error) => this.showAlert('ERROR: ' + error, 'alert-danger')
       )
     ;

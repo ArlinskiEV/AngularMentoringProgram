@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import 'rxjs/add/operator/first';
 
 import { Store, select } from '@ngrx/store';
@@ -32,7 +31,6 @@ import {
 } from '@angular/http';
 
 import { AuthorizedHttpService } from '../services';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -46,38 +44,38 @@ export class AuthorizationService {
     private ngZone: NgZone,
     private http: Http,
     @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
-    private router: Router,
     private store: Store<AppState>
   ) {
 
-    // only for isAuthenticated ???
     const listener: Subscription = this.store.map((state: AppState) => state.user)
-      .finally(() => listener.unsubscribe())
-      .subscribe((newUser) => this.user = newUser)
+      .finally(() => {if (listener) { listener.unsubscribe(); }})
+      .first()
+      .subscribe((newUser) => {
+        this.user = newUser;
+
+        if (!this.isAuthenticated) {
+          const user = new User(JSON.parse(localStorage.getItem(STORAGE_USER_KEY)));
+          // find in storage, but not in init-state
+          if (user.token) {
+            this.Ahttp.setHeaders([
+              {name: 'Authorization', value: user.token}
+            ]);
+            this.store.dispatch(new LogIn(user));
+          }
+        } else {
+          this.setAllPreferences(newUser);
+        }
+      })
     ;
-
-    const user = new User(
-      JSON.parse(localStorage.getItem(STORAGE_USER_KEY))
-    );
-
-    // this.mySource = new BehaviorSubject(this.user.sharedInfo());
-
-    if (user.token) {
-      this.Ahttp.setHeaders([
-        {name: 'Authorization', value: user.token}
-      ]);
-      this.store.dispatch(new LogIn(user));
-    }
 
     // --------------------------------------------STABLE-UNSTABLE-TIMING
     let start = 0;
-    const stable: Subscription = ngZone.onUnstable.subscribe(() => start = Date.now(), null,
-      () => stable.unsubscribe()
-    );
-    const unstable: Subscription = ngZone.onStable.subscribe(() =>
-      console.log(`ngZone Stable. unstable time=${Date.now() - start}`), null,
-      () => unstable.unsubscribe()
-    );
+    const stable: Subscription = ngZone.onUnstable
+      .finally(() => stable.unsubscribe())
+      .subscribe(() => start = Date.now());
+    const unstable: Subscription = ngZone.onStable
+      .finally(() => unstable.unsubscribe())
+      .subscribe(() => console.log(`ngZone Stable. time=${Date.now() - start}`));
     // --------------------------------------------
   }
 
@@ -102,11 +100,8 @@ export class AuthorizationService {
       .finally(() => listener.unsubscribe())
       .subscribe(
         (user: User) => {
-          this.Ahttp.setHeaders([
-            {name: 'Authorization', value: user.token}
-          ]);
+          this.setAllPreferences(user);
           this.store.dispatch(new LogIn(user));
-          localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
           result.next('Authorization success');
         },
         (serverError) => {
@@ -129,22 +124,20 @@ export class AuthorizationService {
   }
 
   public logout(): void {
-    localStorage.removeItem(STORAGE_USER_KEY);
-    this.Ahttp.clearHeaders();
+    this.dellAllPreferences();
     this.store.dispatch(new LogOut());
     // this.user = new User();
     // this.mySource.next(this.user.sharedInfo());
-    // ----------------------------
-    // redirect
-    this.router.navigateByUrl('login');
-    // ----------------------------
+
   }
+
    public isAuthenticated(): boolean {
     return !!this.user.token;
 
     // return this.store.pipe(select((state: AppState) => !!state.user.token))
     // .first().toPromise();
   }
+
   public getUserInfo(): Observable<SharedUserInfo> {
     // return this.mySource.asObservable();
     return this.store
@@ -152,6 +145,20 @@ export class AuthorizationService {
       .map((state: AppState) => state.user.sharedInfo());
       // .pipe(select((state: AppState) => state.user.sharedInfo()));
   }
+
+  // ------------------------------------------------------------------
+  private setAllPreferences(user: User) {
+    localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
+    this.Ahttp.setHeaders([
+      {name: 'Authorization', value: user.token}
+    ]);
+  }
+  private dellAllPreferences() {
+    localStorage.removeItem(STORAGE_USER_KEY);
+    this.Ahttp.clearHeaders();
+    this.user = new User(); // --------------------- <= for header
+  }
+  // ------------------------------------------------------------------
 
   private getInfo(token: string): Observable<User> {
     const result = new Subject<User>();
@@ -184,12 +191,6 @@ export class AuthorizationService {
         // result.next(true);
         console.log('before');
         result.next(new User(obj));
-        // ----------------------------
-        // redirect
-        console.log('before redirect');
-        this.router.navigateByUrl('courses');
-        console.log('after');
-        // ----------------------------
       },
       (error) => {
         console.error(`ERROR: ${error.error}`);
