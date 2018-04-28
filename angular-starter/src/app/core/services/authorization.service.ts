@@ -49,7 +49,7 @@ export class AuthorizationService {
       .finally(() => {if (listener) { listener.unsubscribe(); }})
       .first()
       .subscribe((newUser) => {
-        if (!this.isAuthenticated()) {
+        if (!newUser.token) {
           const user = new User(JSON.parse(localStorage.getItem(STORAGE_USER_KEY)));
           // find in storage, but not in init-state
           if (user.token) {
