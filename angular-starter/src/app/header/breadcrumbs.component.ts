@@ -22,9 +22,6 @@ import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'breadcrumbs-component',
   styles: [`
-   a {
-     text-decoration: underline;
-   }
    a:not(:first-of-type)::before {
      content: '>';
    }
@@ -37,19 +34,18 @@ import { Subject } from 'rxjs/Subject';
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li
-        *ngFor="let part of path index as i"
-        ngClass="breadcrumb-item active"
+        *ngFor="let part of pathes index as i"
         [ngClass]="{
           'breadcrumb-item': true,
-          'active': i === path.length - 1
+          'active': i === pathes.length - 1
         }"
         aria-current="page"
       >
         <a
-          *ngIf="i !== path.length - 1"
+          *ngIf="i !== pathes.length - 1"
           (click)="goToPath(i)"
-        >{{part.path}}</a>
-        <span *ngIf="i === path.length - 1">{{part.path}}</span>
+        >{{part}}</a>
+        <span *ngIf="i === pathes.length - 1">{{part}}</span>
       </li>
     </ol>
   </nav>
@@ -60,7 +56,7 @@ import { Subject } from 'rxjs/Subject';
 // (not clickable) and link to courses page.
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
   public title: string = '';
-  public path: UrlSegment[];
+  public pathes: string[] = ['courses'];
   private params: Params;
   private listeners: Subscription[] = [];
   constructor(
@@ -77,9 +73,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
         .filter((e: Event) => e instanceof NavigationEnd)
         .map((_) => this.activatedRoute.firstChild.url)
         .switch()
-
-        .subscribe((data: UrlSegment[]) => {
-          this.path = [...data];
+        .map((data: UrlSegment[]) => data.map((item: UrlSegment) => item.path))
+        .subscribe((data: string[]) => {
+          this.pathes = [...data];
           this.changeDetectorRef.markForCheck();
         })
     );
@@ -96,9 +92,8 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   }
 
   public goToPath(index: number) {
-    const url = this.path
+    const url = this.pathes
       .slice(0, index + 1)
-      .map((item) => item.path)
     ;
     console.warn(`url=${url}`);
     this.router.navigate(url);

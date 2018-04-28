@@ -91,7 +91,9 @@ export class CoursePageComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.breadcrumbsService.setSource(this.course.asObservable().map((item) => item.name));
+    this.breadcrumbsService.setSource(
+      this.course.asObservable().map((item) => item.name ? item.name : 'New Course')
+    );
   }
 
   public ngOnDestroy() {
