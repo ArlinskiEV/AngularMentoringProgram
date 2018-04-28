@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <p>Accepted count: {{count}}</p>
     <div *ngIf="coursesArr.length !== 0">
-      <course *ngFor="let item of coursesArr | myOrderBy:'createdDate':'desc'"
+      <course *ngFor="let item of coursesArr | myOrderBy:'date':'desc'"
       [courseItem]="item"
       (handler)="deletter($event)"
       ></course>
