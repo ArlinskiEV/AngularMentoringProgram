@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { StyleRule } from '../core/entities';
+import { StyleRule } from '../entities';
 
 @Directive({
   selector: '[appStylelight]',

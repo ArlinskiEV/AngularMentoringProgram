@@ -1,3 +1,3 @@
-export * from './durationPipe';
-export * from './orderBy';
-export * from './filter';
+export * from './duration.pipe';
+export * from './orderby.pipe';
+export * from './filter.pipe';

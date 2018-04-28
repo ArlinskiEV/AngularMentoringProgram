@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { Course, Answer } from '../core/entities';
+import { Course, Answer } from '../../core/entities';
 
-import { ModalWindowService, BreadcrumbsService } from '../core/services';
+import { ModalWindowService, BreadcrumbsService } from '../../core/services';
 import { Router } from '@angular/router';
 
 @Component({

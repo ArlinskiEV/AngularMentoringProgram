@@ -3,7 +3,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 
-import { FilterRule } from '../../entities';
+import { FilterRule } from '../entities';
 
 @Pipe({
   name: 'myFilter',

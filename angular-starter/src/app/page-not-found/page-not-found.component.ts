@@ -19,7 +19,7 @@ import { BreadcrumbsService } from '../core';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageNotFoundComponent implements OnInit{
+export class PageNotFoundComponent implements OnInit {
   constructor(
     private breadcrumbsService: BreadcrumbsService
   ) {}

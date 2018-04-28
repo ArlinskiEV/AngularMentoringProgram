@@ -5,9 +5,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { AuthorizationService } from '../core/services';
+import { AuthorizationService } from '../../core/services';
 import { Subscription } from 'rxjs/Subscription';
-import { SharedUserInfo } from '../core';
+import { SharedUserInfo } from '../../core';
 import { Router } from '@angular/router';
 
 @Component({

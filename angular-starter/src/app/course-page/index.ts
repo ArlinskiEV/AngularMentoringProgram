@@ -1,2 +1,4 @@
 export * from './course-page.component';
-export * from './course-page.module';
+export * from './authors';
+export * from './date';
+export * from './duration';

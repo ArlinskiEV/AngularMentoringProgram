@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchService, CourseService } from '../../core';
+import { SearchService, CourseService } from '../../../core/services';
 
 @Component({
   selector: 'search',

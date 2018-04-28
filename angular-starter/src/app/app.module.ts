@@ -4,17 +4,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 
-import { HeaderModule } from './header';
-import { FooterModule } from './footer';
-import { CoursesModule } from './courses';
-import { ModalWindowModule } from './modalWindow';
-import { LoginPageModule } from './login-page';
-import { LoaderBlockModule } from './loaderBlock';
-import { PageNotFoundModule } from './page-not-found';
-
-import { AppComponent } from './app.component';
-import { CoursePageModule } from './course-page';
-
 import { StoreModule } from '@ngrx/store';
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 // import { environment } from '../environments/environment'; // Angular CLI environemnt
@@ -44,12 +33,20 @@ function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOp
 // --------------------------------------------------------------------
 
 import { ROUTES } from './app.routes';
+import { APP_COMPONENTS, APP_PIPES, APP_DIRECTIVES } from './app.declarations';
+
 import { appInitialState } from './core/mocks';
 import { ActionsUnion } from './core/actions';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
+    [...APP_COMPONENTS],
+    [...APP_PIPES],
+    [...APP_DIRECTIVES],
     AppComponent,
   ],
   imports: [
@@ -66,14 +63,8 @@ import { ActionsUnion } from './core/actions';
     // for providers...
     HttpModule,
     // --------------------------------------------------------------------
-    HeaderModule,
-    FooterModule,
-    CoursesModule,
-    ModalWindowModule,
-    LoginPageModule,
-    CoursePageModule,
-    LoaderBlockModule,
-    PageNotFoundModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     RouterModule.forRoot(ROUTES, {
       useHash: true,

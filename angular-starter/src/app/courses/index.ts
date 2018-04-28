@@ -1,2 +1,3 @@
 export * from './courses.component';
-export * from './courses.module';
+export * from './course';
+export * from './toolbar';

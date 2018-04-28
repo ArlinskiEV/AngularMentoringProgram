@@ -1,2 +1,3 @@
 export * from './header.component';
-export * from './header.module';
+export * from './breadcrumbs.component';
+export * from './userinfo';
