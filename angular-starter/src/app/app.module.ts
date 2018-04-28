@@ -11,17 +11,8 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer, AppState } from './core/reducers';
 
 import {
-  CourseService,
-  ModalWindowService,
-  LoaderBlockService,
-  SearchService,
-  AuthorizationService,
   AuthorizedHttpService,
-  BreadcrumbsService,
-  CanActivateGuard,
 } from './core/services';
-
-import { FilterPipe } from './core';
 
 import { HttpModule } from '@angular/http';
 
@@ -34,6 +25,7 @@ function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOp
 
 import { ROUTES } from './app.routes';
 import { APP_COMPONENTS, APP_PIPES, APP_DIRECTIVES } from './app.declarations';
+import { APP_PRIVIDERS } from './app.providers';
 
 import { appInitialState } from './core/mocks';
 import { ActionsUnion } from './core/actions';
@@ -76,20 +68,7 @@ import { AppComponent } from './app.component';
     // {provide: 'ext-http', useClass: AuthorizedHttpService},
     { provide: Http, useFactory: AuthorizedHttpFactory, deps: [XHRBackend, RequestOptions]},
     { provide: 'Ahttp', useExisting: Http},
-    // --------------------------------------------------------------------
-    BreadcrumbsService,
-    ModalWindowService,
-    {provide: 'load-spinner', useClass: LoaderBlockService},
-    SearchService,
-
-    AuthorizationService,
-    CanActivateGuard,
-
-    CourseService,
-
-    // --------------------------------------------------------------------
-    FilterPipe,
-    // --------------------------------------------------------------------
+    [...APP_PRIVIDERS],
   ],
 })
 
