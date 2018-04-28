@@ -22,7 +22,8 @@ import 'rxjs/add/operator/filter';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  private showBreadCrumbs: boolean = true;
+  public showBreadCrumbs: boolean = true;
+  public showUserInfo: boolean = false;
   private listeners: Subscription[] = [];
   constructor(
     private authorizationService: AuthorizationService,
@@ -31,16 +32,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
   ) {}
 
-  get isAuth() {
-    return this.authorizationService.isAuthenticated();
-  }
-
   public ngOnInit() {
     // because auth-info must be actual
-    console.log('header onInit');
     this.listeners.push(
-      this.authorizationService.getUserInfo().subscribe(
-        () => this.changeDetectorRef.markForCheck(),
+      this.authorizationService.isAuthenticated().subscribe(
+        (result: boolean) => {
+          this.showUserInfo = result;
+          this.changeDetectorRef.markForCheck();
+        },
       )
     );
 

@@ -35,8 +35,6 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthorizationService {
-  // public mySource: BehaviorSubject<SharedUserInfo>;
-  private user: User = new User();
 
   private baseUrl = BASE_URL;
 
@@ -51,9 +49,7 @@ export class AuthorizationService {
       .finally(() => {if (listener) { listener.unsubscribe(); }})
       .first()
       .subscribe((newUser) => {
-        this.user = newUser;
-
-        if (!this.isAuthenticated) {
+        if (!this.isAuthenticated()) {
           const user = new User(JSON.parse(localStorage.getItem(STORAGE_USER_KEY)));
           // find in storage, but not in init-state
           if (user.token) {
@@ -92,10 +88,7 @@ export class AuthorizationService {
     const result = new Subject<string>();
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
-      .map((data: any) => {
-        const token = data.token;
-        return this.getInfo(token);
-      })
+      .map((data: any) => this.getInfo(data.token))
       .switch()
       .finally(() => listener.unsubscribe())
       .subscribe(
@@ -126,24 +119,21 @@ export class AuthorizationService {
   public logout(): void {
     this.dellAllPreferences();
     this.store.dispatch(new LogOut());
-    // this.user = new User();
-    // this.mySource.next(this.user.sharedInfo());
-
   }
 
-   public isAuthenticated(): boolean {
-    return !!this.user.token;
+  // public isAuthenticated(): boolean {
+  //   return !!this.user.token;
+  // }
 
-    // return this.store.pipe(select((state: AppState) => !!state.user.token))
-    // .first().toPromise();
+  public isAuthenticated(): Observable<boolean> {
+    return this.store
+      .map((state: AppState) => !!state.user.token)
+    ;
   }
 
   public getUserInfo(): Observable<SharedUserInfo> {
-    // return this.mySource.asObservable();
     return this.store
-      // ??? which way is better? why?
       .map((state: AppState) => state.user.sharedInfo());
-      // .pipe(select((state: AppState) => state.user.sharedInfo()));
   }
 
   // ------------------------------------------------------------------
@@ -156,7 +146,6 @@ export class AuthorizationService {
   private dellAllPreferences() {
     localStorage.removeItem(STORAGE_USER_KEY);
     this.Ahttp.clearHeaders();
-    this.user = new User(); // --------------------- <= for header
   }
   // ------------------------------------------------------------------
 
@@ -186,10 +175,6 @@ export class AuthorizationService {
           token: data.fakeToken
         };
         // ----------------------------
-        // this.user = new User(obj);
-        // this.mySource.next(this.user.sharedInfo());
-        // result.next(true);
-        console.log('before');
         result.next(new User(obj));
       },
       (error) => {

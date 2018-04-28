@@ -9,15 +9,11 @@ export function userReducer(state: User = new User(), action: UserActionsUnion):
   console.log(`action: ${action.type}`);
   switch (action.type) {
     case UserActionTypes.USER_LOGIN: {
-      // Object.assign(change, action.payload);
-      // break;
       return action.payload;
     }
     case UserActionTypes.USER_LOGOUT: {
-      break;
+      return new User();
     }
     default: return state;
   }
-
-  return new User({...state, ...change});
 }
