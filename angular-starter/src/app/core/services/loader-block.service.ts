@@ -19,7 +19,7 @@ export class LoaderBlockService {
     this.source.next({show: this.show});
   }
 
-  public getData(): Observable<boolean> {
+  public getData(): Observable<{show: boolean}> {
     return this.source.asObservable();
   }
 

@@ -27,7 +27,7 @@ export class LoaderBlockComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.listener = this.loaderBlockService.getData.subscribe((payload) => {
+    this.listener = this.loaderBlockService.getData().subscribe((payload) => {
       this.visible = payload.show;
       this.changeDetectorRef.markForCheck();
     });
