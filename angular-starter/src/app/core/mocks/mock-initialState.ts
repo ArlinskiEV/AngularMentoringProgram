@@ -9,5 +9,6 @@ export const appInitialState: AppState = {
     name: new Name('Brock', 'Beasley'),
     login: 'Morales',
     password: 'id'
-  })
+  }),
+  course: [],
 };

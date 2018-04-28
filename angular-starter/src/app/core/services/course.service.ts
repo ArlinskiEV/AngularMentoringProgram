@@ -27,32 +27,38 @@ import {
   URLSearchParams,
   RequestMethod
 } from '@angular/http';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { NewData, AddData } from '../actions';
 
 // import { LoaderBlockService } from '../services';
 
 @Injectable()
 export class CourseService {
-  private sourceList: BehaviorSubject<Course[]>;
+  // private sourceList: BehaviorSubject<Course[]>;
   private baseUrl = BASE_URL;
   private end = 0;
   constructor(
     // @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
     private http: Http,
+    private store: Store<AppState>
   ) {
-    this.sourceList = new BehaviorSubject([]);
+    // this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
     // observable for server (with http)
     const listener: Subscription = this.server({start: 0, count: 3})
       // transfer data
       .subscribe((data) => {
-        this.sourceList.next(data);
+        // this.sourceList.next(data);
+        this.store.dispatch(new NewData(data));
       }, null, () => listener.unsubscribe())
     ;
     // ------------------------------------------------
   }
 
   public getList(): Observable<Course[]> {
-    return this.sourceList.asObservable();
+    // return this.sourceList.asObservable();
+    return this.store.map((state: AppState) => state.course);
   }
 
   public getAuthorsList(): Observable<Author[]> {
@@ -81,7 +87,9 @@ export class CourseService {
   }
 
   public createCourse(newCourse: Course): void {
-    this.sourceList.next([...this.sourceList.value, newCourse]);
+    console.warn('new course:');
+    console.warn(newCourse);
+    // call server, refresh...
   }
 
   public getItemById(id: number): Observable<Course> {
@@ -91,16 +99,9 @@ export class CourseService {
   }
 
   public updateItem(obj: UpdateCourseItemById): void {
-    const arr = [...this.sourceList.value];
-    const i = arr.findIndex((item) => item.id === obj.id);
-    // if (i !== -1) {
-      // arr[i] = Course.updateCourseItemById(arr[i], obj);
-      // this.sourceList.next(arr);
-      // console.log('update successful');
-    // } else {
-    console.warn('item not found in local array');
+    console.warn('update course:');
     console.warn(obj);
-    // }
+    // call server, refresh...
   }
 
   public removeItem(id: number): void {
@@ -134,7 +135,8 @@ export class CourseService {
           // recall server
           const listener2 = this.server({start: this.end, count: 3})
             .subscribe(
-              (data) => this.sourceList.next(data),
+              // (data) => this.sourceList.next(data),
+              (data) => this.store.dispatch(new NewData(data)),
               null,
               () => listener2.unsubscribe()
             )
@@ -150,10 +152,11 @@ export class CourseService {
       .subscribe((data: Course[]) => {
         // this.sourceList.next(data);
         this.end += count;
-        this.sourceList.next([
-          ...this.sourceList.value,
-          ...data
-        ]);
+        // this.sourceList.next([
+        //   ...this.sourceList.value,
+        //   ...data
+        // ]);
+        this.store.dispatch(new AddData(data));
       },
         null,
         () => listener.unsubscribe()

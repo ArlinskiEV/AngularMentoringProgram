@@ -3,24 +3,24 @@ import { Action } from '@ngrx/store';
 import { User } from '../entities';
 
 export enum UserActionTypes {
-  USER_LOGIN = '[User] USER_LOGIN',
-  USER_LOGOUT = '[User] USER_LOGOUT',
+  LOGIN = '[User] USER_LOGIN',
+  LOGOUT = '[User] USER_LOGOUT',
 }
 
-/* tslint:disable */
+/* tslint:disable:max-classes-per-file */
 
 export class LogIn implements Action {
-  readonly type = UserActionTypes.USER_LOGIN;
-
+  public readonly type = UserActionTypes.LOGIN;
   constructor(public payload: User) {}
 }
 
 export class LogOut implements Action {
-  readonly type = UserActionTypes.USER_LOGOUT;
+  public readonly type = UserActionTypes.LOGOUT;
 }
+
+/* tslint:enable */
 
 export type UserActionsUnion =
   | LogIn
-  | LogOut;
-
-/* tslint:enable */
+  | LogOut
+  ;

@@ -55,8 +55,8 @@ import { ActionsUnion } from './core/actions';
   imports: [
     // CommonModule,
     BrowserModule,
-    // StoreModule.forRoot(appReducer),
-    StoreModule.forRoot(appReducer, { initialState: appInitialState }),
+    StoreModule.forRoot(appReducer),
+    // StoreModule.forRoot(appReducer, { initialState: appInitialState }),
 
     // StoreDevtoolsModule.instrumentOnlyWithExtension({
     //   maxAge: 25, // Retains last 25 states

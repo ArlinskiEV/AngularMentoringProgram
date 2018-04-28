@@ -1,29 +1,17 @@
 import { combineReducers, ActionReducerMap, ActionReducer } from '@ngrx/store';
 
-import { userReducer } from './user-reducer';
-import { User } from '../entities';
+import { userReducer } from './user.reducer';
+import { User, Course } from '../entities';
 
 import { ActionsUnion } from '../actions';
+import { courseReducer } from './course.reducer';
 
 export interface AppState {
   user: User;
-  // authenticated: User,
-  // selected: User,
-  // list: User[],
-  // search: string
+  course: Course[];
 }
 
-export const reducers: ActionReducerMap<AppState> = {
-  user: userReducer
-  // authenticated: authenticatedUserReducer,
-  // selected: selectedUserReducer,
-  // list: userListReducer,
-  // search: userSearchReducer
+export const appReducer: ActionReducerMap<AppState> = {
+  user: userReducer,
+  course: courseReducer,
 };
-
-// const reducer = combineReducers(reducers);
-// export function appReducer(state: AppState, action: ActionsUnion) {
-//   return reducer(state, action);
-// }
-
-export { reducers as appReducer };

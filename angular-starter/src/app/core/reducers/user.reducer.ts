@@ -4,10 +4,10 @@ import { UserActionsUnion, UserActionTypes } from '../actions';
 
 export function userReducer(state: User = new User(), action: UserActionsUnion): User {
   switch (action.type) {
-    case UserActionTypes.USER_LOGIN: {
+    case UserActionTypes.LOGIN: {
       return action.payload;
     }
-    case UserActionTypes.USER_LOGOUT: {
+    case UserActionTypes.LOGOUT: {
       return new User();
     }
     default: return state;
