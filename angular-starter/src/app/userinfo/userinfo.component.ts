@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 
 export class UserInfoComponent  implements OnInit, OnDestroy {
-  private user: SharedUserInfo;
+  public user: SharedUserInfo;
   private listener: Subscription;
   constructor(
     private authorizationService: AuthorizationService,

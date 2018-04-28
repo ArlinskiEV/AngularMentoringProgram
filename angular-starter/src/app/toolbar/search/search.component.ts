@@ -15,7 +15,7 @@ import { SearchService, CourseService } from '../../core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
-  protected searchText: string = '';
+  public searchText: string = '';
 
   constructor(
     private searchService: SearchService,

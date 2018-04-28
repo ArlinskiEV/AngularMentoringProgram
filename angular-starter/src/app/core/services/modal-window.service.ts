@@ -15,7 +15,7 @@ export class ModalWindowService {
     this.answerSream = new Subject();
   }
 
-  public get data() {
+  public getData(): Observable<ModalRule> {
     return this.source.asObservable();
   }
 

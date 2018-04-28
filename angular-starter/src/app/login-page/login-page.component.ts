@@ -44,9 +44,7 @@ export class LoginPageComponent {
           this.showAlert('RESULT: ' + result, 'alert-success');
           // ----------------------------
           // redirect
-          console.log('before redirect');
           this.router.navigateByUrl('courses');
-          console.log('after');
           // ----------------------------
         },
         (error) => this.showAlert('ERROR: ' + error, 'alert-danger')

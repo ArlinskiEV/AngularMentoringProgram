@@ -21,12 +21,11 @@ import { Subscription } from 'rxjs/Subscription';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalWindowComponent implements OnInit, OnDestroy {
-  private visible = false;
+  public visible = false;
+  public message: string;
+  public default: Answer;
+  public answerArr: Answer[];
   private listener: Subscription;
-  private data: Observable<ModalRule>;
-  private message: string;
-  private default: Answer;
-  private answerArr: Answer[];
 
   constructor(
     private modalWindowService: ModalWindowService,
@@ -34,8 +33,7 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.data = this.modalWindowService.data;
-    this.listener = this.data.subscribe((data) => {
+    this.listener = this.modalWindowService.getData().subscribe((data) => {
       this.visible = true;
       this.message = data.message;
       this.answerArr = data.answerArr;
@@ -50,14 +48,14 @@ export class ModalWindowComponent implements OnInit, OnDestroy {
     this.listener.unsubscribe();
   }
 
-  private click(answer: Answer)  {
+  public click(answer: Answer)  {
     this.visible = false;
     this.changeDetectorRef.markForCheck();
     this.modalWindowService.answer(answer);
   }
 
   @HostListener('document:keyup.esc', ['$event'])
-  private onKeyUp(ev: KeyboardEvent) {
+  public onKeyUp(ev: KeyboardEvent) {
     this.click(this.default);
   }
 

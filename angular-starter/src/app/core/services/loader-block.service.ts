@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { Observable } from 'rxjs/Observable';
+
 @Injectable()
 export class LoaderBlockService {
 
@@ -15,6 +17,10 @@ export class LoaderBlockService {
   public Hide() {
     this.show = false;
     this.source.next({show: this.show});
+  }
+
+  public getData(): Observable<boolean> {
+    return this.source.asObservable();
   }
 
 }

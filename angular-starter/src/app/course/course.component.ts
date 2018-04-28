@@ -22,8 +22,8 @@ import { Router } from '@angular/router';
 export class CourseComponent {
   public currentDate = Date.now();
   public infinityDate = Infinity;
-  @Input() protected courseItem: Course = new Course();
-  @Output('handler') protected handler = new  EventEmitter();
+  @Input() public courseItem: Course = new Course();
+  @Output('handler') public handler = new  EventEmitter();
 
   constructor(
     private modalWindowService: ModalWindowService,
@@ -31,11 +31,11 @@ export class CourseComponent {
     private breadcrumbsService: BreadcrumbsService,
   ) {}
 
-  protected edit(id: number) {
+  public edit(id: number) {
     this.router.navigateByUrl(`courses/${id}`);
   }
 
-  protected del() {
+  public del() {
     console.log(`del from child, id:${this.courseItem.id}`);
 
     // using modalWindow via modalWindowService

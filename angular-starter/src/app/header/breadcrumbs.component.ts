@@ -60,8 +60,8 @@ import { Subject } from 'rxjs/Subject';
 // (not clickable) and link to courses page.
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
   public title: string = '';
+  public path: UrlSegment[];
   private params: Params;
-  private path: UrlSegment[];
   private listeners: Subscription[] = [];
   constructor(
     private router: Router,

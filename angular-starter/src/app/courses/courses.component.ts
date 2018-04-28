@@ -27,7 +27,7 @@ import { Subscription } from 'rxjs/Subscription';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoursesComponent implements OnInit, OnDestroy {
-  protected coursesArr: Course[] = [];
+  public coursesArr: Course[] = [];
   private fullCoursesArr: Course[] = [];
   private filterData: FilterRule[] = [];
   private listeners: Subscription[] = [];
@@ -67,18 +67,18 @@ export class CoursesComponent implements OnInit, OnDestroy {
     this.listeners.forEach((item) => item.unsubscribe());
   }
 
-  get count() {
+  public get count() {
     return this.coursesArr
       .reduce((prev, item) => item.isAccept ? prev + 1 : prev, 0);
   }
 
-  protected deletter(emit: {value: number}) {
+  public deletter(emit: {value: number}) {
     this.loaderBlockService.Show();
     this.courseService.removeItem(emit.value);
     setTimeout( () => this.loaderBlockService.Hide(), 1500);
   }
 
-  protected loadMore() {
+  public loadMore() {
     this.courseService.loadMoreItem(3);
   }
 
