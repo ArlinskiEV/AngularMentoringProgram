@@ -15,6 +15,7 @@ import {
 } from './core/services';
 
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 // --------------------------------------------------------------------
 import { RequestOptions, Http, XHRBackend } from '@angular/http';
@@ -54,6 +55,7 @@ import { AppComponent } from './app.component';
     // --------------------------------------------------------------------
     // for providers...
     HttpModule,
+    HttpClientModule,
     // --------------------------------------------------------------------
     FormsModule,
     ReactiveFormsModule,

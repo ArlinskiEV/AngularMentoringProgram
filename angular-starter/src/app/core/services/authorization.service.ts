@@ -20,15 +20,26 @@ import {
 import { NgZone } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
+// import {
+//   Http,
+//   Response,
+//   Request,
+//   RequestOptions,
+//   Headers,
+//   URLSearchParams,
+//   RequestMethod
+// } from '@angular/http';
+
 import {
-  Http,
-  Response,
-  Request,
-  RequestOptions,
-  Headers,
-  URLSearchParams,
-  RequestMethod
-} from '@angular/http';
+  HttpClient,
+  HttpRequest,
+  HttpEvent,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
+
+// import { URLSearchParams } from 'url';
 
 import { AuthorizedHttpService } from '../services';
 import { Subject } from 'rxjs/Subject';
@@ -40,8 +51,9 @@ export class AuthorizationService {
 
   constructor(
     private ngZone: NgZone,
-    private http: Http,
-    @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
+    // private http: Http,
+    private http: HttpClient,
+    // @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
     private store: Store<AppState>
   ) {
 
@@ -53,9 +65,9 @@ export class AuthorizationService {
           const user = new User(JSON.parse(localStorage.getItem(STORAGE_USER_KEY)));
           // find in storage, but not in init-state
           if (user.token) {
-            this.Ahttp.setHeaders([
-              {name: 'Authorization', value: user.token}
-            ]);
+            // this.Ahttp.setHeaders([
+            //   {name: 'Authorization', value: user.token}
+            // ]);
             this.store.dispatch(new LogIn(user));
           }
         } else {
@@ -76,42 +88,45 @@ export class AuthorizationService {
   }
 
   public login(payload: UserLoginModel): Observable<string> {
-    const headers = new Headers();
-    const requestOptions = new RequestOptions();
-    // headers.set('My-Header', 'myValue');
-    requestOptions.url = `${this.baseUrl}/auth/login`;
-    requestOptions.method = RequestMethod.Post;
-    requestOptions.headers = headers;
-    requestOptions.body = payload;
-    const request = new Request(requestOptions);
-    // ----------------------------------------------------------------
     const result = new Subject<string>();
-    const listener = this.http.request(request)
-      .map((res: Response) => res.json())
+
+    const req = new HttpRequest(
+      'POST',
+      `${this.baseUrl}/auth/login`,
+      payload, // --------- !!!!!!!!!
+      {
+        responseType: 'json',
+      }
+    );
+    // ----------------------------------------------------------------
+    const listener = this.http.request(req)
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
       .map((data: any) => this.getInfo(data.token))
       .switch()
       .finally(() => listener.unsubscribe())
-      .subscribe(
-        (user: User) => {
-          this.setAllPreferences(user);
-          this.store.dispatch(new LogIn(user));
-          result.next('Authorization success');
-        },
-        (serverError) => {
-          switch (serverError.status) {
-            case SERVER_ERROR.CONNECTION_ERROR: {
-              result.error('Connection error');
-              break;
-            }
-            case SERVER_ERROR.AUTHORIZATION_ERROR: {
-              result.error(`Authorization error: ${serverError._body}`);
-              break;
-            }
-            default: result.error(`Unknown error: ${serverError._body}`);
+      .subscribe((user: User) => {
+        this.setAllPreferences(user);
+        this.store.dispatch(new LogIn(user));
+        result.next('Authorization success');
+      },
+      // ---------------------------------------------
+      (serverError) => {
+        console.error(`ERROR: ${serverError.error}`);
+        switch (serverError.status) {
+          case SERVER_ERROR.CONNECTION_ERROR: {
+            result.error('Connection error');
+            break;
           }
+          case SERVER_ERROR.AUTHORIZATION_ERROR: {
+            result.error(`Authorization error: ${serverError.error}`);
+            break;
+          }
+          default: result.error(`Unknown error: ${serverError.error}`);
         }
-      )
-    ;
+      }
+    );
+    // ----------------------------------------------------------------
 
     return result.asObservable();
   }
@@ -120,10 +135,6 @@ export class AuthorizationService {
     this.dellAllPreferences();
     this.store.dispatch(new LogOut());
   }
-
-  // public isAuthenticated(): boolean {
-  //   return !!this.user.token;
-  // }
 
   public isAuthenticated(): Observable<boolean> {
     return this.store
@@ -139,49 +150,50 @@ export class AuthorizationService {
   // ------------------------------------------------------------------
   private setAllPreferences(user: User) {
     localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
-    this.Ahttp.setHeaders([
-      {name: 'Authorization', value: user.token}
-    ]);
+    // this.Ahttp.setHeaders([
+    //   {name: 'Authorization', value: user.token}
+    // ]);
   }
   private dellAllPreferences() {
     localStorage.removeItem(STORAGE_USER_KEY);
-    this.Ahttp.clearHeaders();
+    // this.Ahttp.clearHeaders();
   }
   // ------------------------------------------------------------------
 
   private getInfo(token: string): Observable<User> {
     const result = new Subject<User>();
-    const headers = new Headers();
-    const requestOptions = new RequestOptions();
 
-    headers.set('Authorization', token);
-
-    requestOptions.url = `${this.baseUrl}/auth/userinfo`;
-    requestOptions.method = RequestMethod.Post;
-    requestOptions.headers = headers;
-
-    const request = new Request(requestOptions);
-    // ----------------------------------------------------------------
-    const listener = this.http.request(request)
-    .map((res: Response) => res.json())
-    .map((data) => {console.warn(data); return data; })
-    .finally(() => listener.unsubscribe())
-    .subscribe(
-      (data: any) => {
-        // ----------------------------
-        // transform
-        const obj: any = {
-          ...data,
-          token: data.fakeToken
-        };
-        // ----------------------------
-        result.next(new User(obj));
-      },
-      (error) => {
-        console.error(`ERROR: ${error.error}`);
-        result.error(error);
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', token);
+    const req = new HttpRequest(
+      'POST',
+      `${this.baseUrl}/auth/userinfo`,
+      null,
+      {
+        headers,
+        responseType: 'json',
       }
     );
+    // ----------------------------------------
+    const listener = this.http.request(req)
+      .finally(() => listener.unsubscribe())
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
+      .subscribe(
+        (data: any) => {
+          const obj: any = {
+            ...data,
+            token: data.fakeToken
+          };
+          result.next(new User(obj));
+        },
+        // -----------------------------------
+        (error) => {
+          console.error(`ERROR: ${error.error}`);
+          result.error(error);
+        }
+      );
+    // ----------------------------------------
     return result.asObservable();
   }
 
