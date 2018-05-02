@@ -12,6 +12,9 @@ export interface AuthorFromServer {
 }
 
 export class Author implements Author {
+  public static fromServer(item: AuthorFromServer): Author {
+    return new Author(item.id, new Name(item.firstName, item.lastName));
+  }
   constructor(
     public id: number,
     public name: Name,

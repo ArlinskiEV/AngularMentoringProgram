@@ -1,4 +1,5 @@
 import { Author } from './author';
+import { CourseFromServer } from './courseFromServer';
 
 export interface Course {
   id: number;
@@ -30,6 +31,10 @@ export class Course implements Course {
       ...oldValue,
       ...newValue
     });
+  }
+
+  public static fromServer(item: CourseFromServer): Course {
+    return (new CourseFromServer(item)).transformToCourse();
   }
 
   public id: number;

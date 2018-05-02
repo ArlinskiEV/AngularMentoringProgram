@@ -26,9 +26,7 @@ export class CourseFromServer implements CourseFromServer {
     this.description = obj.description;
     this.isTopRated = obj.isTopRated;
     this.date = obj.date;
-    this.authors = obj.authors.map((item) =>
-      new Author(item.id, new Name(item.firstName, item.lastName)))
-    ;
+    this.authors = obj.authors.map((item) => Author.fromServer(item));
     this.length = obj.length;
   }
 

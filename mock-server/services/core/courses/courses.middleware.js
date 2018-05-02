@@ -74,14 +74,17 @@ module.exports = (server) => {
 
   router.put('/courses', (req, res, next) => {
     let obj = req.body;
-    let flag = true;
+    obj.id = [...ADD, ...server.db.getState().courses]
+      .map(item => item.id)
+      .sort()
+      .pop()
+      + 1;
     obj.isTopRated = false;
     obj.date = new Date().toJSON();
 
-    flag = (obj.id && obj.name && obj.description && obj.authors && obj.authors.length);
-    if (flag) {
+    if (obj.name && obj.description && obj.authors && obj.authors.length) {
       ADD.push(obj);
-      res.json(`item with id=${ADD[ADD.length - 1].id} was edit`);
+      res.json(`item with id=${obj.id} was edit`);
     } else {
       res.status(400).send("Wrong data");
     }

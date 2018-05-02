@@ -30,6 +30,7 @@ import {
   URLSearchParams,
   RequestMethod
 } from '@angular/http';
+
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { NewData, AddData } from '../actions';
@@ -38,7 +39,6 @@ import { NewData, AddData } from '../actions';
 
 @Injectable()
 export class CourseService {
-  // private sourceList: BehaviorSubject<Course[]>;
   private baseUrl = BASE_URL;
   private end = 0;
   constructor(
@@ -46,18 +46,13 @@ export class CourseService {
     private http: Http,
     private store: Store<AppState>
   ) {
-    // ------------------------------------------------
-    // observable for server (with http)
     const listener: Subscription = this.server(new ServerInfo(0, 3))
       .finally(() => listener.unsubscribe())
-      // transfer data
       .subscribe((data) => {
-        // this.sourceList.next(data);
         this.store.dispatch(new NewData(data));
         this.end += 3;
       })
     ;
-    // ------------------------------------------------
   }
 
   public getList(): Observable<Course[]> {
@@ -80,31 +75,36 @@ export class CourseService {
       // ------------------------------
       // transform
       .map((data: AuthorFromServer[]) => // just type
-        data.map((item) =>
-          // instanse of class
-            (new Author(item.id, new Name(item.firstName, item.lastName)))
-        )
+        data.map((item) => Author.fromServer(item))
       )
       // ------------------------------
     ;
   }
 
-  public createCourse(newCourse: Course): void {
+  public createItem(newCourse: Course): void {
     console.warn('new course:');
     console.warn(newCourse);
-    // call server, refresh...
+    // call server
+    // .finally(() => {
+    //   listener.unsubscribe();
+    //   this.refresh();
+    // })
   }
 
   public getItemById(id: number): Observable<Course> {
-      return this.server(new ServerId(id))
-        .map((data: Course[]) => data.length ? data[0] : new Course())
-      ;
+    return this.server(new ServerId(id))
+      .map((data: Course[]) => data.length ? data[0] : new Course())
+    ;
   }
 
   public updateItem(obj: UpdateCourseItemById): void {
     console.warn('update course:');
     console.warn(obj);
-    // call server, refresh...
+    // call server
+    // .finally(() => {
+    //   listener.unsubscribe();
+    //   this.refresh();
+    // })
   }
 
   public removeItem(id: number): void {
@@ -125,22 +125,11 @@ export class CourseService {
     // ----------------------------------------------------------------
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
-      .subscribe(
-        (data) => {
-          // confirm delete
-          console.warn(`accept:${data}`);
-        },
-        null,
-        () => {
-          listener.unsubscribe();
-          // recall server
-          const info = new ServerInfo(0, this.end);
-          const listener2 = this.server(info)
-            .finally(() => listener2.unsubscribe())
-            .subscribe((data) => this.store.dispatch(new NewData(data)))
-          ;
-        }
-      )
+      .finally(() => {
+        listener.unsubscribe();
+        this.refresh();
+      })
+      .subscribe((data) => console.warn(`accept:${data}`)) // confirm delete
     ;
     // setTimeout(() => this.loaderBlockService.Hide(), 1000);
   }
@@ -148,13 +137,11 @@ export class CourseService {
   public loadMoreItem(count: number): void {
     const info = new ServerInfo(this.end, count);
     const listener = this.server(info)
+      .finally(() => listener.unsubscribe())
       .subscribe((data: Course[]) => {
         this.end += count;
         this.store.dispatch(new AddData(data));
-      },
-        null,
-        () => listener.unsubscribe()
-      )
+      })
     ;
   }
 
@@ -162,16 +149,19 @@ export class CourseService {
     const info = new ServerInfo(0, this.end);
     info.query = query;
     const listener = this.server(info)
-      .subscribe(
-        (data: Course[]) => {
-          this.end = 10;
-          this.store.dispatch(new NewData(data));
-        },
-        null,
-        () => {
-          listener.unsubscribe();
-        }
-      )
+      .finally(() => listener.unsubscribe())
+      .subscribe((data: Course[]) => {
+        this.end = 10;
+        this.store.dispatch(new NewData(data));
+      })
+    ;
+  }
+
+  private refresh() {
+    const info = new ServerInfo(0, this.end);
+    const listener = this.server(info)
+      .finally(() => listener.unsubscribe())
+      .subscribe((data) => this.store.dispatch(new NewData(data)))
     ;
   }
 
@@ -209,10 +199,7 @@ export class CourseService {
       // ------------------------------
       // transform
       .map((data: CourseFromServer[]) => // just type
-        data.map((item) =>
-          // instanse of class
-          (new CourseFromServer(item)).transformToCourse()
-        )
+        data.map((item) => Course.fromServer(item))
       )
       // ------------------------------
     ;

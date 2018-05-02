@@ -61,7 +61,11 @@ export class CoursePageComponent implements OnInit, OnDestroy {
   }
 
   public submit(form: FormGroup) {
-    this.courseService.updateItem({id: this.course.value.id, ...form.value});
+    if (this.idInfo.id) {
+      this.courseService.updateItem({id: this.course.value.id, ...form.value});
+    } else {
+      this.courseService.createItem(new Course(form.value));
+    }
     this.router.navigateByUrl('courses');
   }
   public cancel() {
