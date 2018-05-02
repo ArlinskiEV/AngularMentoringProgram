@@ -7,5 +7,5 @@ export * from './consts';
 export * from './serverQuery';
 export * from './answer';
 export * from './name';
-export * from './courseFromServer';
+// export * from './courseFromServer';
 export * from './author';
