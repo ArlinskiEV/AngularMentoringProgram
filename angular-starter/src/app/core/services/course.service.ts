@@ -14,6 +14,9 @@ import {
   Author,
   AuthorFromServer,
   Name,
+  ServerTypes,
+  ServerInfo,
+  ServerId,
 } from '../entities';
 
 // import { COURSES } from '../mocks';
@@ -27,37 +30,44 @@ import {
   URLSearchParams,
   RequestMethod
 } from '@angular/http';
+
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { NewData, AddData } from '../actions';
+
+import { SearchService } from './search.service';
 
 // import { LoaderBlockService } from '../services';
 
 @Injectable()
 export class CourseService {
-  // private sourceList: BehaviorSubject<Course[]>;
   private baseUrl = BASE_URL;
   private end = 0;
+  private queryFromService = '';
   constructor(
     // @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
+    private searchService: SearchService,
     private http: Http,
     private store: Store<AppState>
   ) {
-    // this.sourceList = new BehaviorSubject([]);
-    // ------------------------------------------------
-    // observable for server (with http)
-    const listener: Subscription = this.server({start: 0, count: 3})
-      // transfer data
+    const listener: Subscription = this.server(new ServerInfo(0, 3))
+      .first()
+      .finally(() => listener.unsubscribe())
       .subscribe((data) => {
-        // this.sourceList.next(data);
+        console.warn('first');
         this.store.dispatch(new NewData(data));
-      }, null, () => listener.unsubscribe())
+        this.end += 3;
+      })
     ;
-    // ------------------------------------------------
+    const listener2 = this.searchService.getSearchData()
+      .finally(() => listener2.unsubscribe())
+      .subscribe((data) => {
+        this.queryFromService = data;
+      })
+    ;
   }
 
   public getList(): Observable<Course[]> {
-    // return this.sourceList.asObservable();
     return this.store.map((state: AppState) => state.course);
   }
 
@@ -77,31 +87,36 @@ export class CourseService {
       // ------------------------------
       // transform
       .map((data: AuthorFromServer[]) => // just type
-        data.map((item) =>
-          // instanse of class
-            (new Author(item.id, new Name(item.firstName, item.lastName)))
-        )
+        data.map((item) => Author.fromServer(item))
       )
       // ------------------------------
     ;
   }
 
-  public createCourse(newCourse: Course): void {
+  public createItem(newCourse: Course): void {
     console.warn('new course:');
     console.warn(newCourse);
-    // call server, refresh...
+    // call server
+    // .finally(() => {
+    //   listener.unsubscribe();
+    //   this.refresh();
+    // })
   }
 
   public getItemById(id: number): Observable<Course> {
-      return this.server({start: 0, count: 10, id})
-        .map((data: Course[]) => data.length ? data[0] : new Course())
-      ;
+    return this.server(new ServerId(id))
+      .map((data: Course[]) => data.length ? data[0] : new Course())
+    ;
   }
 
   public updateItem(obj: UpdateCourseItemById): void {
     console.warn('update course:');
     console.warn(obj);
-    // call server, refresh...
+    // call server
+    // .finally(() => {
+    //   listener.unsubscribe();
+    //   this.refresh();
+    // })
   }
 
   public removeItem(id: number): void {
@@ -112,7 +127,6 @@ export class CourseService {
     const urlParams: URLSearchParams = new URLSearchParams();
 
     urlParams.set('id', '' + id);
-    // headers.set('My-Header', 'myValue');
 
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Delete;
@@ -123,58 +137,44 @@ export class CourseService {
     // ----------------------------------------------------------------
     const listener = this.http.request(request)
       .map((res: Response) => res.json())
-      .subscribe(
-        (data) => {
-          // confirm delete
-          console.warn(`accept:${data}`);
-        },
-        null,
-        () => {
-          listener.unsubscribe();
-          this.end = 0;
-          // recall server
-          const listener2 = this.server({start: this.end, count: 3})
-            .subscribe(
-              // (data) => this.sourceList.next(data),
-              (data) => this.store.dispatch(new NewData(data)),
-              null,
-              () => listener2.unsubscribe()
-            )
-          ;
-        }
-      )
+      .finally(() => {
+        listener.unsubscribe();
+        this.refresh();
+      })
+      .subscribe((data) => console.warn(`accept:${data}`)) // confirm delete
     ;
     // setTimeout(() => this.loaderBlockService.Hide(), 1000);
   }
 
   public loadMoreItem(count: number): void {
-    const listener = this.server({start: this.end, count})
+    const info = new ServerInfo(this.end, count);
+    info.query = this.queryFromService;
+    const listener = this.server(info)
+      .finally(() => listener.unsubscribe())
       .subscribe((data: Course[]) => {
-        // this.sourceList.next(data);
         this.end += count;
-        // this.sourceList.next([
-        //   ...this.sourceList.value,
-        //   ...data
-        // ]);
         this.store.dispatch(new AddData(data));
-      },
-        null,
-        () => listener.unsubscribe()
-      )
+      })
     ;
   }
 
   public search(query: string) {
-    const listener = this.server({start: 0, count: 10, query})
-      .subscribe(
-        (data: Course[]) => {
-          // this.sourceList.next(data);
-        },
-        null,
-        () => {
-          listener.unsubscribe();
-        }
-      )
+    const info = new ServerInfo(0, 10);
+    info.query = query;
+    const listener = this.server(info)
+      .finally(() => listener.unsubscribe())
+      .subscribe((data: Course[]) => {
+        this.end = 10;
+        this.store.dispatch(new NewData(data));
+      })
+    ;
+  }
+
+  private refresh() {
+    const info = new ServerInfo(0, this.end);
+    const listener = this.server(info)
+      .finally(() => listener.unsubscribe())
+      .subscribe((data) => this.store.dispatch(new NewData(data)))
     ;
   }
 
@@ -183,23 +183,24 @@ export class CourseService {
     const requestOptions = new RequestOptions();
     const urlParams: URLSearchParams = new URLSearchParams();
 
-    // const pageNumber = 2;
-    // const pageNumber = 1;
-    // const count = 3; // count courses on page
-    // const start = (pageNumber - 1) * count; // from 0
-    if (params.id) {
-      urlParams.set('id', '' + params.id);
-    } else {
-      urlParams.set('start', '' + params.start);
-      urlParams.set('count', '' + params.count);
-      if (params.sort) {
-        urlParams.set('sort', '' + params.sort);
+    switch (params.type) {
+      case ServerTypes.ID: {
+        urlParams.set('id', '' + params.id);
+        break;
       }
-      if (params.query) {
-        urlParams.set('query', '' + params.query);
+      case ServerTypes.GENERALL: {
+        urlParams.set('start', '' + params.start);
+        urlParams.set('count', '' + params.count);
+        if (params.sort) {
+          urlParams.set('sort', '' + params.sort);
+        }
+        if (params.query) {
+          urlParams.set('query', '' + params.query);
+        }
+        break;
       }
     }
-    // headers.set('My-Header', 'myValue');
+
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Get;
     requestOptions.headers = headers;
@@ -211,10 +212,7 @@ export class CourseService {
       // ------------------------------
       // transform
       .map((data: CourseFromServer[]) => // just type
-        data.map((item) =>
-          // instanse of class
-          (new CourseFromServer(item)).transformToCourse()
-        )
+        data.map((item) => Course.fromServer(item))
       )
       // ------------------------------
     ;

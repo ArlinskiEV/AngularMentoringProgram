@@ -8,7 +8,6 @@ import {
   CourseService,
   FilterPipe
 } from './core';
-
 export const APP_PRIVIDERS = [
   // --------------------------------------------------------------------
   BreadcrumbsService,

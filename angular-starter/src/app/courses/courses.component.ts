@@ -28,7 +28,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class CoursesComponent implements OnInit, OnDestroy {
   public coursesArr: Course[] = [];
-  private fullCoursesArr: Course[] = [];
+  // private fullCoursesArr: Course[] = [];
   private filterData: FilterRule[] = [];
   private listeners: Subscription[] = [];
 
@@ -36,7 +36,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     // private loaderBlockService: LoaderBlockService,
     @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
     private courseService: CourseService,
-    private filter: FilterPipe<Course>,
+    // private filter: FilterPipe<Course>, // no, it must be on the BE
     private searchService: SearchService,
     private changeDetectorRef: ChangeDetectorRef,
     private breadcrumbsService: BreadcrumbsService,
@@ -45,20 +45,21 @@ export class CoursesComponent implements OnInit, OnDestroy {
     // observable from CourseServices
     this.listeners.push(this.courseService.getList()
       .subscribe((data) => {
-        this.fullCoursesArr = data;
-        this.coursesArr = this.filter.transform(this.fullCoursesArr, this.filterData);
+        // this.fullCoursesArr = data;
+        // this.coursesArr = this.filter.transform(this.fullCoursesArr, this.filterData);
+        this.coursesArr = data;
         this.changeDetectorRef.markForCheck();
       })
     );
 
     // observable from SearchService
-    this.listeners.push(this.searchService.getSearchData()
-      .subscribe((item) => {
-        this.filterData = item;
-        this.coursesArr = this.filter.transform(this.fullCoursesArr, item);
-        this.changeDetectorRef.markForCheck();
-      })
-    );
+    // this.listeners.push(this.searchService.getSearchData()
+    //   .subscribe((item) => {
+    //     this.filterData = item;
+    //     this.coursesArr = this.filter.transform(this.fullCoursesArr, item);
+    //     this.changeDetectorRef.markForCheck();
+    //   })
+    // );
 
     this.breadcrumbsService.setSource(Observable.of('Home'));
   }
