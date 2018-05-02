@@ -46,13 +46,23 @@ module.exports = (server) => {
     })
     .filter(item => item);
 
-    if (courses.length < to) {
-			to = courses.length;
-    }
-
     if (idToSearch) {
       courses = courses.filter( item => item.id === +idToSearch)
     } else {
+
+      if (queryStr) {
+        regExp = new RegExp(queryStr, 'gi');
+        courses = courses.filter((item) => {
+          str = (item.id + ' ' + item.name + ' ' + item.description);
+          str += item.authors.map( author => author.id + ' ' + author.firstName + ' ' + author.lastName)
+            .reduce((prev, current) => prev + ' ' + current, '');
+          return str.match(regExp);
+        });
+      }
+
+      if (courses.length < to) {
+        to = courses.length;
+      }
       courses = courses.slice(from, to);
     }
 

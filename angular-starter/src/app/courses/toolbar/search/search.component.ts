@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchService, CourseService } from '../../../core/services';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'search',
@@ -24,12 +25,20 @@ export class SearchComponent {
 
   public find() {
     console.log(`search:'${this.searchText}'`);
-    this.searchService.setSearchData(this.searchText
-      ? [{field: 'name', compareWith: this.searchText}]
-      : []
-    );
+    // this.searchService.setSearchData(this.searchText
+    //   ? [{field: 'name', compareWith: this.searchText}]
+    //   : []
+    // );
+
+    // set data
+    this.searchService.setSearchData(this.searchText);
 
     // server-side search
-    this.courseServices.search(this.searchText);
+    // this.courseServices.search(this.searchText);
+    const listener: Subscription = this.searchService.getSearchData()
+      .finally(() => listener.unsubscribe())
+      .subscribe((data) => this.courseServices.search(data))
+    ;
+
   }
 }

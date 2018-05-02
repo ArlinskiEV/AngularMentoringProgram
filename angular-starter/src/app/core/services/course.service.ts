@@ -35,14 +35,18 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { NewData, AddData } from '../actions';
 
+import { SearchService } from './search.service';
+
 // import { LoaderBlockService } from '../services';
 
 @Injectable()
 export class CourseService {
   private baseUrl = BASE_URL;
   private end = 0;
+  private queryFromService = '';
   constructor(
     // @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
+    private searchService: SearchService,
     private http: Http,
     private store: Store<AppState>
   ) {
@@ -51,6 +55,12 @@ export class CourseService {
       .subscribe((data) => {
         this.store.dispatch(new NewData(data));
         this.end += 3;
+      })
+    ;
+    const listener2 = this.searchService.getSearchData()
+      .finally(() => listener2.unsubscribe())
+      .subscribe((data) => {
+        this.queryFromService = data;
       })
     ;
   }
@@ -136,6 +146,7 @@ export class CourseService {
 
   public loadMoreItem(count: number): void {
     const info = new ServerInfo(this.end, count);
+    info.query = this.queryFromService;
     const listener = this.server(info)
       .finally(() => listener.unsubscribe())
       .subscribe((data: Course[]) => {
@@ -146,7 +157,7 @@ export class CourseService {
   }
 
   public search(query: string) {
-    const info = new ServerInfo(0, this.end);
+    const info = new ServerInfo(0, 10);
     info.query = query;
     const listener = this.server(info)
       .finally(() => listener.unsubscribe())
