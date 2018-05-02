@@ -5,7 +5,7 @@ import {
   NgModule,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup } from '@angular/forms';
 import { SearchService, CourseService } from '../../../core/services';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -16,29 +16,35 @@ import { Subscription } from 'rxjs/Subscription';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
-  public searchText: string = '';
 
   constructor(
     private searchService: SearchService,
     private courseServices: CourseService,
   ) {}
 
-  public find() {
-    console.log(`search:'${this.searchText}'`);
+  public submit(form: FormGroup) {
+    console.warn(`search:'${form.value.query}'`);
     // this.searchService.setSearchData(this.searchText
     //   ? [{field: 'name', compareWith: this.searchText}]
     //   : []
     // );
 
     // set data
-    this.searchService.setSearchData(this.searchText);
+    this.searchService.setSearchData(form.value.query);
 
     // server-side search
-    // this.courseServices.search(this.searchText);
-    const listener: Subscription = this.searchService.getSearchData()
-      .finally(() => listener.unsubscribe())
-      .subscribe((data) => this.courseServices.search(data))
-    ;
+    this.courseServices.search(form.value.query);
+
+  // WTF ???? listener always is undefined???
+  //   const listener: Subscription = this.searchService.getSearchData()
+  //     // .first()
+  //     // .finally(() => listener.unsubscribe())
+  //     .subscribe((data) => {
+  //       debugger;
+  //       listener.unsubscribe();
+  //       this.courseServices.search(data);
+  //     })
+  //   ;
 
   }
 }

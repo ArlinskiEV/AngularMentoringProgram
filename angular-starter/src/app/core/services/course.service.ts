@@ -51,8 +51,10 @@ export class CourseService {
     private store: Store<AppState>
   ) {
     const listener: Subscription = this.server(new ServerInfo(0, 3))
+      .first()
       .finally(() => listener.unsubscribe())
       .subscribe((data) => {
+        console.warn('first');
         this.store.dispatch(new NewData(data));
         this.end += 3;
       })
