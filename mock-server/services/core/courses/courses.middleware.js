@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const url = require('url');
-// emulate remove
-const filterArr = {};
+
+// emulate: {[id]: {type: string, item: course}}
+const edit = {};
+const types = [];
+  // types[0] = "ADD";
+  types[1] = "DELETE";
+  types[2] = "EDIT";
+const ADD = [];
+
 module.exports = (server) => {
 
 	router.get('/courses', (req, res, next) => {
@@ -14,22 +21,70 @@ module.exports = (server) => {
 			sort = query.sort,
       queryStr = query.query,
       idToSearch = query.id,
-			courses = server.db.getState().courses;
+      courses = server.db.getState().courses;
 		console.log(sort);
-		console.log(queryStr);
-		if (courses.length < to) {
+    console.log(queryStr);
+    
+    courses = [...ADD, ...courses];
+
+    courses = courses.map( item => {
+      current = item;
+      if (!edit[item.id]) {
+        return current;
+      } else {
+        switch (edit[item.id].type) {
+          case types[1]: {
+            return null
+            break;
+          }
+          case types[2]: {
+            return {...item, ...edit[item.id].item};
+            break;
+          }
+        }
+      }
+    })
+    .filter(item => item);
+
+    if (courses.length < to) {
 			to = courses.length;
-		}
-    courses = courses.filter( item => !filterArr[item.id]);
+    }
+
     if (idToSearch) {
       courses = courses.filter( item => item.id === +idToSearch)
     } else {
       courses = courses.slice(from, to);
     }
-    console.log(`filter=${Object.keys(filterArr)}`);
+
+    console.log(`emulate=${Object.keys(edit)}`);
     console.log(`time:${new Date()}`);
 
 		res.json(courses);
+  });
+
+  router.post('/courses', (req, res, next) => {
+    let url_parts = url.parse(req.originalUrl, true),
+			query = url_parts.query,
+      idToEdit = query.id;
+
+    edit[idToEdit] = {type: types[2], item: req.body};
+
+    res.json(`item with id=${idToEdit} was edit`);
+  });
+
+  router.put('/courses', (req, res, next) => {
+    let obj = req.body;
+    let flag = true;
+    obj.isTopRated = false;
+    obj.date = new Date().toJSON();
+
+    flag = (obj.id && obj.name && obj.description && obj.authors && obj.authors.length);
+    if (flag) {
+      ADD.push(obj);
+      res.json(`item with id=${ADD[ADD.length - 1].id} was edit`);
+    } else {
+      res.status(400).send("Wrong data");
+    }
   });
 
   router.get('/courses/authors', (req, res, next) => {
@@ -56,7 +111,8 @@ module.exports = (server) => {
     let url_parts = url.parse(req.originalUrl, true),
 			query = url_parts.query,
       id = query.id;
-    filterArr[id] = true;
+
+    edit[id] = {type: types[1]};
 
 		res.json(`item with id=${id} was delete`);
   });
