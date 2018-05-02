@@ -14,6 +14,9 @@ import {
   Author,
   AuthorFromServer,
   Name,
+  ServerTypes,
+  ServerInfo,
+  ServerId,
 } from '../entities';
 
 // import { COURSES } from '../mocks';
@@ -43,21 +46,21 @@ export class CourseService {
     private http: Http,
     private store: Store<AppState>
   ) {
-    // this.sourceList = new BehaviorSubject([]);
     // ------------------------------------------------
     // observable for server (with http)
-    const listener: Subscription = this.server({start: 0, count: 3})
+    const listener: Subscription = this.server(new ServerInfo(0, 3))
+      .finally(() => listener.unsubscribe())
       // transfer data
       .subscribe((data) => {
         // this.sourceList.next(data);
         this.store.dispatch(new NewData(data));
-      }, null, () => listener.unsubscribe())
+        this.end += 3;
+      })
     ;
     // ------------------------------------------------
   }
 
   public getList(): Observable<Course[]> {
-    // return this.sourceList.asObservable();
     return this.store.map((state: AppState) => state.course);
   }
 
@@ -93,7 +96,7 @@ export class CourseService {
   }
 
   public getItemById(id: number): Observable<Course> {
-      return this.server({start: 0, count: 10, id})
+      return this.server(new ServerId(id))
         .map((data: Course[]) => data.length ? data[0] : new Course())
       ;
   }
@@ -112,7 +115,6 @@ export class CourseService {
     const urlParams: URLSearchParams = new URLSearchParams();
 
     urlParams.set('id', '' + id);
-    // headers.set('My-Header', 'myValue');
 
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Delete;
@@ -131,15 +133,11 @@ export class CourseService {
         null,
         () => {
           listener.unsubscribe();
-          this.end = 0;
           // recall server
-          const listener2 = this.server({start: this.end, count: 3})
-            .subscribe(
-              // (data) => this.sourceList.next(data),
-              (data) => this.store.dispatch(new NewData(data)),
-              null,
-              () => listener2.unsubscribe()
-            )
+          const info = new ServerInfo(0, this.end);
+          const listener2 = this.server(info)
+            .finally(() => listener2.unsubscribe())
+            .subscribe((data) => this.store.dispatch(new NewData(data)))
           ;
         }
       )
@@ -148,14 +146,10 @@ export class CourseService {
   }
 
   public loadMoreItem(count: number): void {
-    const listener = this.server({start: this.end, count})
+    const info = new ServerInfo(this.end, count);
+    const listener = this.server(info)
       .subscribe((data: Course[]) => {
-        // this.sourceList.next(data);
         this.end += count;
-        // this.sourceList.next([
-        //   ...this.sourceList.value,
-        //   ...data
-        // ]);
         this.store.dispatch(new AddData(data));
       },
         null,
@@ -165,10 +159,13 @@ export class CourseService {
   }
 
   public search(query: string) {
-    const listener = this.server({start: 0, count: 10, query})
+    const info = new ServerInfo(0, this.end);
+    info.query = query;
+    const listener = this.server(info)
       .subscribe(
         (data: Course[]) => {
-          // this.sourceList.next(data);
+          this.end = 10;
+          this.store.dispatch(new NewData(data));
         },
         null,
         () => {
@@ -183,23 +180,24 @@ export class CourseService {
     const requestOptions = new RequestOptions();
     const urlParams: URLSearchParams = new URLSearchParams();
 
-    // const pageNumber = 2;
-    // const pageNumber = 1;
-    // const count = 3; // count courses on page
-    // const start = (pageNumber - 1) * count; // from 0
-    if (params.id) {
-      urlParams.set('id', '' + params.id);
-    } else {
-      urlParams.set('start', '' + params.start);
-      urlParams.set('count', '' + params.count);
-      if (params.sort) {
-        urlParams.set('sort', '' + params.sort);
+    switch (params.type) {
+      case ServerTypes.ID: {
+        urlParams.set('id', '' + params.id);
+        break;
       }
-      if (params.query) {
-        urlParams.set('query', '' + params.query);
+      case ServerTypes.GENERALL: {
+        urlParams.set('start', '' + params.start);
+        urlParams.set('count', '' + params.count);
+        if (params.sort) {
+          urlParams.set('sort', '' + params.sort);
+        }
+        if (params.query) {
+          urlParams.set('query', '' + params.query);
+        }
+        break;
       }
     }
-    // headers.set('My-Header', 'myValue');
+
     requestOptions.url = `${this.baseUrl}/courses`;
     requestOptions.method = RequestMethod.Get;
     requestOptions.headers = headers;
