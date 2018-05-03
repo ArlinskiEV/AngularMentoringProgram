@@ -20,16 +20,6 @@ import {
 import { NgZone } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-// import {
-//   Http,
-//   Response,
-//   Request,
-//   RequestOptions,
-//   Headers,
-//   URLSearchParams,
-//   RequestMethod
-// } from '@angular/http';
-
 import {
   HttpClient,
   HttpRequest,
@@ -38,8 +28,6 @@ import {
   HttpParams,
   HttpResponse,
 } from '@angular/common/http';
-
-// import { URLSearchParams } from 'url';
 
 import { AuthorizedHttpService } from '../services';
 import { Subject } from 'rxjs/Subject';
@@ -51,9 +39,7 @@ export class AuthorizationService {
 
   constructor(
     private ngZone: NgZone,
-    // private http: Http,
     private http: HttpClient,
-    // @Inject('Ahttp') private Ahttp: AuthorizedHttpService,
     private store: Store<AppState>
   ) {
 

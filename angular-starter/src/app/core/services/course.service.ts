@@ -22,14 +22,13 @@ import {
 // import { COURSES } from '../mocks';
 
 import {
-  Http,
-  Response,
-  Request,
-  RequestOptions,
-  Headers,
-  URLSearchParams,
-  RequestMethod
-} from '@angular/http';
+  HttpClient,
+  HttpRequest,
+  HttpEvent,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
@@ -47,7 +46,7 @@ export class CourseService {
   constructor(
     // @Inject('load-spinner') private loaderBlockService: LoaderBlockService,
     private searchService: SearchService,
-    private http: Http,
+    private http: HttpClient,
     private store: Store<AppState>
   ) {
     const listener: Subscription = this.server(new ServerInfo(0, 3))
@@ -72,18 +71,17 @@ export class CourseService {
   }
 
   public getAuthorsList(): Observable<Author[]> {
-    const headers = new Headers();
-    const requestOptions = new RequestOptions();
-    const urlParams: URLSearchParams = new URLSearchParams();
+    const headers = new HttpHeaders();
 
-    requestOptions.url = `${this.baseUrl}/courses/authors`;
-    requestOptions.method = RequestMethod.Get;
-    requestOptions.headers = headers;
-    requestOptions.search = urlParams;
-    const request = new Request(requestOptions);
+    const req = new HttpRequest(
+      'GET',
+      `${this.baseUrl}/courses/authors`,
+      {responseType: 'json'}
+    );
 
-    return this.http.request(request)
-      .map((res: Response) => res.json())
+    return this.http.request(req)
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
       // ------------------------------
       // transform
       .map((data: AuthorFromServer[]) => // just type
@@ -122,25 +120,25 @@ export class CourseService {
   public removeItem(id: number): void {
     // this.loaderBlockService.Show();
 
-    const headers = new Headers();
-    const requestOptions = new RequestOptions();
-    const urlParams: URLSearchParams = new URLSearchParams();
+    let params: HttpParams = new HttpParams();
+    params = params.set('id', '' + id);
 
-    urlParams.set('id', '' + id);
-
-    requestOptions.url = `${this.baseUrl}/courses`;
-    requestOptions.method = RequestMethod.Delete;
-    requestOptions.headers = headers;
-    requestOptions.search = urlParams;
-
-    const request = new Request(requestOptions);
+    const req = new HttpRequest(
+      'DELETE',
+      `${this.baseUrl}/courses`,
+      {
+        params,
+        responseType: 'json',
+      }
+    );
     // ----------------------------------------------------------------
-    const listener = this.http.request(request)
-      .map((res: Response) => res.json())
+    const listener = this.http.request(req)
       .finally(() => {
         listener.unsubscribe();
         this.refresh();
       })
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
       .subscribe((data) => console.warn(`accept:${data}`)) // confirm delete
     ;
     // setTimeout(() => this.loaderBlockService.Hide(), 1000);
@@ -178,37 +176,39 @@ export class CourseService {
     ;
   }
 
-  private server(params: ServerQuery): Observable<Course[]> {
-    const headers = new Headers();
-    const requestOptions = new RequestOptions();
-    const urlParams: URLSearchParams = new URLSearchParams();
+  private server(queryParams: ServerQuery): Observable<Course[]> {
+    let params: HttpParams = new HttpParams();
 
-    switch (params.type) {
+    switch (queryParams.type) {
       case ServerTypes.ID: {
-        urlParams.set('id', '' + params.id);
+        params = params.set('id', '' + queryParams.id);
         break;
       }
       case ServerTypes.GENERALL: {
-        urlParams.set('start', '' + params.start);
-        urlParams.set('count', '' + params.count);
-        if (params.sort) {
-          urlParams.set('sort', '' + params.sort);
+        params = params.set('start', '' + queryParams.start);
+        params = params.set('count', '' + queryParams.count);
+        if (queryParams.sort) {
+          params = params.set('sort', '' + queryParams.sort);
         }
-        if (params.query) {
-          urlParams.set('query', '' + params.query);
+        if (queryParams.query) {
+          params = params.set('query', '' + queryParams.query);
         }
         break;
       }
     }
 
-    requestOptions.url = `${this.baseUrl}/courses`;
-    requestOptions.method = RequestMethod.Get;
-    requestOptions.headers = headers;
-    requestOptions.search = urlParams;
-    const request = new Request(requestOptions);
+    const req = new HttpRequest(
+      'GET',
+      `${this.baseUrl}/courses`,
+      {
+        params,
+        responseType: 'json',
+      }
+    );
 
-    return this.http.request(request)
-      .map((res: Response) => res.json())
+    return this.http.request(req)
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
       // ------------------------------
       // transform
       .map((data: CourseFromServer[]) => // just type
