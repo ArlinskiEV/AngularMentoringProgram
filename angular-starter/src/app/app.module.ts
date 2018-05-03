@@ -10,19 +10,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { appReducer, AppState } from './core/reducers';
 
-import {
-  AuthorizedHttpService,
-} from './core/services';
-
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-
-// --------------------------------------------------------------------
-import { RequestOptions, Http, XHRBackend } from '@angular/http';
-function AuthorizedHttpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
-  return new AuthorizedHttpService(xhrBackend, requestOptions);
-}
-// --------------------------------------------------------------------
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthorizedHttpService } from './core/services';
 
 import { ROUTES } from './app.routes';
 import { APP_COMPONENTS, APP_PIPES, APP_DIRECTIVES } from './app.declarations';
@@ -54,7 +43,6 @@ import { AppComponent } from './app.component';
     // }),
     // --------------------------------------------------------------------
     // for providers...
-    HttpModule,
     HttpClientModule,
     // --------------------------------------------------------------------
     FormsModule,
@@ -66,10 +54,11 @@ import { AppComponent } from './app.component';
     }),
   ],
   providers: [
-    // --------------------------------------------------------------------
-    // {provide: 'ext-http', useClass: AuthorizedHttpService},
-    { provide: Http, useFactory: AuthorizedHttpFactory, deps: [XHRBackend, RequestOptions]},
-    { provide: 'Ahttp', useExisting: Http},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizedHttpService,
+      multi: true
+    },
     [...APP_PRIVIDERS],
   ],
 })

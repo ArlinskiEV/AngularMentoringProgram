@@ -6,7 +6,7 @@ import {
   AuthorizationService,
   CanActivateGuard,
   CourseService,
-  FilterPipe
+  FilterPipe,
 } from './core';
 export const APP_PRIVIDERS = [
   // --------------------------------------------------------------------

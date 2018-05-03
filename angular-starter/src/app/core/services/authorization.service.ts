@@ -29,7 +29,6 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 
-import { AuthorizedHttpService } from '../services';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -51,9 +50,6 @@ export class AuthorizationService {
           const user = new User(JSON.parse(localStorage.getItem(STORAGE_USER_KEY)));
           // find in storage, but not in init-state
           if (user.token) {
-            // this.Ahttp.setHeaders([
-            //   {name: 'Authorization', value: user.token}
-            // ]);
             this.store.dispatch(new LogIn(user));
           }
         } else {
@@ -136,13 +132,9 @@ export class AuthorizationService {
   // ------------------------------------------------------------------
   private setAllPreferences(user: User) {
     localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
-    // this.Ahttp.setHeaders([
-    //   {name: 'Authorization', value: user.token}
-    // ]);
   }
   private dellAllPreferences() {
     localStorage.removeItem(STORAGE_USER_KEY);
-    // this.Ahttp.clearHeaders();
   }
   // ------------------------------------------------------------------
 
