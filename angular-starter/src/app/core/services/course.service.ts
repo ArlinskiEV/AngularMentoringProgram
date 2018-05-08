@@ -51,7 +51,7 @@ export class CourseService {
   ) {
     const listener: Subscription = this.server(new ServerInfo(0, 3))
       .first()
-      .finally(() => listener.unsubscribe())
+      // .finally(() => listener.unsubscribe())
       .subscribe((data) => {
         this.store.dispatch(new NewData(data));
         this.end += 3;

@@ -43,8 +43,9 @@ export class AuthorizationService {
   ) {
 
     const listener: Subscription = this.store.map((state: AppState) => state.user)
-      .finally(() => {if (listener) { listener.unsubscribe(); }})
       .first()
+      // WHY listener always is undefined??
+      // .finally(() => {if (listener) { listener.unsubscribe(); }})
       .subscribe((newUser) => {
         if (!newUser.token) {
           const user = new User(JSON.parse(localStorage.getItem(STORAGE_USER_KEY)));
