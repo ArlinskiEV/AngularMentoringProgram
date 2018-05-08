@@ -20,7 +20,6 @@ export const ROUTES: Routes = [
   {
     path: 'courses/new',
     component: CoursePageComponent,
-    data: {new: true},
     canActivate: [CanActivateGuard]
   },
   {

@@ -53,7 +53,6 @@ export class CourseService {
       .first()
       .finally(() => listener.unsubscribe())
       .subscribe((data) => {
-        console.warn('first');
         this.store.dispatch(new NewData(data));
         this.end += 3;
       })
@@ -71,8 +70,6 @@ export class CourseService {
   }
 
   public getAuthorsList(): Observable<Author[]> {
-    const headers = new HttpHeaders();
-
     const req = new HttpRequest(
       'GET',
       `${this.baseUrl}/courses/authors`,
@@ -94,27 +91,50 @@ export class CourseService {
   public createItem(newCourse: Course): void {
     console.warn('new course:');
     console.warn(newCourse);
-    // call server
-    // .finally(() => {
-    //   listener.unsubscribe();
-    //   this.refresh();
-    // })
-  }
-
-  public getItemById(id: number): Observable<Course> {
-    return this.server(new ServerId(id))
-      .map((data: Course[]) => data.length ? data[0] : new Course())
+    const req = new HttpRequest(
+      'PUT',
+      `${this.baseUrl}/courses`,
+      Course.toServer(newCourse),
+      {
+        responseType: 'json',
+      }
+    );
+    // ----------------------------------------------------------------
+    const listener = this.http.request(req)
+      .finally(() => {
+        listener.unsubscribe();
+        this.refresh();
+      })
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
+      .subscribe((data) => console.warn(`accept:${data}`)) // confirm create
     ;
   }
 
   public updateItem(obj: UpdateCourseItemById): void {
     console.warn('update course:');
     console.warn(obj);
-    // call server
-    // .finally(() => {
-    //   listener.unsubscribe();
-    //   this.refresh();
-    // })
+    let params: HttpParams = new HttpParams();
+    params = params.set('id', '' + obj.id);
+    const req = new HttpRequest(
+      'POST',
+      `${this.baseUrl}/courses`,
+      Course.toServer(new Course(obj)),
+      {
+        params,
+        responseType: 'json',
+      }
+    );
+    // ----------------------------------------------------------------
+    const listener = this.http.request(req)
+      .finally(() => {
+        listener.unsubscribe();
+        this.refresh();
+      })
+      .filter((response: HttpResponse<any>) => !!response.type)
+      .map((response: HttpResponse<any>) => response.body)
+      .subscribe((data) => console.warn(`accept:${data}`)) // confirm update
+    ;
   }
 
   public removeItem(id: number): void {
@@ -153,6 +173,12 @@ export class CourseService {
         this.end += count;
         this.store.dispatch(new AddData(data));
       })
+    ;
+  }
+
+  public getItemById(id: number): Observable<Course> {
+    return this.server(new ServerId(id))
+      .map((data: Course[]) => data.length ? data[0] : new Course())
     ;
   }
 

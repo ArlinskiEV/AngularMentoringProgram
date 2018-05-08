@@ -33,27 +33,22 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private breadcrumbsService: BreadcrumbsService,
   ) {
-    const sourceParams = this.activatedRoute.params
+
+    this.source = this.activatedRoute.params
       .map((data: Params) => {
-        return {new: false, id: data['id']};
+        return {
+          new: !(Object.keys(data).indexOf('id') >= 0),
+          id: data['id']
+        };
       })
-    ;
-
-    const sourceData = this.activatedRoute.data
-      .filter((data: Data) => !!Object.keys(data).length)
-      .map((data: Data) => {
-        return {new: data.new, id: null};
-      })
-    ;
-
-    this.source = sourceParams
-      .merge(sourceData)
       .map((data: {new: boolean, id: any}) => {
         this.idInfo = data;
         if (!data.new) {
           return this.courseService.getItemById(data.id);
         } else {
-          return Observable.of(new Course());
+          const course = new Course();
+          this.idInfo.id = course.id;
+          return Observable.of(course);
         }
       }).switch()
     ;

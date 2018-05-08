@@ -81,6 +81,15 @@ export class Course implements Course {
     return new CourseFromServer(item).transformToCourse();
   }
 
+  public static toServer(obj: Course): CourseFromServer {
+    return new CourseFromServer({
+      ...obj,
+      description: obj.text,
+      date: new Date(obj.date).toJSON(),
+      length: Math.trunc(obj.duration / 60000),
+    });
+  }
+
   public id: number;
   public name: string;
   public duration: number;

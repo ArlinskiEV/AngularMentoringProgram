@@ -90,12 +90,18 @@ module.exports = (server) => {
       .pop()
       + 1;
     obj.isTopRated = false;
-    obj.date = new Date().toJSON();
 
-    if (obj.name && obj.description && obj.authors && obj.authors.length) {
+    console.log(`add:${JSON.stringify(obj)}`);
+
+    if (obj.name && obj.description && obj.date && obj.authors && obj.authors.length) {
       ADD.push(obj);
-      res.json(`item with id=${obj.id} was edit`);
+      res.json(`item with id=${obj.id} was added`);
     } else {
+      console.log(`obj.name:${obj.name}`);
+      console.log(`obj.description:${obj.description}`);
+      console.log(`obj.date:${obj.date}`);
+      console.log(`obj.authors:${obj.authors}`);
+      console.log(`obj.authors.length:${obj.authors.length}`);
       res.status(400).send("Wrong data");
     }
   });
@@ -105,9 +111,7 @@ module.exports = (server) => {
     let courses = server.db.getState().courses,
       authors = courses
         .map((item) => item.authors) // [[author, author], [author], ...]
-        // [author, author, ...]
-        .reduce((prev, authorsArr) => [...prev, ...authorsArr], [])
-        
+        .reduce((prev, authorsArr) => [...prev, ...authorsArr], []) // [author, author, ...]
         .reduce((prev, item) => prev.every((author) => author.id !== item.id)
             ? [...prev, item]
             : prev, []
