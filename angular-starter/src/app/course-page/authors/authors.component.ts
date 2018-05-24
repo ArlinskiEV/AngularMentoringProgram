@@ -84,8 +84,12 @@ export class AuthorsComponent implements ControlValueAccessor, OnInit {
     this.onTouched = fn;
   }
 
-  public onChange = (_) => {};
-  public onTouched = () => {};
+  public onChange = (_) => {
+    //
+  }
+  public onTouched = () => {
+    //
+  }
 
   // ------------------------------------------------------------------
   // set & get date-component value

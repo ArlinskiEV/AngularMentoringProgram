@@ -44,8 +44,12 @@ export class DurationComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  public onChange = (_) => {};
-  public onTouched = () => {};
+  public onChange = (_) => {
+    //
+  }
+  public onTouched = () => {
+    //
+  }
 
   // ------------------------------------------------------------------
   // set & get date-component value
