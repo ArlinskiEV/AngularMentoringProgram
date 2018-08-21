@@ -74,6 +74,8 @@
     *ngIf="form.invalid"
     >All fields is required</div>
 
+    <test-editor></test-editor>
+
     <div class="btn-group" role="group" aria-label="Save">
       <button type="submit" class="btn btn-success" [disabled]="form.invalid">Save</button>
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>

@@ -18,7 +18,8 @@ import {
   DurationComponent,
   DurationValidatorDirective,
   AuthorsComponent,
-  AuthorsValidatorDirective
+  AuthorsValidatorDirective,
+  EditorComponent,
 } from './course-page';
 
 import {
@@ -50,6 +51,8 @@ export const APP_COMPONENTS = [
   DateComponent,
   DurationComponent,
   AuthorsComponent,
+
+  EditorComponent,
 ];
 
 export const APP_DIRECTIVES = [

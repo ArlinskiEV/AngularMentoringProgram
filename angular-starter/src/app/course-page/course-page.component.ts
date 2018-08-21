@@ -16,7 +16,7 @@ import { Subject } from 'rxjs/Subject';
   selector: 'course-page',
   templateUrl: './course-page.component.html',
   styleUrls: ['./course-page.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class CoursePageComponent implements OnInit, OnDestroy {
