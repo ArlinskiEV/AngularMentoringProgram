@@ -20,6 +20,9 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class CoursePageComponent implements OnInit, OnDestroy {
+
+  public isEditor: boolean = false;
+
   public course = new BehaviorSubject(new Course());
   public authorsList = new BehaviorSubject<Author[]>([]);
   private source: Observable<Course>;
@@ -30,7 +33,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private cdRef: ChangeDetectorRef,
     private breadcrumbsService: BreadcrumbsService,
   ) {
 
@@ -55,6 +58,11 @@ export class CoursePageComponent implements OnInit, OnDestroy {
 
   }
 
+  public toggle() {
+    this.isEditor = !this.isEditor;
+    this.cdRef.markForCheck();
+  }
+
   public submit(form: FormGroup) {
     if (this.idInfo.id) {
       this.courseService.updateItem({id: this.course.value.id, ...form.value});
@@ -74,7 +82,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
         // how check it right?
         if (+this.idInfo.id === data.id) {
           this.course.next(data);
-          this.changeDetectorRef.markForCheck();
+          this.cdRef.markForCheck();
           console.log(data);
         } else {
           this.router.navigateByUrl('notfound');
@@ -86,7 +94,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     this.listeners.push(
       this.courseService.getAuthorsList().subscribe((data: Author[]) => {
         this.authorsList.next([...data]);
-        this.changeDetectorRef.markForCheck();
+        this.cdRef.markForCheck();
       })
     );
 
