@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <form class="form-inline" #form="ngForm" (submit)="submit(form)">
+    <input
+      type="text"
+      class="form-control"
+      name="login"
+      [ngModel]="model.login"
+      placeholder="Login"
+    >
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      [ngModel]="model.password"
+      placeholder="Password"
+    >
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >Sign In</button>
+  </form>
+  <span
+    *ngIf="alert.message"
+    [ngClass]="['alert', alert.class]"
+    role="alert"
+  >{{alert.message}}</span>
+</div>

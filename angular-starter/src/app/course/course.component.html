@@ -1,0 +1,50 @@
+<!-- If createdDate < currentDate && -->
+<!-- createdDate >= currentDate - 14days - fresh course (use green border) -->
+<!-- If createdDate > currentDate - upcoming course (use blue border) -->
+<!-- Otherwise - no changes -->
+<!-- (14 * 86400000) // 24*60*60*1000 -->
+<div
+  appStylelight
+  [payload] = "{
+    data: courseItem.date,
+    caseArr: [
+      {data: {start: currentDate - (14 * 86400000), end: currentDate}, setStyle: [{rule: 'border-color', value: 'green'}]},
+      {data: {start: currentDate, end: infinityDate}, setStyle: [{rule: 'border-color', value: 'blue'}]}
+    ]
+  }"
+  [ngClass]="{'topRate': courseItem.topRated}"
+>
+  <p>{{courseItem.name | uppercase}} | ID: {{courseItem.id}} | Duration: {{courseItem.duration | myDurations }} <i *ngIf="courseItem.topRated" class="fas fa-star"></i></p>
+  <p>Date: {{courseItem.date | date:"dd/MM/yyyy"}}</p>
+  <div class="controls">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" [(ngModel)] = "courseItem.isAccept">
+      <label class="form-check-label" for="defaultCheck1">
+        Accepted
+      </label>
+    </div>
+    <button class="btn btn-info" (click)="edit(courseItem.id)">edit</button>
+    <button class="btn btn-danger" (click)="del()">delete</button>
+  </div>
+  <p class="tags" *ngIf="courseItem.tags.length > 0">
+    <span
+    *ngFor="let tag of courseItem.tags as tags; index as i"
+    appStylelight
+    [payload] = "{
+      data: i,
+      caseArr: [
+        {data: 0, setStyle: [{rule: 'background-color', value: 'red'}]},
+        {data: (tags.length - 1) / 2,
+          setStyle: [
+            {rule: 'background-color', value: 'black'},
+            {rule: 'color', value: 'red'}
+          ]
+        },
+        {data: tags.length - 1, setStyle: [{rule: 'background-color', value: 'red'}]}
+      ]
+    }"
+    >{{tag}}</span
+    >
+  </p>
+  <p>{{courseItem.text}}</p>
+</div>

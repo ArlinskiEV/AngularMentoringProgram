@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <h1>Course Page</h1>
+  <form class="content">
+    <label>Title <input type="text" maxlength="50">
+    </label>
+
+    <label>Description <textarea
+      cols="15" rows="5"
+      maxlength="500"
+      ></textarea>
+    </label>
+
+    <label>Date
+      <date-component
+        #myDate="ngModel"
+        date-validator
+        [(ngModel)]="course.value.date"
+        [ngModelOptions]="{standalone: true}"
+      ></date-component>
+      <p>{{course.value.date | date}}</p>
+      <p>valid: {{myDate.valid}}</p>
+    </label>
+
+    <label>Duration<input type="text">
+      <!-- <duration-component></duration-component> -->
+    </label>
+
+    <label>Authors<input type="text">
+      <!-- <authors-component></authors-component> -->
+    </label>
+
+    <div>
+      <p>{{course | async | json}}</p>
+    </div>
+
+    <label>
+      <button type="submit" class="btn btn-success" (click)="save()">Save</button>
+      <button type="submit" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </label>
+  </form>
+</div>

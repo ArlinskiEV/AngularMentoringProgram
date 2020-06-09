@@ -1,0 +1,32 @@
+
+.tags {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: lawngreen;
+}
+.tags>span:not(:last-child)::after{
+  content: "|";
+}
+
+.controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+:host>div {
+  border-radius: 15px;
+  border: 7px solid black;
+  padding: 15px;
+  margin: 5px 0px;
+}
+
+/* star */
+i {
+  color: rgb(204, 201, 14);
+  font-size: 100%;
+}
+.topRate {
+  background-color: rgb(255, 253, 120);
+}
